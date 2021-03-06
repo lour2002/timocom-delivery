@@ -28,5 +28,5 @@ Homestead.json
 /vendor
 .env.backup
 docker-compose.override.yml
-.idea
+/idea
 
