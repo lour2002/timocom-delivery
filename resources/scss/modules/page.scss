@@ -1,0 +1,26 @@
+.page-title {
+  font-size: 1.2rem;
+  text-transform: uppercase;
+  color: #fb6340;
+  position: relative;
+  padding-left: .75rem;
+
+  &:before {
+    content: '';
+    position: absolute;
+    display: block;
+    background-color: $primary;
+    height: 100%;
+    width: 3px;
+    left: 0;
+    top: 0;
+  }
+}
+
+.page-nav {
+    z-index: 10;
+    position: relative;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
