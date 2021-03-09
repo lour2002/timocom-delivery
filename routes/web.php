@@ -1,6 +1,6 @@
 <?php
 
-use App\Http\Controllers\CompanySettings;
+use App\Http\Controllers\CompanySettingsController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -21,7 +21,7 @@ Route::get('/', function () {
 Route::get('/dashboard', function () {
     return view('dashboard');
 })->middleware(['auth'])->name('dashboard');
-Route::get('/company', [CompanySettings::class, 'get'])->middleware(['auth'])->name('company');
-Route::post('/company', [CompanySettings::class, 'set'])->middleware(['auth']);
+Route::get('/company', [CompanySettingsController::class, 'get'])->middleware(['auth'])->name('company');
+Route::post('/company', [CompanySettingsController::class, 'set'])->middleware(['auth']);
 
 require __DIR__.'/auth.php';

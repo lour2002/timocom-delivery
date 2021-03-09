@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\CompanySettings as SettingsModel;
 
-class CompanySettings extends Controller
+class CompanySettingsController extends Controller
 {
     public function get(Request $request)
     {
