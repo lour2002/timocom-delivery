@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\PythonController;
 use App\Http\Controllers\SearchResultController;
 use App\Http\Controllers\SearchSettingsController;
 use Illuminate\Http\Request;
