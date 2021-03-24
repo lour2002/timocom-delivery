@@ -1,9 +1,6 @@
-@extends('layout')
-
-@section('content')
+<x-app-layout>
     <h2 class="page-title">COMPANY SETTINGS</h2>
     <form class="row g-3" action="/company" method="post" id="companySetting">
-        @csrf
         <div class="col-lg-6 mb-3">
             <label class="form-check-label" for="timocomId">TIMOCOM ID:</label>
             <input type="number" class="form-control" placeholder="TIMOCOM ID" id="timocomId" name="timocomId" value="{{ $settings->timocom_id }}">
@@ -35,4 +32,4 @@
             <input type="submit" value="Save Company setting" class="btn btn-primary col-auto">
         </div>
     </form>
-@endsection
+</x-app-layout>
