@@ -17,6 +17,6 @@ Route::get('/', function () {
     return view('dashboard');
 })->middleware(['auth'])->name('dashboard');
 Route::get('/company', [CompanySettingsController::class, 'get'])->middleware(['auth'])->name('company');
-Route::post('/company', [CompanySettingsController::class, 'set'])->middleware(['auth']);
+Route::post('/company', [CompanySettingsController::class, 'set'])->middleware(['auth'])->name('company');
 
 require __DIR__.'/auth.php';

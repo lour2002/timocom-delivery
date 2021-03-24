@@ -9,10 +9,12 @@ class CompanySettingsController extends Controller
 {
     public function get(Request $request)
     {
+//      TODO: Привязать настройки к Пользователю.
+//      TODO: Eсли настроек нет то не выдавать ошибку 404
+
         return view('company', [
             'settings' => SettingsModel::findOrFail(1)
         ]);
-
     }
 
     public function set(Request $request)

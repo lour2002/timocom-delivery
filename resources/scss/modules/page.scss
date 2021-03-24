@@ -1,26 +1,18 @@
+.page-container {
+  @apply mx-auto border border-gray-100 rounded p-4 my-4 bg-white shadow-md;
+}
 .page-title {
-  font-size: 1.2rem;
-  text-transform: uppercase;
+  @apply text-xl uppercase relative pl-3 mb-4;
   color: #fb6340;
-  position: relative;
-  padding-left: .75rem;
 
   &:before {
+    @apply absolute block h-full left-0 top-0;
     content: '';
-    position: absolute;
-    display: block;
     background-color: #0d6efd;
-    height: 100%;
     width: 3px;
-    left: 0;
-    top: 0;
   }
 }
 
 .page-nav {
-    z-index: 10;
-    position: relative;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+    @apply z-10 relative flex justify-between items-center;
 }
