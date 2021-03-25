@@ -31,7 +31,7 @@ import __orders as orders
 
 # получаем ключ
 user_key = open('key.txt').read().split('=')[0]
-domain_key = 'https://kcilk.company'
+domain_key = 'http://92.118.150.87'
 site_link = 'https://my.timocom.com/app/tco/freight/search/'
 sign_open_service = 'uit-aph-notification' #ID элемента, который есть на странице, чтобы подтвердить, что мы в нужном месте
 

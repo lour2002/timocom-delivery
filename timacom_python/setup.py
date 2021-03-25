@@ -9,7 +9,7 @@ import __auth as auth
 
 # получаем ключ
 user_key = open('key.txt').read().split('=')[0]
-domain_key = 'https://kcilk.company'
+domain_key = 'http://92.118.150.87'
 
 updater = 'python update.py' # команда запуска срабочего скрипта
 cmd = 'python jobber.py' # команда запуска срабочего скрипта

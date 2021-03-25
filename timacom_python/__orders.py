@@ -17,7 +17,7 @@ from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.support import expected_conditions as EC
 
 def get_new_orders(browser, id_task, domain_key):
-    send_url = str(domain_key)+'/json/send_url.php'
+    send_url = str(domain_key)+'/send_order'
     print('|==>> id_task:', id_task)
     report_data = '0'
     print(' ... поиск предложений')

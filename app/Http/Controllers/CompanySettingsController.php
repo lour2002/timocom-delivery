@@ -11,9 +11,10 @@ class CompanySettingsController extends Controller
     {
 //      TODO: Привязать настройки к Пользователю.
 //      TODO: Eсли настроек нет то не выдавать ошибку 404
+        $settings = SettingsModel::find(1) ?? [];
 
         return view('company', [
-            'settings' => SettingsModel::findOrFail(1)
+            'settings' => $settings
         ]);
     }
 
