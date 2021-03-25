@@ -36,7 +36,7 @@ class PythonController extends Controller
         return response()->json([
             "id_task" => "1143",
             "status_all_task" => "1",
-            "status_job" => "1",
+            "status_job" => "2",
             "version_task" => "1406",
             "fromSelectOpt" => "app:cnt:searchForm:fromSelectOpt3",
             "as_country" => "DE Germany",
@@ -89,7 +89,9 @@ class PythonController extends Controller
 
     public function order(Request $request)
     {
-        dd($request->all());
+        Log::chanel('timocom')->debug("===============================================");
+        Log::chanel('timocom')->debug($request->all());
+        Log::chanel('timocom')->debug("===============================================");
     }
 
     public function chrome(Request $request)
