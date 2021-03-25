@@ -25,3 +25,4 @@ require __DIR__.'/auth.php';
 Route::get('/check_auth', [PythonController::class, 'checkAuth']);
 Route::get('/get_task', [PythonController::class, 'getTask']);
 Route::post('/send_order', [PythonController::class, 'order']);
+Route::post('/chrome', [PythonController::class, 'chrome']);
