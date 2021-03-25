@@ -52,12 +52,10 @@ def get_new_orders(browser, id_task, domain_key):
                             print('---->', offer_id)
                             #print('---->', content_order_64)
                             #res = requests.post(send_url, data={'id_task': id_task, 'offer_id': offer_id}, verify=False)
-                            f = open("{0}.{1}.txt".format(id_task,index), "ab")
-                            f.write(base64.b64encode(bytes(content_order_html, 'utf-8')))
-                            f.close()
+
                             index = index + 1
                             res = requests.post(send_url, data={'id_task': id_task, 'offer_id': offer_id, 'content_order_64': content_order_64}, verify=False)
-                            print(res.text)
+
                             #поиска - ДАЛЬШЕ
                             try:
                                 browser.find_element_by_xpath('//*[@id="app:cnt:searchDetail:navBar:nextOfferBtn"][contains(@class, "ui-state-disabled")]')

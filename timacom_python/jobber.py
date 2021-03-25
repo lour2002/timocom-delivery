@@ -45,9 +45,6 @@ version_task_array[4] = 0
 
 auth_data = auth.check_auth(domain_key, user_key)
 
-print(base64.b64decode(auth_data['data_cookies']).decode('utf-8'))
-sys.exit(1)
-
 if  auth_data['status'] == '1':#авторизация прошла
     print(auth_data['msg'])
     #проверка печенек
