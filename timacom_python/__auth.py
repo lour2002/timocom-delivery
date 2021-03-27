@@ -27,9 +27,9 @@ def check_auth(domain_key, user_key):
             status = data_data["status"]
             msg = data_data["msg"]
             token_app = data_data["token_app"]
-            data_cookies_base64 = data_data["coockies"]
+            data_cookies_base64 = data_data["cookies"]
             #print('Статус:', status, 'Ответ сервера:', msg)
-            #print('coockies_base_64:', data_cookies_base64)
+            #print('cookies_base_64:', data_cookies_base64)
         except NoSuchElementException:
             status = '9'
             msg = ' ... ERROR: Управляющий сервер вернул некорректный ответ | NoSuchElementException'

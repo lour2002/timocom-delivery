@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Coockies;
+use App\Models\Cookies;
 use http\Env;
 use Illuminate\Http\Request;
 use App\Models\CompanySettings as SettingsModel;
@@ -13,13 +13,13 @@ class PythonController extends Controller
     {
         if ($request->get('user_key') === env('AUTH_KEY')) {
 
-            $coockies = Coockies::where('auth_key', '=', $request->get('user_key'))->first();
+            $cookies = Cookies::where('auth_key', '=', $request->get('user_key'))->first();
 
             return response()->json([
                 'status' => '1',
                 'msg' => '  ... Авторизация пройдена',
                 'token_app' => env('AUTH_KEY'),
-                'coockies' => null !== $coockies ? $coockies->coockie : '',
+                'cookies' => null !== $cookies ? $cookies->cookie : '',
             ]);
         }
 
@@ -27,7 +27,7 @@ class PythonController extends Controller
             'status' => '0',
             'msg' => ' ... ERROR | Ошибка авторизации, не верный ключ!',
             'token_app' => '0',
-            'coockies' => ''
+            'cookies' => ''
         ]);
     }
 
@@ -96,20 +96,20 @@ class PythonController extends Controller
 
     public function chrome(Request $request)
     {
-        $coockie = Coockies::where('auth_key', '=', $request->post('check_key'))->first();
-        $coock = $request->post('coockies');
-        $md5 = md5($coock);
-        if (null === $coockie) {
-            $c = new Coockies();
+        $cookie = Cookies::where('auth_key', '=', $request->post('check_key'))->first();
+        $cookie_data = $request->post('cookies');
+        $md5 = md5($cookie_data);
+        if (null === $cookie) {
+            $c = new Cookies();
             $c->auth_key = $request->post('check_key');
-            $c->coockie = base64_encode($coock);
+            $c->cookie = base64_encode($cookie_data);
             $c->hash = $md5;
             $c->save();
         } else {
-            if ($coockie->hash !== $md5) {
-                $coockie->coockie = base64_encode($coock);
-                $coockie->hash = $md5;
-                $coockie->save();
+            if ($cookie->hash !== $md5) {
+                $cookie->cookie = base64_encode($cookie_data);
+                $cookie->hash = $md5;
+                $cookie->save();
             }
         }
         return response()->json(['success' => true]);
