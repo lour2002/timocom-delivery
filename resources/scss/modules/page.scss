@@ -2,7 +2,7 @@
   @apply mx-auto border border-gray-100 rounded p-4 my-4 bg-white shadow-md;
 }
 .page-title {
-  @apply text-xl uppercase relative pl-3 mb-4;
+  @apply text-xl uppercase relative pl-3 mb-4 font-bold;
   color: #fb6340;
 
   &:before {

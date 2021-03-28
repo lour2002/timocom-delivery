@@ -3,9 +3,9 @@
 
   "manifest_version": 2,
 
-  "name": "Kcilk Exchanger",
-  "description": "Exchange module for service Kcilk",
-  "version": "1.0.2",
+  "name": "Timacom Exchanger",
+  "description": "Exchange module for service Timacom",
+  "version": "1.0.0",
   "icons": {
     "128": "icon_128.png"
   },
@@ -19,7 +19,7 @@
   "permissions": [
     "tabs",
     "cookies",
-    "https://kcilk.company/*",
+    "http://92.118.150.87/*",
     "*://*.timocom.com/*",
     "*://*.timocom.ru/*"
   ]

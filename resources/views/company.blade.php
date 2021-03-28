@@ -6,6 +6,7 @@
 
     <form class="grid grid-cols-2 gap-4 items-center" action="/company" method="post" id="companySetting">
         @csrf
+        <input type="hidden" name="id" value="{{$settings->id}}" />
         <div class="mb-3">
             <x-label for="timocomId" :value="__('TIMOCOM ID').':'" />
             <x-input id="timocomId" class="w-full block mt-1" type="number" name="timocomId" :value="$settings->timocom_id" :placeholder="__('TIMOCOM ID')" required autofocus />

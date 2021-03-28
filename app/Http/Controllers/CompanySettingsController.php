@@ -10,7 +10,6 @@ class CompanySettingsController extends Controller
     public function get(Request $request)
     {
 //      TODO: Привязать настройки к Пользователю.
-//      TODO: Eсли настроек нет то не выдавать ошибку 404
         $settings = SettingsModel::find(1) ?? [];
 
         return view('company', [
