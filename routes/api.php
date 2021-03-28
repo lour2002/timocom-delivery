@@ -17,6 +17,11 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+Route::get('/check_auth', [PythonController::class, 'checkAuth']);
+Route::get('/get_task', [PythonController::class, 'getTask']);
+Route::post('/send_order', [PythonController::class, 'order']);
+Route::post('/chrome', [PythonController::class, 'chrome']);
+
 Route::middleware('auth:api')->group(function () {
     Route::get('/user', function (Request $request) {
         return $request->user();

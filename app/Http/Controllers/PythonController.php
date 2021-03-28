@@ -6,6 +6,7 @@ use App\Models\Cookies;
 use http\Env;
 use Illuminate\Http\Request;
 use App\Models\CompanySettings as SettingsModel;
+use Validator;
 
 class PythonController extends Controller
 {
@@ -89,13 +90,21 @@ class PythonController extends Controller
 
     public function order(Request $request)
     {
-        Log::chanel('timocom')->debug("===============================================");
-        Log::chanel('timocom')->debug($request->all());
-        Log::chanel('timocom')->debug("===============================================");
+        print_r($request->all());
     }
 
     public function chrome(Request $request)
     {
+        $input = $request->all();
+
+        $validator = Validator::make($input, [
+            'check_key' => 'required',
+            'cookies' => 'required',
+        ]);
+        if ($validator->fails()) {
+            return response()->json(['success' => false, 'errors' => $validator->errors()]);
+        }
+
         $cookie = Cookies::where('auth_key', '=', $request->post('check_key'))->first();
         $cookie_data = $request->post('cookies');
         $md5 = md5($cookie_data);
