@@ -47,7 +47,6 @@ def get_new_orders(browser, id_task, domain_key):
                             content_order = browser.find_element_by_id('app:cnt:searchDetail')
                             content_order_html = content_order.get_attribute('innerHTML')
                             content_order_64 = base64.b64encode(bytes(content_order_html, 'utf-8'))
-                            content_order_64 = content_order_html
                             print( '---> Отправка данных на управляющий сервер...')
                             print('---->', offer_id)
                             #print('---->', content_order_64)
