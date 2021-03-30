@@ -1,5 +1,5 @@
 <x-app-layout>
-    <x-container class="mx-auto max-w-screen-md">
+    <x-container class="--container">
     <h2 class="page-title">COMPANY SETTINGS</h2>
 
     <x-validation-errors class="mb-4" :errors="$errors" />

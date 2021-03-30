@@ -1,6 +1,13 @@
-.page-container {
-  @apply mx-auto border border-gray-100 rounded p-4 my-4 bg-white shadow-md;
+.content-container {
+  @apply mx-auto border border-gray-100 rounded p-4 my-4 bg-white;
+  &.--container {
+    @apply mx-auto max-w-screen-lg shadow-md;
+  }
+  &.--form {
+    @apply border-gray-300;
+  }
 }
+
 .page-title {
   @apply text-xl uppercase relative pl-3 mb-4 font-bold;
   color: #fb6340;
