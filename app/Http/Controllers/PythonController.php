@@ -7,6 +7,7 @@ use http\Env;
 use Illuminate\Http\Request;
 use App\Models\CompanySettings as SettingsModel;
 use Validator;
+use Illuminate\Support\Facades\Log;
 
 class PythonController extends Controller
 {
@@ -40,8 +41,8 @@ class PythonController extends Controller
             "status_job" => "2",
             "version_task" => "1406",
             "fromSelectOpt" => "app:cnt:searchForm:fromSelectOpt3",
-            "as_country" => "DE Germany",
-            "as_zip" => "88214",
+            "as_country" => "LU Luxembourg",
+            "as_zip" => "5314",
             "as_radius" => "140",
             "toSelectOpt" => "app:cnt:searchForm:toSelectOpt2",
             "toSelectOptArray" => [
@@ -58,7 +59,7 @@ class PythonController extends Controller
                     "post3" => ""
                 ],
                 [
-                    "as_country_to" => "LU Luxembourg",
+                    "as_country_to" => "DE Germany",
                     "post1" => "",
                     "post2" => "",
                     "post3" => ""
@@ -80,9 +81,9 @@ class PythonController extends Controller
             "length_min" => "0.00",
             "length_max" => "6.00",
             "weight_min" => "0.00",
-            "weight_max" => "1.00",
-            "dateSelectOpt" => "app:cnt:searchForm:dateSelectOpt2",
-            "individual_days" => "25.03.2021",
+            "weight_max" => "1.6",
+            "dateSelectOpt" => "app:cnt:searchForm:dateSelectOpt1",
+            "individual_days" => "29.03.2021",
             "period_start" => "22.02.2021",
             "period_stop" => "23.02.2021"
         ]);
@@ -90,7 +91,9 @@ class PythonController extends Controller
 
     public function order(Request $request)
     {
-        print_r($request->all());
+        Log::debug("===============================================");
+        Log::debug($request->all());
+        Log::debug("===============================================");
     }
 
     public function chrome(Request $request)

@@ -26,6 +26,6 @@ Route::middleware('auth:api')->group(function () {
     Route::get('/user', function (Request $request) {
         return $request->user();
     });
-    Route::post('/search_result', [SearchResultController::class, 'store']);
+    //????Route::post('/search_result', [SearchResultController::class, 'store']);
     Route::post('/search_settings', [SearchSettingsController::class, 'store']);
 });

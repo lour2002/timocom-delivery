@@ -2,13 +2,19 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Task;
 use Illuminate\Http\Request;
-use App\Models\CompanySettings as SettingsModel;
 
 class SearchSettingsController extends Controller
 {
     public function store(Request $request)
     {
-        dd($request->all());
+        $input = $request->all();
+        $input['user_id'] = auth()->user()->id;
+        Task::create($input);
+
+        return response()->json([
+            'success' => true,
+        ]);
     }
 }
