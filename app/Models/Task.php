@@ -14,6 +14,4 @@ class Task extends Model
         'car_country', 'car_zip', 'car_city', 'car_price_empty', 'car_price', 'car_price_extra_points',
         'exchange_equipment', 'minimal_price_order', 'percent_stop_value', 'tags', 'email_template'
     ];
-
-
 }

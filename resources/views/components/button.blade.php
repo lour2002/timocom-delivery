@@ -1,3 +1,4 @@
+@props(['value'])
 <button {{ $attributes->merge(['type' => 'submit', 'class' => 'btn']) }}>
-    {{ $slot }}
+    {{ $value ?? $slot }}
 </button>

@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\CompanySettingsController;
+use App\Http\Controllers\SearchSettingsController;
 use App\Http\Controllers\PythonController;
 use Illuminate\Support\Facades\Route;
 
@@ -19,5 +20,8 @@ Route::get('/', function () {
 })->middleware(['auth'])->name('dashboard');
 Route::get('/company', [CompanySettingsController::class, 'get'])->middleware(['auth'])->name('company');
 Route::post('/company', [CompanySettingsController::class, 'set'])->middleware(['auth'])->name('company');
+
+Route::get('/task/{id?}', [SearchSettingsController::class, 'get'])->middleware(['auth'])->name('task');
+Route::post('/task', [SearchSettingsController::class, 'store'])->middleware(['auth'])->name('task');
 
 require __DIR__.'/auth.php';
