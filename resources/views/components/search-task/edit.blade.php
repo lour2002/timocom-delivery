@@ -1,4 +1,4 @@
-<form url="/task" method="POST">
+<form url="/task/store" method="POST">
     @csrf
     @if ($task_id)
         <x-input type="hidden" name="id" :value="$task_id" />

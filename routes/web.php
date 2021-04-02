@@ -22,6 +22,6 @@ Route::get('/company', [CompanySettingsController::class, 'get'])->middleware(['
 Route::post('/company', [CompanySettingsController::class, 'set'])->middleware(['auth'])->name('company');
 
 Route::get('/task/{id?}', [SearchSettingsController::class, 'get'])->middleware(['auth'])->name('task');
-Route::post('/task', [SearchSettingsController::class, 'store'])->middleware(['auth']);
+Route::post('/task/store', [SearchSettingsController::class, 'store'])->middleware(['auth']);
 
 require __DIR__.'/auth.php';

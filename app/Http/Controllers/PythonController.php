@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Jobs\ProcessOrder;
 use App\Models\Cookies;
 use App\Models\SearchResult;
 use http\Env;
@@ -97,10 +98,12 @@ class PythonController extends Controller
 
         try {
             $input = $request->all();
-            SearchResult::create($input);
+            $result = SearchResult::create($input);
+            ProcessOrder::dispatch($result);
             return response()->json(['success' => true]);
         } catch (\Throwable $e) {
-            return response()->json(['success' => false, 'error' => $e->getMessage()]);
+//            return response()->json(['success' => false, 'error' => $e->getTraceAsString()]);
+            return $e->getMessage().' --- '.$e->getTraceAsString();
         }
     }
 

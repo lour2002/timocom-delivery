@@ -21,8 +21,18 @@ class SearchSettingsController extends Controller
     {
         $input = $request->all();
         $input['user_id'] = auth()->user()->id;
-        $task = Task::create($input);
-
+        if (!$input['task_id']) {
+            Task::create($input);
+        } else {
+            $task = Task::find($input['task_id']);
+            foreach($input as $k => $v) {
+                if ($k === 'task_id') {
+                    continue;
+                }
+                $task->$k = $v;
+            }
+            $task->save();
+        }
 
         return response()->json([
             'success' => true,
