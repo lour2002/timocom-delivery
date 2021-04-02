@@ -12,9 +12,9 @@ class Edit extends View
      *
      * @return void
      */
-    public function __construct($task)
+    public function __construct($searchTask)
     {
-        parent::__construct($task);
+        parent::__construct($searchTask);
     }
 
     /**
