@@ -3,9 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\Cookies;
+use App\Models\SearchResult;
 use http\Env;
 use Illuminate\Http\Request;
-use App\Models\CompanySettings as SettingsModel;
 use Validator;
 use Illuminate\Support\Facades\Log;
 
@@ -94,6 +94,14 @@ class PythonController extends Controller
         Log::debug("===============================================");
         Log::debug($request->all());
         Log::debug("===============================================");
+
+        try {
+            $input = $request->all();
+            SearchResult::create($input);
+            return response()->json(['success' => true]);
+        } catch (\Throwable $e) {
+            return response()->json(['success' => false, 'error' => $e->getMessage()]);
+        }
     }
 
     public function chrome(Request $request)

@@ -7,9 +7,10 @@ use Illuminate\Http\Request;
 
 class SearchSettingsController extends Controller
 {
-    public function get(Request $request, $id = null)
+    public function get(Request $request)
     {
-        $task = $id ? (Task::find(intval($id, 10)) ?? []) : [];
+        $id = $request->get('id', 0);
+        $task = Task::find($id) ?? [];
 
         return view('task-edit', [
             'task' => $task
