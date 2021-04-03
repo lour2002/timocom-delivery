@@ -1,7 +1,8 @@
 <form action="/task/store" method="POST">
     @csrf
+    @if ($task_id)
     <x-input type="hidden" name="id" :value="$task_id" />
-
+    @endif
     <x-label>
         Name task
         <x-input id="task_name" class="w-full block " type="text" :value="$task_name" name="name" placeholder="Name task" required autofocus />
@@ -37,16 +38,16 @@
             Country
             <i class="fas fa-arrow-down"></i>
         </x-label>
-        @for ($i = 0; $i < 6; $i++)
-            <x-search-task.country-select name="as_country_to:{{$i}}" :value="$task_to_countries[$i] ?? '-- is empty --'" />
+        @for ($i = 0; $i < 5; $i++)
+            <x-search-task.country-select name="as_country_to:{{$i}}" :value="$task_to_array[$i]['as_country_to'] ?? '-- is empty --'" />
         @endfor
         <div>
             <x-label>
                 {{ __('post 1') }}
                 <i class="fas fa-arrow-down"></i>
             </x-label>
-            @for ($i = 0; $i < 6; $i++)
-                <x-input id="task_to_post1:{{$i}}" class="block mt-1" type="number" :value="$task_to_post1[$i] ?? ''" name="post1:{{$i}}" :placeholder="__('post 1')" />
+            @for ($i = 0; $i < 5; $i++)
+                <x-input id="task_to_post1:{{$i}}" class="block mt-1" type="number" :value="$task_to_array[$i]['post1'] ?? ''" name="post1:{{$i}}" :placeholder="__('post 1')" />
             @endfor
         </div>
         <div>
@@ -54,8 +55,8 @@
                 {{ __('post 2') }}
                 <i class="fas fa-arrow-down"></i>
             </x-label>
-            @for ($i = 0; $i < 6; $i++)
-                <x-input id="task_to_post2:{{$i}}" class="block mt-1" type="number" :value="$task_to_post2[$i] ?? ''" name="post2:{{$i}}" :placeholder="__('post 2')" />
+            @for ($i = 0; $i < 5; $i++)
+                <x-input id="task_to_post2:{{$i}}" class="block mt-1" type="number" :value="$task_to_array[$i]['post2'] ?? ''" name="post2:{{$i}}" :placeholder="__('post 2')" />
             @endfor
         </div>
         <div>
@@ -63,8 +64,8 @@
                 {{ __('post 3') }}
                 <i class="fas fa-arrow-down"></i>
             </x-label>
-            @for ($i = 0; $i < 6; $i++)
-                <x-input id="task_to_post3:{{$i}}" class="block mt-1" type="number" :value="$task_to_post3[$i] ?? ''" name="post3:{{$i}}" :placeholder="__('post 3')" />
+            @for ($i = 0; $i < 5; $i++)
+                <x-input id="task_to_post3:{{$i}}" class="block mt-1" type="number" :value="$task_to_array[$i]['post3'] ?? ''" name="post3:{{$i}}" :placeholder="__('post 3')" />
             @endfor
         </div>
     </x-container>
@@ -122,8 +123,20 @@
         </x-label>
         <x-label class="block">
             City
-            <x-input class="block " type="number" :value="$task_car_city" name="car_city" placeholder="City" />
+            <x-input class="block " type="text" :value="$task_car_city" name="car_city" placeholder="City" />
         </x-label>
+    </x-container>
+    <x-container class="--form">
+        <h2>EXCEPTIONS:</h2>
+        <x-label class="block">
+            The words for the filter, under which the order is skipped. The letter will not be sent. You can import multiple values separated by commas. Values will be added to the current list.
+            <x-input class="block " type="text" :value="$task_tags" name="tags" />
+        </x-label>
+    </x-container>
+
+    <x-container class="--form">
+        <h2>EMAIL TEMPLATE:</h2>
+        <x-input class="block " type="text" :value="$task_email_template" name="email_template" />
     </x-container>
 
 
