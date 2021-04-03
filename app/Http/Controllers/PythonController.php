@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Jobs\ProcessOrder;
 use App\Models\Cookies;
 use App\Models\SearchResult;
+use App\Models\Task;
 use http\Env;
 use Illuminate\Http\Request;
 use Validator;
@@ -12,6 +13,12 @@ use Illuminate\Support\Facades\Log;
 
 class PythonController extends Controller
 {
+
+    const TASK_KEYS = ['id','status_job', "version_task", "fromSelectOpt", "as_country", "as_country",
+                       "as_zip","as_radius","toSelectOpt","toSelectOptArray","freightSelectOpt","length_min",
+                       "length_max","weight_min","weight_max","dateSelectOpt","individual_days","period_start",
+                       "period_stop"];
+
     public function checkAuth(Request $request)
     {
         if ($request->get('user_key') === env('AUTH_KEY')) {
@@ -36,58 +43,66 @@ class PythonController extends Controller
 
     public function getTask(Request $request)
     {
-        return response()->json([
-            "id_task" => "1143",
-            "status_all_task" => "1",
-            "status_job" => "2",
-            "version_task" => "1406",
-            "fromSelectOpt" => "app:cnt:searchForm:fromSelectOpt3",
-            "as_country" => "LU Luxembourg",
-            "as_zip" => "5314",
-            "as_radius" => "140",
-            "toSelectOpt" => "app:cnt:searchForm:toSelectOpt2",
-            "toSelectOptArray" => [
-                [
-                    "as_country_to" => "CH Switzerland",
-                    "post1" => "",
-                    "post2" => "",
-                    "post3" => ""
-                ],
-                [
-                    "as_country_to" => "CZ Czech Republic",
-                    "post1" => "",
-                    "post2" => "",
-                    "post3" => ""
-                ],
-                [
-                    "as_country_to" => "DE Germany",
-                    "post1" => "",
-                    "post2" => "",
-                    "post3" => ""
-                ],
-                [
-                    "as_country_to" => "LI Liechtenstein",
-                    "post1" => "",
-                    "post2" => "",
-                    "post3" => ""
-                ],
-                [
-                    "as_country_to" => "IT Italy",
-                    "post1" => "",
-                    "post2" => "",
-                    "post3" => ""
-                ]
-            ],
-            "freightSelectOpt" => "app:cnt:searchForm:freightSelectOpt2",
-            "length_min" => "0.00",
-            "length_max" => "6.00",
-            "weight_min" => "0.00",
-            "weight_max" => "1.6",
-            "dateSelectOpt" => "app:cnt:searchForm:dateSelectOpt1",
-            "individual_days" => "29.03.2021",
-            "period_start" => "22.02.2021",
-            "period_stop" => "23.02.2021"
-        ]);
+
+        $task = Task::find(1, self::TASK_KEYS);
+
+        $task['id_task'] = $task['id'];
+        unset($task['id']);
+        $task["status_all_task"] = 2;
+
+        return response()->json($task);
+//         return response()->json([
+//             "id_task" => "1143",
+//             "status_all_task" => "1",
+//             "status_job" => "2",
+//             "version_task" => "1406",
+//             "fromSelectOpt" => "app:cnt:searchForm:fromSelectOpt3",
+//             "as_country" => "LU Luxembourg",
+//             "as_zip" => "5314",
+//             "as_radius" => "140",
+//             "toSelectOpt" => "app:cnt:searchForm:toSelectOpt2",
+//             "toSelectOptArray" => [
+//                 [
+//                     "as_country_to" => "CH Switzerland",
+//                     "post1" => "",
+//                     "post2" => "",
+//                     "post3" => ""
+//                 ],
+//                 [
+//                     "as_country_to" => "CZ Czech Republic",
+//                     "post1" => "",
+//                     "post2" => "",
+//                     "post3" => ""
+//                 ],
+//                 [
+//                     "as_country_to" => "DE Germany",
+//                     "post1" => "",
+//                     "post2" => "",
+//                     "post3" => ""
+//                 ],
+//                 [
+//                     "as_country_to" => "LI Liechtenstein",
+//                     "post1" => "",
+//                     "post2" => "",
+//                     "post3" => ""
+//                 ],
+//                 [
+//                     "as_country_to" => "IT Italy",
+//                     "post1" => "",
+//                     "post2" => "",
+//                     "post3" => ""
+//                 ]
+//             ],
+//             "freightSelectOpt" => "app:cnt:searchForm:freightSelectOpt2",
+//             "length_min" => "0.00",
+//             "length_max" => "6.00",
+//             "weight_min" => "0.00",
+//             "weight_max" => "1.6",
+//             "dateSelectOpt" => "app:cnt:searchForm:dateSelectOpt1",
+//             "individual_days" => "29.03.2021",
+//             "period_start" => "22.02.2021",
+//             "period_stop" => "23.02.2021"
+//         ]);
     }
 
     public function order(Request $request)
