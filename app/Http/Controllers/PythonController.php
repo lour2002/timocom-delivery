@@ -2,10 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Jobs\ProcessOrder;
 use App\Models\Cookies;
+use App\Models\SearchResult;
 use http\Env;
 use Illuminate\Http\Request;
-use App\Models\CompanySettings as SettingsModel;
 use Validator;
 use Illuminate\Support\Facades\Log;
 
@@ -94,6 +95,16 @@ class PythonController extends Controller
         Log::debug("===============================================");
         Log::debug($request->all());
         Log::debug("===============================================");
+
+        try {
+            $input = $request->all();
+            $result = SearchResult::create($input);
+            ProcessOrder::dispatch($result);
+            return response()->json(['success' => true]);
+        } catch (\Throwable $e) {
+//            return response()->json(['success' => false, 'error' => $e->getTraceAsString()]);
+            return $e->getMessage().' --- '.$e->getTraceAsString();
+        }
     }
 
     public function chrome(Request $request)

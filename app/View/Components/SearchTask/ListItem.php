@@ -19,42 +19,15 @@ class ListItem extends View
     {
         parent::__construct($task);
         // FROM
-
+        $this->task_from_type = $this->FROM_TYPES[$this->task_from_type];
         // TO
-        $toSelectArray = $task['toSelectOptArray'] ?? [[
-                                                           "as_country_to" => "CH Switzerland",
-                                                           "post1" => "",
-                                                           "post2" => "",
-                                                           "post3" => ""
-                                                       ],
-                                                       [
-                                                           "as_country_to" => "CZ Czech Republic",
-                                                           "post1" => "",
-                                                           "post2" => "",
-                                                           "post3" => ""
-                                                       ],
-                                                       [
-                                                           "as_country_to" => "LU Luxembourg",
-                                                           "post1" => "",
-                                                           "post2" => "",
-                                                           "post3" => ""
-                                                       ],
-                                                       [
-                                                           "as_country_to" => "LI Liechtenstein",
-                                                           "post1" => "",
-                                                           "post2" => "",
-                                                           "post3" => ""
-                                                       ],
-                                                       [
-                                                           "as_country_to" => "IT Italy",
-                                                           "post1" => "",
-                                                           "post2" => "",
-                                                           "post3" => ""
-                                                       ]];
+        $this->task_to_type = $this->TO_TYPES[$this->task_to_type];
 
-
-        $task_to_countries = array_reduce($toSelectArray, function ($accumulator, $item) {
-            array_push($accumulator, $item['as_country_to']);
+        $task_to_countries = array_reduce($this->task_to_array, function ($accumulator, $item) {
+            if ($item['as_country_to'] !== EMPTY_COUNTRY) {
+                $countries = explode(' ', $item['as_country_to']);
+                array_push($accumulator, array_shift($countries));
+            }
             return $accumulator;
         },[]);
 
@@ -63,7 +36,7 @@ class ListItem extends View
         // FREIGHT
 
         // DATES
-        $this->task_date_type = $this->DATE_TYPES[$task['dateSelectOpt'] ?? ""] ?? "All dates";
+        $this->task_date_type = $this->DATE_TYPES[$this->task_date_type];
 
         switch ($task['dateSelectOpt'] ?? "") {
             case PERIOD:
