@@ -49,6 +49,8 @@ class PythonController extends Controller
         $task['id_task'] = $task['id'];
         unset($task['id']);
         $task["status_all_task"] = 2;
+        $task["toSelectOptArray"] = json_decode($task["toSelectOptArray"]);
+
 
         return response()->json($task);
 //         return response()->json([

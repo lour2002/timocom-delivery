@@ -9,7 +9,7 @@ class SearchSettingsController extends Controller
 {
     public function get(Request $request, $id = null)
     {
-        $task = Task::find(intval($id, 10)) ?? [];
+        $task = Task::find(int $id)) ?? [];
 
         return view('task-edit', [
             'task' => $task
