@@ -1,7 +1,7 @@
 <x-app-layout>
     <x-container class="--container">
         <h2 class="page-title">
-            @if ($task_id ?? false)
+            @if ($task['id'] ?? false)
                 TASK #{{ $task['id']}}
             @else
                 NEW TASK
