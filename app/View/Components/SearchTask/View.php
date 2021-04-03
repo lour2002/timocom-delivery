@@ -90,7 +90,7 @@ abstract class View extends Component
         $this->task_from_radius = $task['as_radius'] ?? '';
 
         //  TO
-        $this->task_to_array = json_decode($task['toSelectOptArray'], true) ?? [];
+        $this->task_to_array = json_decode($task['toSelectOptArray'] ?? "[]", true);
         $this->task_to_type = $task['toSelectOpt'] ?? TO_COUNTRY;
 
         // FREIGHT
