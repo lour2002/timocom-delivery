@@ -9,6 +9,7 @@ use App\View\Components\SearchTask\View;
 class ListItem extends View
 {
     public $task_dates_view;
+    public $task_to_countries;
 
     /**
      * Create a new component instance.
