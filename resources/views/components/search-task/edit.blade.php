@@ -1,8 +1,6 @@
 <form action="/task/store" method="POST">
     @csrf
-    @if ($task_id)
-        <x-input type="hidden" name="id" :value="$task_id" />
-    @endif
+    <x-input type="hidden" name="id" :value="$task_id" />
 
     <x-label>
         Name task
