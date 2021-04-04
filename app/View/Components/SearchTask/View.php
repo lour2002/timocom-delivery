@@ -33,20 +33,26 @@ abstract class View extends Component
     public $task_to_array;
 
     public $task_freight_type;
-    public $task_length_min = "0.00";
-    public $task_length_max = "6.00";
-    public $task_weight_min = "0.00";
-    public $task_weight_max = "1.6";
+    public $task_length_min;
+    public $task_length_max;
+    public $task_weight_min;
+    public $task_weight_max;
 
     public $task_date_type;
-    public $task_individual_days = "29.03.2021";
-    public $task_period_start = "22.02.2021";
-    public $task_period_stop = "23.02.2021";
+    public $task_individual_days;
+    public $task_period_start;
+    public $task_period_stop;
 
     public $task_car_country;
     public $task_car_zip;
     public $task_car_city;
+    public $task_price_empty;
+    public $task_price_full;
+    public $task_extra_points;
 
+    public $task_min_price;
+    public $task_stop_percent;
+    public $task_exchange_equipment;
     public $task_cross_border;
     public $task_tags;
     public $task_email_template;
@@ -111,9 +117,18 @@ abstract class View extends Component
         $this->task_car_country = $task['car_country'] ?? EMPTY_COUNTRY;
         $this->task_car_zip = $task['car_zip'] ?? '';
         $this->task_car_city = $task['car_city'] ?? '';
+        $this->task_price_empty = $task['car_price_empty'] ?? 0.00;
+        $this->task_price_full = $task['car_price'] ?? 0.00;
+        $this->task_extra_points = $task['car_price_extra_points'] ?? 0;
 
+        //EXCEPTIONS
+        $this->task_min_price = $task['minimal_price_order'] ?? 0;
+        $this->task_stop_percent = $task['percent_stop_value'] ?? 0;
+        $this->task_exchange_equipment = $task['exchange_equipment'] ?? false;
         $this->task_cross_border = json_decode($task['cross_border'] ?? "[]", true);
         $this->task_tags = $task['tags'] ?? '';
+
+        //EMAIL
         $this->task_email_template = $task['email_template'] ?? '';
 
 
