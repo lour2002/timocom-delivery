@@ -6,6 +6,7 @@ use App\Jobs\ProcessOrder;
 use App\Models\Cookies;
 use App\Models\SearchResult;
 use App\Models\Task;
+use App\Models\User;
 use http\Env;
 use Illuminate\Http\Request;
 use Validator;
@@ -21,14 +22,15 @@ class PythonController extends Controller
 
     public function checkAuth(Request $request)
     {
-        if ($request->get('user_key') === env('AUTH_KEY')) {
+        $user = User::where('key', '=', $request->get('user_key'))->first();
+        if ($user) {
 
             $cookies = Cookies::where('auth_key', '=', $request->get('user_key'))->first();
 
             return response()->json([
                 'status' => '1',
                 'msg' => '  ... Авторизация пройдена',
-                'token_app' => env('AUTH_KEY'),
+                'token_app' => $user->key,
                 'cookies' => null !== $cookies ? $cookies->cookie : '',
             ]);
         }
@@ -44,11 +46,16 @@ class PythonController extends Controller
     public function getTask(Request $request)
     {
 
-        $task = Task::find(1, self::TASK_KEYS);
+        $task = Task::select('id', 'status_job', "version_task", "fromSelectOpt", "as_country", "as_country",
+            "as_zip", "as_radius", "toSelectOpt", "toSelectOptArray", "freightSelectOpt", "length_min",
+            "length_max", "weight_min", "weight_max", "dateSelectOpt", "individual_days", "period_start",
+            "period_stop")->where('user_key', "=", $request->get('user_key'))->first();
+
+        Log::debug($request->get('user_key'));
 
         $task['id_task'] = $task['id'];
         unset($task['id']);
-        $task["status_all_task"] = 2;
+        $task["status_all_task"] = '1';
         $task["toSelectOptArray"] = json_decode($task["toSelectOptArray"]);
 
 
@@ -109,19 +116,10 @@ class PythonController extends Controller
 
     public function order(Request $request)
     {
-        Log::debug("===============================================");
-        Log::debug($request->all());
-        Log::debug("===============================================");
-
-        try {
-            $input = $request->all();
-            $result = SearchResult::create($input);
-            ProcessOrder::dispatch($result);
-            return response()->json(['success' => true]);
-        } catch (\Throwable $e) {
-//            return response()->json(['success' => false, 'error' => $e->getTraceAsString()]);
-            return $e->getMessage().' --- '.$e->getTraceAsString();
-        }
+        $input = $request->all();
+        $result = SearchResult::create($input);
+        ProcessOrder::dispatch($result);
+        return response()->json(['success' => true]);
     }
 
     public function chrome(Request $request)

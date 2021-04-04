@@ -3,13 +3,14 @@
 namespace App\Http\Controllers;
 
 use App\Models\Task;
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class SearchSettingsController extends Controller
 {
     public function get(Request $request, $id = null)
     {
-        $task = Task::find(int $id)) ?? [];
+        $task = Task::find((int) $id) ?? [];
 
         return view('task-edit', [
             'task' => $task
@@ -20,8 +21,12 @@ class SearchSettingsController extends Controller
     {
 
         $toSelectOptArray = [];
-
+        $input = [];
         foreach($request->all() as $k => $v) {
+            if (null === $v) {
+                $v='';
+            }
+
             preg_match("/post[1-3]:\d|as_country_to:\d/", $k, $matches);
 
             if (count($matches)) {
@@ -33,8 +38,9 @@ class SearchSettingsController extends Controller
 
         }
 
-        // TODO:  может лучше  user_key
-        $input['user_id'] = auth()->user()->id;
+        $user = User::find(auth()->user()->id);
+        $input['user_id'] = $user->id;
+        $input['user_key'] = $user->key;
         $input['toSelectOptArray'] = json_encode(array_values($toSelectOptArray));
 
         if (!array_key_exists('id', $input)) {
