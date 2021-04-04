@@ -24,7 +24,7 @@
         </x-label>
         <x-label class="block">
             {{ __('Radius') }}
-            <x-input class="block " type="number" :value="$task_from_radius" name="as_radius" :placeholder="__('Radius')" />
+            <x-input class="block " type="number" :value="$task_from_radius" name="as_radius" step="10" :placeholder="__('Radius')" />
         </x-label>
     </x-container>
     <x-container class="--form">
@@ -125,6 +125,55 @@
             City
             <x-input class="block " type="text" :value="$task_car_city" name="car_city" placeholder="City" />
         </x-label>
+        <x-label class="block">
+            Cost per kilometer of an empty car (of 1 km / €)
+            <x-input class="block " step="0.05" min="0" max="10" type="number" :value="$task_price_empty" name="car_price_empty" placeholder="0.00" />
+        </x-label>
+        <x-label class="block">
+            Cost per kilometer of loaded car (of 1 km / €)
+            <x-input class="block " step="0.05" min="0" max="10" type="number" :value="$task_price_full" name="car_price" placeholder="0.00" />
+        </x-label>
+        <x-label class="block">
+            Extra stop extra charge (%)
+            <x-input class="block " step="10" min="0" max="999" type="number" :value="$task_extra_points" name="car_price_extra_points" placeholder="0 %" />
+        </x-label>
+    </x-container>
+    <x-container class="--form">
+        <h2>LOADING EQUIPMENT EXCHANGE:</h2>
+        <x-label class="block">
+            <x-input type="checkbox" class="checkbox" name="exchange_equipment" :checked="!!$task_exchange_equipment" value="1" />
+            Skip order, if yes, when exchanging pallets
+        </x-label>
+    </x-container>
+    <x-container class="--form">
+        <h2>MINIMUM ORDER VALUE (EURO):</h2>
+        <span>Cost below which the order will not be processed. The offer will not be sent to the customer.</span>
+        <x-label class="block">
+            The minimum value in euros:
+            <x-input class="block" step="10" min="0" type="number" :value="$task_min_price" name="minimal_price_order" placeholder="0" />
+        </x-label>
+    </x-container>
+    <x-container class="--form">
+        <h2>PROTECTION FROM "ARE YOU A FOOL?":</h2>
+        <x-label class="block">
+            Do not send an offer if the price offered is YOUR_PERCENT% higher than the price set by the customer. Specify the percentage and activate the function.
+            <x-input class="block" step="10" min="0" type="number" :value="$task_stop_percent" name="percent_stop_value" placeholder="0" />
+        </x-label>
+    </x-container>
+    <x-container class="--form">
+        <h2>crossing the border:</h2>
+        <x-label class="block">
+            Countries
+            <i class="fas fa-arrow-down"></i>
+        </x-label>
+        <x-label class="block">
+            Weight
+            <i class="fas fa-arrow-down"></i>
+        </x-label>
+        @for ($i = 0; $i < 5; $i++)
+            <x-search-task.country-select name="border_country:{{$i}}" :value="$task_cross_border[$i]['border_country'] ?? '-- is empty --'" />
+            <x-input class="block mt-1" type="number" :value="$task_cross_border[$i]['border_val'] ?? ''" name="border_val:{{$i}}" />
+        @endfor
     </x-container>
     <x-container class="--form">
         <h2>EXCEPTIONS:</h2>
@@ -134,9 +183,12 @@
         </x-label>
     </x-container>
 
+   <!-- ---------------------------------------------------------------------------------- --!>
+
+
     <x-container class="--form">
         <h2>EMAIL TEMPLATE:</h2>
-        <x-input class="block " type="text" :value="$task_email_template" name="email_template" />
+        <textarea class="block input" type="text" rows="5" cols="100" name="email_template" >{{ $task_email_template }}</textarea>
     </x-container>
 
 
