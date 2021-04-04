@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
 use Illuminate\Http\Request;
 use App\Models\CompanySettings as SettingsModel;
 
@@ -9,11 +10,11 @@ class CompanySettingsController extends Controller
 {
     public function get(Request $request)
     {
-//      TODO: Привязать настройки к Пользователю.
-        $settings = SettingsModel::find(1) ?? [];
+        $user = User::find(auth()->user()->id);
+        $settings = SettingsModel::where('user_id', '=', $user->id)->first();
 
         return view('company', [
-            'settings' => $settings
+            'settings' => $settings ?? []
         ]);
     }
 
@@ -28,6 +29,7 @@ class CompanySettingsController extends Controller
             $settings = SettingsModel::find($input['id']);
         }
 
+        $settings->user_id = auth()->user()->id;
         $settings->timocom_id = $input['timocomId'];
         $settings->name = $input['companyName'];
         $settings->contact_person = $input['contactPerson'];
