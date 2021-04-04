@@ -10,6 +10,15 @@ class SearchSettingsController extends Controller
 {
     const EMPTY_COUNTRY = "-- is empty --";
 
+    public function all(Request $request)
+    {
+        $tasks = Task::where('user_id', '=', auth()->user()->id)->get();
+
+        return view('dashboard', [
+            'list' => $tasks
+        ]);
+    }
+
     public function get(Request $request, $id = null)
     {
         $task = Task::find((int) $id) ?? [];
