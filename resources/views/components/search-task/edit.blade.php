@@ -127,12 +127,26 @@
         </x-label>
     </x-container>
     <x-container class="--form">
+        <h2>crossing the border:</h2>
+        <x-label class="block">
+            Countries
+            <i class="fas fa-arrow-down"></i>
+        </x-label>
+        @for ($i = 0; $i < 5; $i++)
+            <x-search-task.country-select name="border_country:{{$i}}" :value="$task_cross_border[$i]['border_country'] ?? '-- is empty --'" />
+            <x-input class="block mt-1" type="number" :value="$task_cross_border[$i]['border_val'] ?? ''" name="border_val:{{$i}}" />
+        @endfor
+    </x-container>
+    <x-container class="--form">
         <h2>EXCEPTIONS:</h2>
         <x-label class="block">
             The words for the filter, under which the order is skipped. The letter will not be sent. You can import multiple values separated by commas. Values will be added to the current list.
             <x-input class="block " type="text" :value="$task_tags" name="tags" />
         </x-label>
     </x-container>
+
+   <!-- ---------------------------------------------------------------------------------- --!>
+
 
     <x-container class="--form">
         <h2>EMAIL TEMPLATE:</h2>

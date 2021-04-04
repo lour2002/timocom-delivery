@@ -47,6 +47,7 @@ abstract class View extends Component
     public $task_car_zip;
     public $task_car_city;
 
+    public $task_cross_border;
     public $task_tags;
     public $task_email_template;
 
@@ -111,8 +112,11 @@ abstract class View extends Component
         $this->task_car_zip = $task['car_zip'] ?? '';
         $this->task_car_city = $task['car_city'] ?? '';
 
+        $this->task_cross_border = json_decode($task['cross_border'] ?? "[]", true);
         $this->task_tags = $task['tags'] ?? '';
         $this->task_email_template = $task['email_template'] ?? '';
+
+
 
     }
 }
