@@ -15,6 +15,8 @@ class Edit extends View
     public function __construct($searchTask)
     {
         parent::__construct($searchTask);
+
+        $this->task_extra_points = ($this->task_extra_points - 1) * 100;
     }
 
     /**
