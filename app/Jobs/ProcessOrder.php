@@ -7,6 +7,7 @@ use App\Models\Order;
 use App\Models\OrderResult;
 use App\Models\SearchResult;
 use App\Models\Smtp;
+use App\Models\Task;
 use App\Models\User;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldBeUnique;
@@ -16,6 +17,7 @@ use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 use DiDom\Document;
 use Illuminate\Support\Facades\Config;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
 use lib\OSMap\OSMapOpenRoute;
 
@@ -77,7 +79,7 @@ class ProcessOrder implements ShouldQueue
         $result['freight_description'] = $descr;
 
         $entry = $doc->xpath('//*[@id="app:cnt:searchDetail:price"]');
-        $result['price'] = $entry[0]->text();
+        $result['price'] = !empty($entry[0]->text()) ? $entry[0]->text() : null;
 
         $entry = $doc->xpath('//*[@id="app:cnt:searchDetail:loadingEquipmentExchange"]');
         $res = $entry[0]->text();
@@ -114,7 +116,7 @@ class ProcessOrder implements ShouldQueue
         $entry = $doc->find('.tco-loadingplace');
         $from = $to = [];
         foreach ($entry as $row) {
-            if ($row->child(1)->has('.tc-load')) {
+            if ($row->child(0)->has('.tc-load')) {
                 $from[] = [
                     'from_country' => $row->child(1)->text(),
                     'from_zip' => $row->child(2)->text(),
@@ -125,7 +127,7 @@ class ProcessOrder implements ShouldQueue
                     'from_time2' => $row->child(9)->text(),
                 ];
 
-            } elseif ($row->child(1)->has('.tc-unload')) {
+            } elseif ($row->child(0)->has('.tc-unload')) {
                 $to[] = [
                     'to_country' => $row->child(1)->text(),
                     'to_zip' => $row->child(2)->text(),
@@ -140,7 +142,7 @@ class ProcessOrder implements ShouldQueue
         $result['from'] = json_encode($from);
         $result['to'] = json_encode($to);
         $result['offer_id'] = $this->searchResult->offer_id;
-        $result['task_id'] = $this->searchResult->task_id;
+        $result['task_id'] = $this->searchResult->id_task;
 
         $order = Order::create($result);
 
@@ -149,7 +151,7 @@ class ProcessOrder implements ShouldQueue
 
     private function checkOrder(Order $order)
     {
-        $task = $order->task;
+        $task = Task::find($order->task_id);
 
         $status = OrderResult::STATUS_SENT;
         $reason = [
@@ -214,7 +216,8 @@ class ProcessOrder implements ShouldQueue
                 ['name', '=', $order->name],
                 ['email', '=', $order->email],
                 ['company_id', '=', $order->company_id],
-            ])->all();
+            ])->get();
+            //print_r($orders));
             $d1 = $order->date_collection;
             foreach($orders as $item) {
                 $from = '';
@@ -228,7 +231,7 @@ class ProcessOrder implements ShouldQueue
                 }
 
                 $d11 = clone($d1);
-                $d2 = $item->date_collection;
+                $d2 = new \DateTime($item->date_collection);
                 $interval = $d11->diff($d2);
                 $h = ($interval->days * 24) + $interval->h;
                 if ($fromCurrent.$toCurrent === $from.$to && 18 > $h) {
@@ -317,7 +320,7 @@ class ProcessOrder implements ShouldQueue
         $price = round($price);
 
         if ($result) {
-            if ($order->price < $price) {
+            if (!empty($order->price) && $order->price < $price) {
                 $percent = ($price / $order->price) * 100;
                 if ($task->percent_stop_value && $percent > $task->percent_stop_value) {
                     $result = false;
