@@ -10,8 +10,7 @@ class CompanySettingsController extends Controller
 {
     public function get(Request $request)
     {
-        $user = User::find(auth()->user()->id);
-        $settings = SettingsModel::where('user_id', '=', $user->id)->first();
+        $settings = SettingsModel::where('user_id', '=', auth()->user()->id)->first();
 
         return view('company', [
             'settings' => $settings ?? []

@@ -17,7 +17,7 @@ class SmtpController extends Controller
     public function get(Request $request)
     {
         return view('smtp', [
-            'smtp' => Smtp::where('user_id', '=', auth()->user()->id)->get()
+            'smtp' => Smtp::where('user_id', '=', auth()->user()->id)->first()
         ]);
     }
 
@@ -26,6 +26,7 @@ class SmtpController extends Controller
         $input = $request->all();
 
         if (!array_key_exists('id', $input)) {
+            $input['user_id'] = auth()->user()->id;
             $smtp = Smtp::create($input);
         } else {
             $smtp = Smtp::find($input['id']);

@@ -12,6 +12,9 @@
                     <x-nav-link :href="route('company')" :active="request()->routeIs('company')">
                         {{ __('Company') }}
                     </x-nav-link>
+                    <x-nav-link :href="route('smtp')" :active="request()->routeIs('smtp')">
+                        {{ __('SMTP') }}
+                    </x-nav-link>
                 </div>
             </div>
 

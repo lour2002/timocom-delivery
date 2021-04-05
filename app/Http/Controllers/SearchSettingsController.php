@@ -70,6 +70,7 @@ class SearchSettingsController extends Controller
         });
 
         $user = User::find(auth()->user()->id);
+        $input['car_country'] = $input['car_country'] == self::EMPTY_COUNTRY ? '' : $input['car_country'];
         $input['user_id'] = $user->id;
         $input['user_key'] = $user->key;
         $input['toSelectOptArray'] = json_encode(array_values($toSelectOptArray));
