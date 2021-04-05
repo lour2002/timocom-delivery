@@ -11,10 +11,15 @@
         "php": "^7.3|^8.0",
         "fideloper/proxy": "^4.4",
         "fruitcake/laravel-cors": "^2.0",
+        "geocoder-php/google-maps-provider": "^4.6",
         "guzzlehttp/guzzle": "^7.0.1",
         "imangazaliev/didom": "^1.16",
         "laravel/framework": "^8.12",
-        "laravel/tinker": "^2.5"
+        "laravel/tinker": "^2.5",
+        "league/geotools": "^0.8.2",
+        "php-http/guzzle7-adapter": "^1.0",
+        "toin0u/geocoder-laravel": "^4.4",
+        "toin0u/geotools-laravel": "^1.0"
     },
     "require-dev": {
         "facade/ignition": "^2.5",

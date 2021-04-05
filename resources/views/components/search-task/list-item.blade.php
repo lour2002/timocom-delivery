@@ -20,7 +20,7 @@
                     </div>
                     <div class="fs085">
                         <span class="line-title">Сost of 1 km / €:</span>
-                        <span class="text-primary">{{ $task_driver_cost }}</span>
+                        <span class="text-primary">{{ $task_price_full }}</span>
                     </div>
                 </div>
             </a>
