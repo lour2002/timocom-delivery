@@ -19,11 +19,10 @@
             </x-label>
             <x-label class="mb-3">
                 {{ __('Secure') }}:
-                <select name="secure">
-                    <option value="ssl">SSL</option>
-                    <option value="tls">TLS</option>
+                <select name="secure" class='input block'>
+                    <option {{ ($smtp['secure'] ?? '') == "ssl" ? 'selected' : '' }} value="ssl">SSL</option>
+                    <option {{ ($smtp['secure'] ?? '') == "tls" ? 'selected' : '' }} value="tls">TLS</option>
                 </select>
-                <x-input class="w-full block mt-1" type="text" name="server" :value="$smtp['secure'] ?? ''" :placeholder="__('Secure')" required/>
             </x-label>
             <x-label class="mb-3">
                 {{ __('SMTP port') }}:
