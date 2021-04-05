@@ -12,7 +12,7 @@ use Illuminate\Support\Facades\Mail;
 
 class OrderController extends Controller
 {
-    public function get(Request $request)
+    public function get(Request $request, $task-id)
     {
         return view('orders', [
             'orders' => Order::where('task_id', '=', $request->get('id'))->get()

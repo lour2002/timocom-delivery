@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\CompanySettingsController;
+use App\Http\Controllers\OrderController;
 use App\Http\Controllers\SearchSettingsController;
 use App\Http\Controllers\PythonController;
 use App\Http\Controllers\SmtpController;
@@ -26,5 +27,7 @@ Route::post('/task/store', [SearchSettingsController::class, 'store'])->middlewa
 Route::get('/smtp', [SmtpController::class, 'get'])->middleware(['auth'])->name('smtp');
 Route::post('/smtp', [SmtpController::class, 'store'])->middleware(['auth'])->name('smtp');
 Route::get('/test_email', [SmtpController::class, 'testEmail']);
+
+Route::get('/orders/{task-id}', [SearchSettingsController::class, 'all'])->middleware(['auth'])->name('dashboard');
 
 require __DIR__.'/auth.php';

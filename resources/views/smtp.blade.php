@@ -18,6 +18,14 @@
                 <x-input class="w-full block mt-1" type="text" name="server" :value="$smtp['server'] ?? ''" :placeholder="__('SMTP server')" required/>
             </x-label>
             <x-label class="mb-3">
+                {{ __('Secure') }}:
+                <select name="secure">
+                    <option value="ssl">SSL</option>
+                    <option value="tls">TLS</option>
+                </select>
+                <x-input class="w-full block mt-1" type="text" name="server" :value="$smtp['secure'] ?? ''" :placeholder="__('Secure')" required/>
+            </x-label>
+            <x-label class="mb-3">
                 {{ __('SMTP port') }}:
                 <x-input class="w-full block mt-1" type="number" name="port" :value="$smtp['port'] ?? ''" :placeholder="__('SMTP port')" required/>
             </x-label>
