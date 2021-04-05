@@ -260,7 +260,7 @@ class ProcessOrder implements ShouldQueue
                 if (!empty($task->car_zip)) {
                     $address .= $task->car_zip;
                 }
-                $country = explode(' - ', $task->car_country)[1];
+                $country = explode(' ', $task->car_country)[1];
                 $address .= !empty($address) ? ','.$country : $country;
                 if (!empty($task->car_city)) {
                     $address .= !empty($address) ? ',' . $task->car_city : $task->car_city;
@@ -268,26 +268,30 @@ class ProcessOrder implements ShouldQueue
                 $client = new \GuzzleHttp\Client();
                 $coordFrom = $client->request(
                     'GET',
-                    'https://nominatim.openstreetmap.org/?format=json&addressdetails=1&q='.$address.'format=json&limit=1'
+                    'https://nominatim.openstreetmap.org/?format=json&addressdetails=1&q='.$address.'&format=json&limit=1'
                 );
                 $coordFrom = json_decode($coordFrom->getBody()->getContents(), true);
-
+                Log::debug($address);
+                Log::debug(print_r($coordFrom));
 
                 $address = '';
-                $from = json_encode($order->from)[0];
-                if (!empty($from->from_zip)) {
-                    $address .= $from->from_zip;
+                $from = json_decode($order->from, true)[0];
+                if (!empty($from['from_zip'])) {
+                    $address .= $from['from_zip'];
                 }
-                $country = explode(' - ', $from->from_country)[1];
+                $country = explode(' - ', $from['from_country'])[1];
                 $address .= !empty($address) ? ',' . $country : $country;
-                if (!empty($from->from_city)) {
-                    $address .= !empty($address) ? ',' . $from->from_city : $from->from_city;
+                if (!empty($from['from_city'])) {
+                    $address .= !empty($address) ? ',' . $from['from_city'] : $from['from_city'];
                 }
                 $client = new \GuzzleHttp\Client();
                 $coordTo = $client->request(
                     'GET',
-                    'https://nominatim.openstreetmap.org/?format=json&addressdetails=1&q=' . $address . 'format=json&limit=1'
+                    'https://nominatim.openstreetmap.org/?format=json&addressdetails=1&q=' . $address . '&format=json&limit=1'
                 );
+                $coordTo = json_decode($coordTo->getBody()->getContents(), true);
+                Log::debug($address);
+                Log::debug(print_r($coordTo));
 
 
                 require_once __DIR__ . '/../../lib/OSMap/OSMapPoint.php';
@@ -309,6 +313,7 @@ class ProcessOrder implements ShouldQueue
                 if ($oOR->calcRoute($aRoute)) {
                     $car_location = round($oOR->getDistance() / 1000);
                 }
+                Log::debug('car_location = ' . $car_location);
             }
 
             $k = 1;
@@ -316,6 +321,7 @@ class ProcessOrder implements ShouldQueue
                 $k = $task->car_price_extra_points;
             }
             $price = ($task->car_price * $order->distance + $task->car_price_empty * $car_location) * $k;
+            Log::debug('calc price = ' . $price);
         }
         $price = round($price);
 
@@ -366,7 +372,7 @@ class ProcessOrder implements ShouldQueue
                 //date_delivery???????????
                 $message = str_replace(
                     ['{name}', '{date_collection}', '{price}', '{date_delivery}'],
-                    [$order->name, $order->date_collection, $price],
+                    [$order->name, $order->date_collection->format('Y-m-d'), $price],
                     $message
                 );
 
