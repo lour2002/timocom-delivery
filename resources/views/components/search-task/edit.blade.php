@@ -75,6 +75,7 @@
             <x-radio name="freightSelectOpt" :value="$task_freight_type" checked />
             {{ $FREIGHT_TYPES[$task_freight_type] }}
         </x-label>
+        <h2>Length:</h2>
         <x-label>
             {{__('Min.')}}
             <x-input id="task_length_min" class="block " type="text" :value="$task_length_min" name="length_min" />
@@ -83,6 +84,7 @@
             {{__('Max.')}}
             <x-input id="task_length_max" class="block " type="text" :value="$task_length_max" name="length_max" />
         </x-label>
+        <h2>Weight:</h2>
         <x-label>
             {{__('Min.')}}
             <x-input id="task_weight_min" class="block " type="text" :value="$task_weight_min" name="weight_min" />
@@ -100,6 +102,7 @@
                 {{ $text }}
             </x-label>
         @endforeach
+        <br>
         <x-label>
             {{__('Individual days:')}}
             <x-input id="task_individual_days" class="block " type="text" :value="$task_individual_days" name="individual_days" />
@@ -161,7 +164,7 @@
         </x-label>
     </x-container>
     <x-container class="--form">
-        <h2>crossing the border:</h2>
+        <h2>CROSSING THE BORDER:</h2>
         <x-label class="block">
             Countries
             <i class="fas fa-arrow-down"></i>

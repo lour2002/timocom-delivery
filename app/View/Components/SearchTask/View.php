@@ -119,7 +119,7 @@ abstract class View extends Component
         $this->task_car_city = $task['car_city'] ?? '';
         $this->task_price_empty = $task['car_price_empty'] ?? 0.00;
         $this->task_price_full = $task['car_price'] ?? 0.00;
-        $this->task_extra_points = $task['car_price_extra_points'] ?? 0;
+        $this->task_extra_points = $task['car_price_extra_points'] ?? 1;
 
         //EXCEPTIONS
         $this->task_min_price = $task['minimal_price_order'] ?? 0;
