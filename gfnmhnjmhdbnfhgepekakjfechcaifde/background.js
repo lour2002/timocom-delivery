@@ -1,6 +1,3 @@
-//TODO: remove after release
-//TODO: rewrite to set user key
-localStorage.setItem('verify_key', "3ab5cc9bf366c0b6eb06362788effc73");
 
 jobber();
 const timerIdGetAllBalance = setInterval(function() {

@@ -10,13 +10,19 @@ use App\Models\Smtp;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\DB;
 
 class OrderController extends Controller
 {
     public function get(Request $request, $taskId)
     {
         return view('orders', [
-            'orders' => OrderResult::leftJoin('orders', 'order_result.order_id', '=', 'orders.id')->where('order_result.task_id', '=', $taskId)->get()
+            'id' => $taskId,
+            'orders' => DB::table('order_result')
+                        ->join('orders', 'order_result.order_id', '=', 'orders.id')
+                        ->select('orders.*', 'order_result.price AS price', 'order_result.status','order_result.reason','order_result.created_at')
+                        ->where('order_result.task_id', '=', $taskId)
+                        ->get()
         ]);
     }
 }

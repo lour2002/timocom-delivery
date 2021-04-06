@@ -1,4 +1,4 @@
-@props(['align' => 'right', 'width' => '48', 'contentClasses' => 'py-1 bg-white'])
+@props(['align' => 'right', 'contentClasses' => 'py-1 bg-white'])
 
 @php
 switch ($align) {
@@ -14,11 +14,6 @@ switch ($align) {
         break;
 }
 
-switch ($width) {
-    case '48':
-        $width = 'w-48';
-        break;
-}
 @endphp
 
 <div class="relative" x-data="{ open: false }" @click.away="open = false" @close.stop="open = false">
@@ -33,9 +28,8 @@ switch ($width) {
             x-transition:leave="transition ease-in duration-75"
             x-transition:leave-start="transform opacity-100 scale-100"
             x-transition:leave-end="transform opacity-0 scale-95"
-            class="absolute z-50 mt-2 {{ $width }} rounded-md shadow-lg {{ $alignmentClasses }}"
-            style="display: none;"
-            @click="open = false">
+            class="absolute z-50 mt-2 min-w-min rounded-md shadow-lg {{ $alignmentClasses }}"
+            style="display: none;">
         <div class="rounded-md ring-1 ring-black ring-opacity-5 {{ $contentClasses }}">
             {{ $content }}
         </div>

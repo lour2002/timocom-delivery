@@ -3,8 +3,8 @@
 
   "manifest_version": 2,
 
-  "name": "Timacom Exchanger",
-  "description": "Exchange module for service Timacom",
+  "name": "Kiri Exchanger",
+  "description": "Exchange module for service Kiri",
   "version": "1.0.0",
   "icons": {
     "128": "icon_128.png"

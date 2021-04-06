@@ -3,11 +3,13 @@ $(document).ready(function() {
   //console.log(current_verification_key);
   //$('#verification_key').val(current_verification_key);
   $('#current_verification_key').html(current_verification_key);
-  check_verification_code(current_verification_key);
+  //check_verification_code(current_verification_key);
 
   $(document).on('click', '#set_verification_key', function() {
     var verification_key = $('#verification_key').val();
     set_verificate_key(verification_key);
+    // TODO: rewrite to checking key
+    $('#status_verification_key').html("<span class=\"text-success\">ok</span>");
     console.log('popopen_set');
   });
 
@@ -15,13 +17,8 @@ $(document).ready(function() {
     localStorage.setItem('verify_key', verification_key);
     $('#verification_key').val('');
     $('#current_verification_key').html(verification_key);
-    check_verification_code(verification_key);
+    // check_verification_code(verification_key);
   }
-
-  $(document).on('click', '.open_control_panel', function() {
-    var href = $(this).data('href');
-    chrome.tabs.create({url:href})
-  });
 
   function check_verification_code(check_key) {
     $.ajax({

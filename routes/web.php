@@ -24,9 +24,10 @@ Route::get('/', [SearchSettingsController::class, 'all'])->middleware(['auth'])-
 Route::get('/task/{id?}', [SearchSettingsController::class, 'get'])->middleware(['auth'])->name('task');
 Route::post('/task/store', [SearchSettingsController::class, 'store'])->middleware(['auth']);
 
-Route::get('/smtp', [SmtpController::class, 'get'])->middleware(['auth'])->name('smtp');
-Route::post('/smtp', [SmtpController::class, 'store'])->middleware(['auth'])->name('smtp');
-Route::get('/test_email', [SmtpController::class, 'testEmail']);
+// TODO: Delete after release
+// Route::get('/smtp', [SmtpController::class, 'get'])->middleware(['auth'])->name('smtp');
+// Route::post('/smtp', [SmtpController::class, 'store'])->middleware(['auth'])->name('smtp');
+// Route::get('/test_email', [SmtpController::class, 'testEmail']);
 
 Route::get('/orders/{taskId}', [OrderController::class, 'get'])->middleware(['auth'])->name('orders');
 

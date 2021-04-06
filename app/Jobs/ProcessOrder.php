@@ -365,8 +365,8 @@ class ProcessOrder implements ShouldQueue
                 $message
             );
 
-            //$toEmail = $user->email;
-            $toEmail = 'triongroup@gmail.com';
+            //TODO:
+            $toEmail = $companySettings->email;
             $data = array(
                 "subject" => 'Proposal',
                 "message" => $message,
