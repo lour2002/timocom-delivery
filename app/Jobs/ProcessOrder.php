@@ -3,6 +3,7 @@
 namespace App\Jobs;
 
 use App\Mail\DynamicEmail;
+use App\Models\CompanySettings;
 use App\Models\Order;
 use App\Models\OrderResult;
 use App\Models\SearchResult;
@@ -350,42 +351,33 @@ class ProcessOrder implements ShouldQueue
 
         if ($result) {
             $user = User::find($task->user_id);
-            $configuration = Smtp::where("user_id", $task->user_id)->first();
-            if (!is_null($configuration)) {
-                $config = array(
-                    'driver' => 'smtp',
-                    'host' => $configuration->server,
-                    'port' => $configuration->port,
-                    'username' => $configuration->login,
-                    'password' => $configuration->password,
-                    'encryption' => $configuration->secure,
-                    'from' => array('address' => $configuration->email, 'name' => $user->name),
-                );
-                Config::set('mail', $config);
-
-                $message = 'Hello dear {name}< br/><br />
+            $companySettings = CompanySettings::where('user_id', '=', $user->id)->first();
+            $message = 'Hello dear {name}< br/><br />
                     If your TIMOCOM OFFER on {date_collection} is still available, we could handle it for you
                     FOR JUST {price} EUR!
                     <br />
                     SOLO TRIP, DIRECT DELIVERY, EXPRESS SERVICE ID GUARANTEED!
                 ';
-                //date_delivery???????????
-                $message = str_replace(
-                    ['{name}', '{date_collection}', '{price}', '{date_delivery}'],
-                    [$order->name, $order->date_collection->format('Y-m-d'), $price],
-                    $message
-                );
+            //date_delivery???????????
+            $message = str_replace(
+                ['{name}', '{date_collection}', '{price}', '{date_delivery}'],
+                [$order->name, $order->date_collection->format('Y-m-d'), $price],
+                $message
+            );
 
-                //$toEmail = $user->email;
-                $toEmail = 'triongroup@gmail.com';
-                $data = array(
-                    "subject" => 'Proposal',
-                    "message" => $message,
-                    "template" => 'email-template'
-                );
+            //$toEmail = $user->email;
+            $toEmail = 'triongroup@gmail.com';
+            $data = array(
+                "subject" => 'Proposal',
+                "message" => $message,
+                "template" => 'email-template',
+                "from" => [
+                    'name' => $companySettings->name,
+                    'email' => $companySettings->email,
+                ],
+            );
 
-                Mail::to($toEmail)->send(new DynamicEmail($data));
-            }
+            Mail::to($toEmail)->send(new DynamicEmail($data));
         }
     }
 }

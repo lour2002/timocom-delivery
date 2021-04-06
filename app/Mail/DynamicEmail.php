@@ -30,6 +30,14 @@ class DynamicEmail extends Mailable
      */
     public function build()
     {
-        return $this->view($this->data['template'])->subject($this->data['subject'])->with("data", $this->data);
+        $res = $this->view($this->data['template'])
+            ->subject($this->data['subject'])
+            ->with("data", $this->data);
+
+        if (isset($this->data['from'])) {
+            $res->from($this->data['from']['email'], $this->data['from']['name']);
+        }
+
+        return $res;
     }
 }
