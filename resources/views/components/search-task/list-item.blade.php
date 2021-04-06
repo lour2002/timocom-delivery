@@ -31,7 +31,7 @@
                 <button type="button" class="btn btn-primary btn-sm ch_st_t" data-id_task="1143" data-status="2"><i class="fab fa-stumbleupon-circle"></i> TEST</button>
                 <button type="button" class="btn btn-danger btn-sm" style="opacity: 0.2;" disabled=""><i class="fas fa-stop-circle"></i> STOP</button>
                 <hr class="my-1">
-                <a href="#" class="text-info">show processed tasks</a>
+                <a href="{{ route('orders', $task_id) }}" class="text-info">show processed tasks</a>
             </div>
         </div>
     </div>

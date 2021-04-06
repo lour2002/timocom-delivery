@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Mail\DynamicEmail;
 use App\Models\EmailBlacklist;
 use App\Models\Order;
+use App\Models\OrderResult;
 use App\Models\Smtp;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -15,7 +16,7 @@ class OrderController extends Controller
     public function get(Request $request, $taskId)
     {
         return view('orders', [
-            'orders' => Order::where('task_id', '=', $taskId)->get()
+            'orders' => OrderResult::leftJoin('orders', 'order_result.order_id', '=', 'orders.id')->where('order_result.task_id', '=', $taskId)->get()
         ]);
     }
 }

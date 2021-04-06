@@ -28,6 +28,6 @@ Route::get('/smtp', [SmtpController::class, 'get'])->middleware(['auth'])->name(
 Route::post('/smtp', [SmtpController::class, 'store'])->middleware(['auth'])->name('smtp');
 Route::get('/test_email', [SmtpController::class, 'testEmail']);
 
-Route::get('/orders/{taskId}', [OrderController::class, 'get'])->middleware(['auth']);
+Route::get('/orders/{taskId}', [OrderController::class, 'get'])->middleware(['auth'])->name('orders');
 
 require __DIR__.'/auth.php';
