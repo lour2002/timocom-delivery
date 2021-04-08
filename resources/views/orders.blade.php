@@ -2,11 +2,11 @@
     <x-container class="--container">
         <h1 class="page-title">ORDERS LIST: TASK #{{ $id }}</h1>
         <div>
-            <table class="border">
+            <table class="border w-full">
                 <tr>
-                    <th class="border text-left">STATUS:</th>
-                    <th class="border text-left">TIME:</th>
-                    <th class="border text-left">CONTACTS:</th>
+                    <th class="border text-left"></th>
+                    <th class="border text-left"></th>
+                    <th class="border text-left"></th>
                     <th class="border text-left">ROUTE:</th>
                     <th class="border text-left">REMARK:</th>
                 </tr>

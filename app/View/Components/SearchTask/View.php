@@ -20,7 +20,8 @@ abstract class View extends Component
 {
     public $task;
     public $task_id;
-    public $task_status = 'Stopped';
+    public $task_title_status;
+    public $task_status_job;
     public $task_name;
     public $task_driver_cost;
 
@@ -86,7 +87,7 @@ abstract class View extends Component
         $this->task = $task;
 
         $this->task_id = $task['id'] ?? 0;
-        $this->task_status = $task['status'] ?? '';
+        $this->task_status_job = $task['status_job'] ?? '0';
         $this->task_name = $task['name'] ?? '';
         $this->task_driver_cost = $task['driverCost'] ?? 0;
 
