@@ -19,6 +19,65 @@ class SearchSettingsController extends Controller
         ]);
     }
 
+    public function start(Request $request)
+    {
+        $task = Task::where([
+            ['user_id', '=', auth()->user()->id],
+            ['id', '=', $request->post('id')],
+        ])->first();
+
+        if (null !== $task) {
+            $max = Task::max('num');
+            if (5 < $max+1) {
+                return response()->json(['success' => false, 'error' => 'Only five active jobs allow']);
+            }
+            $task->status_job = '3';
+            $task->num = $max+1;
+            $task->save();
+            return response()->json(['success' => true]);
+        }
+
+        return response()->json(['success' => false]);
+    }
+
+    public function test(Request $request)
+    {
+        $task = Task::where([
+            ['user_id', '=', auth()->user()->id],
+            ['id', '=', $request->post('id')],
+        ])->first();
+
+        if (null !== $task) {
+            $max = Task::max('num');
+            if (5 < $max + 1) {
+                return response()->json(['success' => false, 'error' => 'Only five active jobs allow']);
+            }
+            $task->status_job = '2';
+            $task->num = $max + 1;
+            $task->save();
+            return response()->json(['success' => true]);
+        }
+
+        return response()->json(['success' => false]);
+    }
+
+    public function stop(Request $request)
+    {
+        $task = Task::where([
+            ['user_id', '=', auth()->user()->id],
+            ['id', '=', $request->post('id')],
+        ])->first();
+
+        if (null !== $task) {
+            $task->status_job = '1';
+            $task->num = 0;
+            $task->save();
+            return response()->json(['success' => true]);
+        }
+
+        return response()->json(['success' => false]);
+    }
+
     public function get(Request $request, $id = null)
     {
         $task = Task::find((int) $id) ?? [];

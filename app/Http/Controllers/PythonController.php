@@ -49,17 +49,25 @@ class PythonController extends Controller
         $task = Task::select('id', 'status_job', "version_task", "fromSelectOpt", "as_country", "as_country",
             "as_zip", "as_radius", "toSelectOpt", "toSelectOptArray", "freightSelectOpt", "length_min",
             "length_max", "weight_min", "weight_max", "dateSelectOpt", "individual_days", "period_start",
-            "period_stop")->where('user_key', "=", $request->get('user_key'))->first();
+            "period_stop")
+            ->where([
+                ['user_key', "=", $request->get('user_key')],
+                ['status_job', '>', 1],
+                ['num', '=', $request->get('num')],
+            ])->first();
 
         Log::debug($request->get('user_key'));
 
-        $task['id_task'] = $task['id'];
-        unset($task['id']);
-        $task["status_all_task"] = '1';
-        $task["toSelectOptArray"] = json_decode($task["toSelectOptArray"]);
+        if (null !== $task) {
+            $task['id_task'] = $task['id'];
+            unset($task['id']);
+            $task["status_all_task"] = '1';
+            $task["toSelectOptArray"] = json_decode($task["toSelectOptArray"]);
 
+            return response()->json($task);
+        }
 
-        return response()->json($task);
+        return response()->json([]);
 //         return response()->json([
 //             "id_task" => "1143",
 //             "status_all_task" => "1",

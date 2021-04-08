@@ -8,7 +8,7 @@ use Illuminate\Http\Request;
 class Task extends Model
 {
     protected $fillable = [
-        'user_id','user_key', 'name', 'status_job', 'version_task', 'fromSelectOpt', 'as_country', 'as_zip',
+        'user_id','user_key', 'name', 'status_job', 'num', 'version_task', 'fromSelectOpt', 'as_country', 'as_zip',
         'as_radius', 'toSelectOpt', 'toSelectOptArray', 'freightSelectOpt', 'length_min', 'length_max',
         'weight_min', 'weight_max', 'dateSelectOpt', 'individual_days', 'period_start', 'period_stop',
         'car_country', 'car_zip', 'car_city', 'car_price_empty', 'car_price', 'car_price_extra_points',
