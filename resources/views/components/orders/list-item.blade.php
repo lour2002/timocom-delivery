@@ -1,12 +1,14 @@
 <tr>
     <td class="border px-2">
-    <i class="far fa-2x {{ $status_class }}"></i>
+    <i class="fas fa-2x {{ $status_class }}"></i>
     <span class="text-green-500 text-yellow-500 text-red-500"></span>
     </td>
     <td class="border px-2">
     <b class="text-sm">{{ $time }}</b>
     <br>
     <span class="text-xs">{{ $date }}</span>
+    <br>
+    <span class="text-xs">ID:{{ $id }}</span>
     </td>
     <td class="border px-2">
         <a class="link" href="mailto:{{ $email }}">{{ $email }}</a><br>

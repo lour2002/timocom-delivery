@@ -3,7 +3,7 @@
         <div class="w-7/12">
             <a class="row cursor-pointer" href="{{ route('task', ['id' => $task_id]) }}">
                 <div class="col-lg-12">
-                    <span class="badge badge-danger">#{{ $task_id }} | {{ $task_status }}</span> <span class="fs085"><b>{{$task_name}}</b></span>
+                    <span class="badge badge-danger">#{{ $task_id }} | {{ $task_title_status }}</span> <span class="fs085"><b>{{$task_name}}</b></span>
                 </div>
                 <div class="col-lg-12">
                     <div class="fs085">
@@ -27,9 +27,15 @@
         </div>
         <div class="w-5/12">
             <div class="col-lg-12 mt-3 text-center">
-                <button type="button" class="btn btn-success btn-sm ch_st_t" data-id_task="1143" data-status="3"><i class="fas fa-play-circle"></i> START</button>
-                <button type="button" class="btn btn-primary btn-sm ch_st_t" data-id_task="1143" data-status="2"><i class="fab fa-stumbleupon-circle"></i> TEST</button>
-                <button type="button" class="btn btn-danger btn-sm" style="opacity: 0.2;" disabled=""><i class="fas fa-stop-circle"></i> STOP</button>
+                <x-button type="button" class="bg-green-500" :disabled="$task_status_job == '3' || $task_status_job == '2'">
+                    <i class="fas fa-play-circle"></i> START
+                </x-button>
+                <x-button type="button" class="" :disabled="$task_status_job == '3' || $task_status_job == '2'">
+                    <i class="fab fa-stumbleupon-circle"></i> TEST
+                </x-button>
+                <x-button type="button" class="bg-red-500" :disabled="$task_status_job == '0' || $task_status_job == '1'">
+                    <i class="fas fa-stop-circle"></i> STOP
+                </x-button>
                 <hr class="my-1">
                 <a href="{{ route('orders', $task_id) }}" class="text-info">show processed tasks</a>
             </div>

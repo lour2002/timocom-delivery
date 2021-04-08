@@ -8,6 +8,7 @@ use App\View\Components\SearchTask\View;
 
 class ListItem extends View
 {
+    public $task_title_status;
     public $task_dates_view;
     public $task_to_countries;
 
@@ -19,6 +20,7 @@ class ListItem extends View
     public function __construct($task)
     {
         parent::__construct($task);
+        $this->task_title_status = 'Stopped';
         // FROM
         $this->task_from_type = $this->FROM_TYPES[$this->task_from_type];
         // TO
