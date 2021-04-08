@@ -2,14 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Mail\DynamicEmail;
-use App\Models\EmailBlacklist;
 use App\Models\Order;
 use App\Models\OrderResult;
-use App\Models\Smtp;
-use App\Models\User;
+use App\Models\SearchResult;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\DB;
 
 class OrderController extends Controller
@@ -24,5 +21,20 @@ class OrderController extends Controller
                         ->where('order_result.task_id', '=', $taskId)
                         ->get()
         ]);
+    }
+
+    public function clean(Request $request)
+    {
+        $date = new \DateTime();
+        $dateEnd = $date->sub(new \DateInterval('P2D'));
+        try {
+            SearchResult::where('created_at', '<', $dateEnd)->delete();
+            OrderResult::where('created_at', '<', $dateEnd)->delete();
+            Order::where('created_at', '<', $dateEnd)->delete();
+            return response()->json(['success' => true]);
+        } catch (\Throwable $e) {
+            Log::debug('ERROR DELETE OLD DATA: '.$e->getMessage());
+            return response()->json(['success' => false]);
+        }
     }
 }

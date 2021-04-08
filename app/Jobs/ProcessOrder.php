@@ -113,6 +113,9 @@ class ProcessOrder implements ShouldQueue
 
         $entry = $doc->xpath('//*[@id="app:cnt:searchDetail:estimatedDistance"]');
         $result['distance'] = $entry[0]->text();
+        if (empty($result['distance'])) {
+            exit;
+        }
 
         $entry = $doc->find('.tco-loadingplace');
         $from = $to = [];
@@ -328,7 +331,7 @@ class ProcessOrder implements ShouldQueue
 
         if ($result) {
             if (!empty($order->price) && $order->price < $price) {
-                $percent = ($price / $order->price) * 100;
+                $percent = round($price * 100 / $order->price, 2);
                 if ($task->percent_stop_value && $percent > $task->percent_stop_value) {
                     $result = false;
                     $status = OrderResult::STATUS_OVERPRICE;
@@ -352,32 +355,34 @@ class ProcessOrder implements ShouldQueue
         if ($result) {
             $user = User::find($task->user_id);
             $companySettings = CompanySettings::where('user_id', '=', $user->id)->first();
-            $message = 'Hello dear {name}< br/><br />
-                    If your TIMOCOM OFFER on {date_collection} is still available, we could handle it for you
-                    FOR JUST {price} EUR!
-                    <br />
-                    SOLO TRIP, DIRECT DELIVERY, EXPRESS SERVICE ID GUARANTEED!
-                ';
-            //date_delivery???????????
+            $message = $task->email_template;
+
             $message = str_replace(
-                ['{name}', '{date_collection}', '{price}', '{date_delivery}'],
+                ['{name}', '{date_collection}', '{price}'],
                 [$order->name, $order->date_collection->format('Y-m-d'), $price],
                 $message
             );
 
-            //TODO:
-            $toEmail = $companySettings->email;
-            $data = array(
-                "subject" => 'Proposal',
-                "message" => $message,
-                "template" => 'email-template',
-                "from" => [
-                    'name' => $companySettings->name,
-                    'email' => $companySettings->email,
-                ],
-            );
+            $toEmail = '';
+            if ($task->status_job == 3) { //active task
+                $toEmail = $order->email;
+            } elseif ($task->status_job == 2) { //test task
+                $toEmail = $companySettings->email;
+            }
 
-            Mail::to($toEmail)->send(new DynamicEmail($data));
+            if (!empty($toEmail)) {
+                $data = array(
+                    "subject" => 'Proposal',
+                    "message" => $message,
+                    "template" => 'email-template',
+                    "from" => [
+                        'name' => $companySettings->name,
+                        'email' => $companySettings->email,
+                    ],
+                );
+
+                Mail::to($toEmail)->send(new DynamicEmail($data));
+            }
         }
     }
 }

@@ -3,8 +3,6 @@
 use App\Http\Controllers\CompanySettingsController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\SearchSettingsController;
-use App\Http\Controllers\PythonController;
-use App\Http\Controllers\SmtpController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -33,5 +31,6 @@ Route::post('/task/stop', [SearchSettingsController::class, 'stop'])->middleware
 // Route::get('/test_email', [SmtpController::class, 'testEmail']);
 
 Route::get('/orders/{taskId}', [OrderController::class, 'get'])->middleware(['auth'])->name('orders');
+Route::get('/clean', [OrderController::class, 'clean'])->middleware(['auth'])->name('clean');
 
 require __DIR__.'/auth.php';
