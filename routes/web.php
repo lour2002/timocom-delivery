@@ -23,6 +23,9 @@ Route::post('/company', [CompanySettingsController::class, 'set'])->middleware([
 Route::get('/', [SearchSettingsController::class, 'all'])->middleware(['auth'])->name('dashboard');
 Route::get('/task/{id?}', [SearchSettingsController::class, 'get'])->middleware(['auth'])->name('task');
 Route::post('/task/store', [SearchSettingsController::class, 'store'])->middleware(['auth']);
+Route::post('/task/start', [SearchSettingsController::class, 'start'])->middleware(['auth'])->name('start');
+Route::post('/task/test', [SearchSettingsController::class, 'test'])->middleware(['auth'])->name('test');
+Route::post('/task/stop', [SearchSettingsController::class, 'stop'])->middleware(['auth'])->name('stop');
 
 // TODO: Delete after release
 // Route::get('/smtp', [SmtpController::class, 'get'])->middleware(['auth'])->name('smtp');

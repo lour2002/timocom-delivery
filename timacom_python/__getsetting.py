@@ -28,7 +28,7 @@ def get_setting(number_tab, domain_key, user_key):
         print('... ERROR: Не получили настройки! | TimeoutException')
         status_get = '0'
     # возвращаем
-    data = dict();
+    data = dict()
     if status_get == '1':
         data['id_task']=id_task
         data['status_get']=status_get
