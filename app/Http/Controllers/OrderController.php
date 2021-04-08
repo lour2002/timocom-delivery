@@ -19,10 +19,11 @@ class OrderController extends Controller
         return view('orders', [
             'id' => $taskId,
             'orders' => DB::table('order_result')
-                        ->join('orders', 'order_result.order_id', '=', 'orders.id')
-                        ->select('orders.*', 'order_result.price AS price', 'order_result.status','order_result.reason','order_result.created_at')
-                        ->where('order_result.task_id', '=', $taskId)
-                        ->get()
+                           ->join('orders', 'order_result.order_id', '=', 'orders.id')
+                           ->select('orders.*', 'order_result.price AS price', 'order_result.status','order_result.reason',
+                                    DB::raw('DATE_FORMAT(order_result.created_at, "%H:%i:%s") as time'),
+                                    DB::raw('DATE_FORMAT(order_result.created_at, "%d.%m.%Y") as date'))
+                           ->where('order_result.task_id', '=', $taskId)->get()
         ]);
     }
 }

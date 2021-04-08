@@ -111,6 +111,7 @@ class ProcessOrder implements ShouldQueue
         $entry = $doc->xpath('//*[@id="app:cnt:searchDetail:unloadingPlacesAmount"]');
         $result['unloading_places'] = $entry[0]->text();
 
+        // TODO:  может быть пустая строка
         $entry = $doc->xpath('//*[@id="app:cnt:searchDetail:estimatedDistance"]');
         $result['distance'] = $entry[0]->text();
 
@@ -332,7 +333,7 @@ class ProcessOrder implements ShouldQueue
                 if ($task->percent_stop_value && $percent > $task->percent_stop_value) {
                     $result = false;
                     $status = OrderResult::STATUS_OVERPRICE;
-                    $reason[$status] = 'Overprice more than '. $task->percent_stop_value.'%'.': '. $order->price.'->'.$price;
+                    $reason[$status] = 'Overprice more than '. $task->percent_stop_value.'%'.': '. $price.'>'.$order->price;
                 }
             }
         }

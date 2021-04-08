@@ -24,7 +24,7 @@
         </x-label>
         <x-label class="block">
             {{ __('Radius') }}
-            <x-input class="block " type="number" :value="$task_from_radius" name="as_radius" step="10" :placeholder="__('Radius')" />
+            <x-input class="block " type="number" :value="$task_from_radius" name="as_radius" min="0" step="1" :placeholder="__('Radius')" />
         </x-label>
     </x-container>
     <x-container class="--form">
@@ -130,15 +130,15 @@
         </x-label>
         <x-label class="block">
             Cost per kilometer of an empty car (of 1 km / €)
-            <x-input class="block " step="0.05" min="0" max="10" type="number" :value="$task_price_empty" name="car_price_empty" placeholder="0.00" />
+            <x-input class="block " step="0.01" min="0" max="10" type="number" :value="$task_price_empty" name="car_price_empty" placeholder="0.00" />
         </x-label>
         <x-label class="block">
             Cost per kilometer of loaded car (of 1 km / €)
-            <x-input class="block " step="0.05" min="0" max="10" type="number" :value="$task_price_full" name="car_price" placeholder="0.00" />
+            <x-input class="block " step="0.01" min="0" max="10" type="number" :value="$task_price_full" name="car_price" placeholder="0.00" />
         </x-label>
         <x-label class="block">
             Extra stop extra charge (%)
-            <x-input class="block " step="10" min="0" max="999" type="number" :value="$task_extra_points" name="car_price_extra_points" placeholder="0 %" />
+            <x-input class="block " step="1" min="0" max="999" type="number" :value="$task_extra_points" name="car_price_extra_points" placeholder="0 %" />
         </x-label>
     </x-container>
     <x-container class="--form">
@@ -153,14 +153,14 @@
         <span>Cost below which the order will not be processed. The offer will not be sent to the customer.</span>
         <x-label class="block">
             The minimum value in euros:
-            <x-input class="block" step="10" min="0" type="number" :value="$task_min_price" name="minimal_price_order" placeholder="0" />
+            <x-input class="block" step="1" min="0" type="number" :value="$task_min_price" name="minimal_price_order" placeholder="0" />
         </x-label>
     </x-container>
     <x-container class="--form">
         <h2>PROTECTION FROM "ARE YOU A FOOL?":</h2>
         <x-label class="block">
             Do not send an offer if the price offered is YOUR_PERCENT% higher than the price set by the customer. Specify the percentage and activate the function.
-            <x-input class="block" step="10" min="0" type="number" :value="$task_stop_percent" name="percent_stop_value" placeholder="0" />
+            <x-input class="block" step="1" min="0" type="number" :value="$task_stop_percent" name="percent_stop_value" placeholder="0" />
         </x-label>
     </x-container>
     <x-container class="--form">
