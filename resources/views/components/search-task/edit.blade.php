@@ -105,11 +105,11 @@
         <br>
         <x-label>
             {{__('Individual days:')}}
-            <x-input id="task_individual_days" class="block " type="text" :value="$task_individual_days" name="individual_days" />
+            <x-input id="task_individual_days" class="block " type="date" :value="$task_individual_days" name="individual_days" />
         </x-label>
         <x-label :value="__('Period:')" />
-        <x-input id="task_period_start" class="block " type="text" :value="$task_period_start" name="period_start" />
-        <x-input id="task_period_stop" class="block " type="text" :value="$task_period_stop" name="period_stop" />
+        <x-input id="task_period_start" class="block " type="date" :value="$task_period_start" name="period_start" />
+        <x-input id="task_period_stop" class="block " type="date" :value="$task_period_stop" name="period_stop" />
     </x-container>
 
     <!-- ---------------------------------------------------------------------------------- --!>
