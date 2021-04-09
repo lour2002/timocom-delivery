@@ -27,13 +27,13 @@
         </div>
         <div class="w-5/12">
             <div class="col-lg-12 mt-3 text-center">
-                <x-button type="button" color="bg-green-500" :disabled="$task_status_job == '3' || $task_status_job == '2'">
+                <x-button type="button" color="--success" :disabled="$task_status_job == '3' || $task_status_job == '2'">
                     <i class="fas fa-play-circle"></i> START
                 </x-button>
-                <x-button type="button" class="" :disabled="$task_status_job == '3' || $task_status_job == '2'">
+                <x-button type="button" :disabled="$task_status_job == '3' || $task_status_job == '2'">
                     <i class="fab fa-stumbleupon-circle"></i> TEST
                 </x-button>
-                <x-button type="button" color="bg-red-500" :disabled="$task_status_job == '0' || $task_status_job == '1'">
+                <x-button type="button" color="--red" :disabled="$task_status_job == '0' || $task_status_job == '1'">
                     <i class="fas fa-stop-circle"></i> STOP
                 </x-button>
                 <hr class="my-1">

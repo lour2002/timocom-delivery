@@ -20,6 +20,18 @@
   }
 }
 
+.block__title {
+  @apply text-lg uppercase relative font-bold mb-4;
+  color: #fb6340;
+}
+
 .page-nav {
     @apply z-10 relative flex justify-between items-center;
+}
+
+.tab__title {
+  @apply flex-1 mr-3;
+  &:last-child {
+    @apply mr-0;
+  }
 }

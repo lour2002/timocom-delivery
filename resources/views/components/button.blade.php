@@ -1,7 +1,7 @@
 @props(['value', 'color'])
 
 @php
-$color = $color ?? 'bg-indigo-400';
+$color = $color ?? '--primary';
 @endphp
 
 <button {{ $attributes->merge(['type' => 'submit', 'class' => 'btn '.$color]) }}>
