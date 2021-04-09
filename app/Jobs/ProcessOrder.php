@@ -111,7 +111,6 @@ class ProcessOrder implements ShouldQueue
         $entry = $doc->xpath('//*[@id="app:cnt:searchDetail:unloadingPlacesAmount"]');
         $result['unloading_places'] = $entry[0]->text();
 
-        // TODO:  может быть пустая строка
         $entry = $doc->xpath('//*[@id="app:cnt:searchDetail:estimatedDistance"]');
         $result['distance'] = $entry[0]->text();
         if (empty($result['distance'])) {
@@ -298,25 +297,27 @@ class ProcessOrder implements ShouldQueue
                 Log::debug($address);
                 Log::debug(print_r($coordTo));
 
+                if (!empty($coordFrom) && !empty($coordTo)) {
 
-                require_once __DIR__ . '/../../lib/OSMap/OSMapPoint.php';
-                require_once __DIR__ . '/../../lib/OSMap/OSMapOpenRoute.php';
-                require_once __DIR__ . '/../../lib/OSMap/OSMapOpenRouteStep.php';
+                    require_once __DIR__ . '/../../lib/OSMap/OSMapPoint.php';
+                    require_once __DIR__ . '/../../lib/OSMap/OSMapOpenRoute.php';
+                    require_once __DIR__ . '/../../lib/OSMap/OSMapOpenRouteStep.php';
 
-                $oOR = new OSMapOpenRoute('5b3ce3597851110001cf6248f156d08190e241fa80a09ac3f96d1132');
+                    $oOR = new OSMapOpenRoute('5b3ce3597851110001cf6248f156d08190e241fa80a09ac3f96d1132');
 
-                $oOR->setLanguage('EN');
-                $oOR->setVehicleType(OSMapOpenRoute::VT_HGV);    // we're driving heavy goods ;-)
-                $oOR->setFormat(OSMapOpenRoute::FMT_JSON);
-                $oOR->enableInstructions();
-                $oOR->setInstructionFormat(OSMapOpenRoute::IF_HTML);
+                    $oOR->setLanguage('EN');
+                    $oOR->setVehicleType(OSMapOpenRoute::VT_HGV);    // we're driving heavy goods ;-)
+                    $oOR->setFormat(OSMapOpenRoute::FMT_JSON);
+//                $oOR->enableInstructions();
+//                $oOR->setInstructionFormat(OSMapOpenRoute::IF_HTML);
 
-                $aRoute = [];
-                $aRoute[] = $coordFrom[0]['lat'].', '. $coordFrom[0]['lon'];
-                $aRoute[] = $coordTo[0]['lat'].', '. $coordTo[0]['lon'];
+                    $aRoute = [];
+                    $aRoute[] = $coordFrom[0]['lat'] . ', ' . $coordFrom[0]['lon'];
+                    $aRoute[] = $coordTo[0]['lat'] . ', ' . $coordTo[0]['lon'];
 
-                if ($oOR->calcRoute($aRoute)) {
-                    $car_location = round($oOR->getDistance() / 1000);
+                    if ($oOR->calcRoute($aRoute)) {
+                        $car_location = round($oOR->getDistance() / 1000);
+                    }
                 }
                 Log::debug('car_location = ' . $car_location);
             }
