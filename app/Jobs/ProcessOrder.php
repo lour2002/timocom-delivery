@@ -262,11 +262,11 @@ class ProcessOrder implements ShouldQueue
             $car_location = 0;
             if (!empty($task->car_country) && (!empty($task->car_zip) || !empty($task->car_city))) {
                 $address = '';
-                if (!empty($task->car_zip)) {
-                    $address .= $task->car_zip;
-                }
                 $country = explode(' ', $task->car_country)[1];
-                $address .= !empty($address) ? ','.$country : $country;
+                $address .= $country;
+                if (!empty($task->car_zip)) {
+                    $address .= !empty($address) ? ','.$task->car_zip : $task->car_zip;
+                }
                 if (!empty($task->car_city)) {
                     $address .= !empty($address) ? ',' . $task->car_city : $task->car_city;
                 }
@@ -277,18 +277,19 @@ class ProcessOrder implements ShouldQueue
                 );
                 $coordFrom = json_decode($coordFrom->getBody()->getContents(), true);
                 Log::debug($address);
-                Log::debug(print_r($coordFrom));
+                Log::debug($coordFrom);
 
                 $address = '';
                 $from = json_decode($order->from, true)[0];
-                if (!empty($from['from_zip'])) {
-                    $address .= $from['from_zip'];
-                }
                 $country = explode(' - ', $from['from_country'])[1];
-                $address .= !empty($address) ? ',' . $country : $country;
+                $address .= $country;
+                if (!empty($from['from_zip'])) {
+                    $address .= !empty($address) ? ',' . $from['from_zip'] : $from['from_zip'];
+                }
                 if (!empty($from['from_city'])) {
                     $address .= !empty($address) ? ',' . $from['from_city'] : $from['from_city'];
                 }
+
                 $client = new \GuzzleHttp\Client();
                 $coordTo = $client->request(
                     'GET',
@@ -296,7 +297,7 @@ class ProcessOrder implements ShouldQueue
                 );
                 $coordTo = json_decode($coordTo->getBody()->getContents(), true);
                 Log::debug($address);
-                Log::debug(print_r($coordTo));
+                Log::debug($coordTo);
 
 
                 require_once __DIR__ . '/../../lib/OSMap/OSMapPoint.php';
