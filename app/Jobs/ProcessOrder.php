@@ -309,8 +309,8 @@ class ProcessOrder implements ShouldQueue
                     $oOR->setLanguage('EN');
                     $oOR->setVehicleType(OSMapOpenRoute::VT_HGV);    // we're driving heavy goods ;-)
                     $oOR->setFormat(OSMapOpenRoute::FMT_JSON);
-//                $oOR->enableInstructions();
-//                $oOR->setInstructionFormat(OSMapOpenRoute::IF_HTML);
+//                  $oOR->enableInstructions();
+//                  $oOR->setInstructionFormat(OSMapOpenRoute::IF_HTML);
 
                     $aRoute = [];
                     $aRoute[] = $coordFrom[0]['lat'] . ', ' . $coordFrom[0]['lon'];
