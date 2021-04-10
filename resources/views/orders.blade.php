@@ -4,11 +4,11 @@
         <div>
             <table class="border w-full">
                 <tr>
-                    <th class="border text-left"></th>
-                    <th class="border text-left"></th>
-                    <th class="border text-left"></th>
-                    <th class="border text-left">ROUTE:</th>
-                    <th class="border text-left">REMARK:</th>
+                    <th class="px-2 border text-left"></th>
+                    <th class="px-2 border text-left">Time:</th>
+                    <th class="px-2 border text-left">Contacts:</th>
+                    <th class="px-2 border text-left">Route:</th>
+                    <th class="px-2 border text-left">Remark:</th>
                 </tr>
             @foreach ($orders as $item)
                 <x-orders.list-item :order="$item" />

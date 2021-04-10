@@ -6,7 +6,9 @@
             @foreach ($list as $task)
                 <x-search-task.list-item :task="$task" />
             @endforeach
-            <a href="{{ route('task') }}" class="btn">ADD NEW TASK</a>
+            @if (count($list) < 5)
+                <a href="{{ route('task') }}" class="btn">ADD NEW TASK</a>
+            @endif
         </div>
     </x-container>
 </x-app-layout>

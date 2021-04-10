@@ -3,7 +3,7 @@
         <div class="w-7/12">
             <a class="row cursor-pointer" href="{{ route('task', ['id' => $task_id]) }}">
                 <div class="col-lg-12">
-                    <span class="badge badge-danger">#{{ $task_id }} | {{ $task_title_status }}</span> <span class="fs085"><b>{{$task_name}}</b></span>
+                    <span class="badge badge-danger">#{{ $task_id }} | </span> <span class="fs085"><b>{{$task_name}}</b></span>
                 </div>
                 <div class="col-lg-12">
                     <div class="fs085">
@@ -26,18 +26,21 @@
             </a>
         </div>
         <div class="w-5/12">
-            <div class="col-lg-12 mt-3 text-center">
-                <x-button type="button" color="--success" :disabled="$task_status_job == '3' || $task_status_job == '2'">
+            <div class="col-lg-12 mt-3 text-center" x-data="switchTask({{ $task_id }})">
+                <x-button x-ref="start" type="button" color="--success" x-spread="start"
+                    :disabled="$task_status_job == '3' || $task_status_job == '2'">
                     <i class="fas fa-play-circle"></i> START
                 </x-button>
-                <x-button type="button" :disabled="$task_status_job == '3' || $task_status_job == '2'">
+                <x-button x-ref="test" type="button" x-spread="test"
+                    :disabled="$task_status_job == '3' || $task_status_job == '2'">
                     <i class="fab fa-stumbleupon-circle"></i> TEST
                 </x-button>
-                <x-button type="button" color="--red" :disabled="$task_status_job == '0' || $task_status_job == '1'">
+                <x-button x-ref="stop" type="button" color="--red" x-spread="stop"
+                    :disabled="$task_status_job == '0' || $task_status_job == '1'" >
                     <i class="fas fa-stop-circle"></i> STOP
                 </x-button>
                 <hr class="my-1">
-                <a href="{{ route('orders', $task_id) }}" class="text-info">show processed tasks</a>
+                <a href="{{ route('orders', $task_id) }}" class="link">show processed tasks</a>
             </div>
             <div class="bg-green-500 bg-red-500"></div>
         </div>

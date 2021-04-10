@@ -5,13 +5,13 @@
 .btn {
   @apply shadow-sm inline-flex items-center px-4 py-2 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-indigo-300 active:bg-indigo-600 focus:outline-none disabled:opacity-25 transition ease-in-out duration-150;
   &.--primary {
-    @apply bg-indigo-400 hover:bg-indigo-300 active:bg-indigo-600;
+    @apply bg-indigo-400 hover:bg-indigo-300 active:bg-indigo-600 disabled:bg-indigo-300;
   }
   &.--success {
-    @apply bg-indigo-400 hover:bg-indigo-300 active:bg-indigo-600;
+    @apply bg-green-400 hover:bg-green-300 active:bg-green-600 disabled:bg-green-300;
   }
   &.--red {
-    @apply bg-indigo-400 hover:bg-indigo-300 active:bg-indigo-600;
+    @apply bg-red-400 hover:bg-red-300 active:bg-red-600 disabled:bg-red-300;
   }
   &.--simple {
     @apply border-indigo-400 text-indigo-400 hover:text-white;

@@ -9,6 +9,7 @@ class ListItem extends Component
 {
 
     public $id;
+    public $offer_id;
     public $status;
     public $status_class;
     public $time;
@@ -32,24 +33,25 @@ class ListItem extends Component
         //dd($order->created_at);
         $this->id = $order->id;
         $this->status = $order->status;
+        $this->offer_id = $order->offer_id;
 
         switch($order->status){
             case OrderResult::STATUS_NONE:
             $this->status_class = '';
             break;
             case OrderResult::STATUS_SENT:
-            $this->status_class = 'text-green-500 fa-check-square';
+            $this->status_class = 'fa-2x text-green-500 fa-check-square';
             break;
             case OrderResult::STATUS_BORDER:
             case OrderResult::STATUS_DUPLICATE:
             case OrderResult::STATUS_EQUIPMENT:
-            $this->status_class = 'text-red-500 fa-minus-square';
+            $this->status_class = 'fa-2x text-red-500 fa-minus-square';
             break;
             case OrderResult::STATUS_STOP:
-            $this->status_class = 'text-yellow-500 fa-pen-square';
+            $this->status_class = 'fa-2x text-yellow-500 fa-pen-square';
             break;
             case OrderResult::STATUS_OVERPRICE:
-            $this->status_class = 'text-yellow-500 fa-money-check-alt';
+            $this->status_class = 'fa-lg text-yellow-500 fa-money-check-alt';
             break;
         }
 

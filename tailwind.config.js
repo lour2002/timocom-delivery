@@ -1,7 +1,7 @@
 module.exports = {
     purge: {
-        // enabled: true,
-        // content: ['./resources/views/**/*.blade.php','./public/*.html'],
+        enabled: true,
+        content: ['./resources/views/**/*.blade.php','./public/*.html'],
     },
     darkMode: false, // or 'media' or 'class'
     theme: {
@@ -12,7 +12,7 @@ module.exports = {
     },
     variants: {
         extend: {
-            backgroundColor: ['active', 'checked'],
+            backgroundColor: ['active', 'checked', 'disabled'],
             outline: ['active'],
             opacity: ['disabled']
         }

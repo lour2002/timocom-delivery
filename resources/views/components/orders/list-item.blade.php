@@ -1,6 +1,6 @@
 <tr>
     <td class="border px-2">
-    <i class="fas fa-2x {{ $status_class }}"></i>
+    <i class="fas {{ $status_class }}"></i>
     <span class="text-green-500 text-yellow-500 text-red-500"></span>
     </td>
     <td class="border px-2">
@@ -15,19 +15,26 @@
         <span>{{ $name }}</span><br>
         <span>{{ $phone }}<span>
     </td>
-    <td class="border">
+    <td class="border px-2">
+
         @foreach ($from as $point)
-            {{ $point['from_country'] }} {{ $point['from_zip'] }} -><br>
-            {{ $point['from_date1']['date'] }}<br>
+        <div class="mb-1">
+            <i class="text-green-600 far fa-arrow-alt-circle-down mr-1"></i><b>{{ $point['from_country'] }} {{ $point['from_zip'] }}</b> -><br>
+            {{ $point['from_date1']['date'] }}
+        </div>
         @endforeach
+
         @foreach ($to as $point)
-            {{ $point['to_country'] }} {{ $point['to_zip'] }} -><br>
-            {{ $point['to_date1']['date'] }}<br>
+            <div class="mb-1">
+                <i class="text-yellow-600 far fa-arrow-alt-circle-up mr-1"></i><b>{{ $point['to_country'] }} {{ $point['to_zip'] }}</b> -><br>
+                {{ $point['to_date1']['date'] }}
+            </div>
         @endforeach
     </td>
-    <td class="border">
-        Price: {{ $price }} <br>
-        Distance: {{ $distance }} <br>
-        Reason: {{ $reason }}
+    <td class="border px-2">
+        <span class="text-sm"><b>Price:</b> {{ $price }}</span> <br>
+        <span class="text-sm"><b>Distance:</b> {{ $distance }}</span> <br>
+        <span class="text-sm"><b>Reason:</b> {{ $reason }}</span>
+        <a class="block my-3 text-gray-500 underline text-sm" target="_blank" href="{{$offer_id}}">timocom link</a>
     </td>
 </tr>

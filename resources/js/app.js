@@ -142,15 +142,61 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 })
 
-window.settingsFormEdit = function () {
+window.switchTask = function (taskId) {
+  const changeTaskStatus = function (status) {
+    const url = `/task/${status}`;
+    const formData = new FormData();
+    formData.append('_token', document.querySelector('meta[name="csrf-token"]').getAttribute('content'));
+    formData.append('id', taskId);
+
+    return axios({
+      method: 'post',
+      url: url,
+      data: {
+        id: taskId,
+      }
+    }).then(({data}) => {
+      if (!data.success) new Error(data.message);
+      return
+    })
+
+    // return fetch(url, {
+    //   method: "POST",
+    //   body: formData
+    // })
+  };
   return {
-    showModal: true,
-    data: {
-      tagsValue: '',
+    stop: {
+      ['@click']($event) {
+        $event.target.disabled = true;
+        changeTaskStatus('stop').then(() => {
+          this.$refs.start.disabled = false;
+          this.$refs.test.disabled = false;
+        }).catch((e) => {
+          console.log(e);
+        })
+      }
     },
-    trigger: {
-      ['@click'](url) {
-        this.showModal = true;
+    test: {
+      ['@click']($event) {
+        this.$refs.start.disabled = true;
+        $event.target.disabled = true;
+        changeTaskStatus('test').then(() => {
+          this.$refs.stop.disabled = false;
+        }).catch((e) => {
+          console.log(e);
+        })
+      }
+    },
+    start: {
+      ['@click']($event) {
+        $event.target.disabled = true;
+        this.$refs.test.disabled = true;
+        changeTaskStatus('start').then(() => {
+          this.$refs.stop.disabled = false;
+        }).catch((e) => {
+          console.log(e);
+        })
       }
     },
   }
