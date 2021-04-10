@@ -13,11 +13,18 @@
   &.--red {
     @apply bg-indigo-400 hover:bg-indigo-300 active:bg-indigo-600;
   }
+  &.--simple {
+    @apply border-indigo-400 text-indigo-400 hover:text-white;
+  }
 
 }
 
 .checkbox {
-  @apply rounded border-gray-300 text-indigo-600 shadow-sm active:outline-none focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 checked:bg-indigo-300;
+  @apply rounded h-auto border-gray-300 text-indigo-600 shadow-sm active:outline-none focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 checked:bg-indigo-300;
+}
+
+.textarea {
+  @apply h-96;
 }
 
 .radio {

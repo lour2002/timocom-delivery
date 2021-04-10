@@ -21,7 +21,7 @@
 }
 
 .block__title {
-  @apply text-lg uppercase relative font-bold mb-4;
+  @apply text-lg uppercase relative font-bold mb-3;
   color: #fb6340;
 }
 
@@ -34,4 +34,16 @@
   &:last-child {
     @apply mr-0;
   }
+}
+
+.tags {
+  @apply flex flex-wrap border p-3 border-indigo-400;
+}
+.tags__item {
+  @apply bg-indigo-400 rounded text-white text-sm inline-block px-2 py-1 m-1;
+}
+
+.close {
+  font-family: Dejavu Sans;
+  cursor: pointer;
 }
