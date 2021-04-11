@@ -143,8 +143,8 @@
     </section>
 
     <section x-show="tab === 2"  class="tab-content">
-        {{--
-        <x-container class="--form flex flex-wrap">
+
+        <x-container class="--form flex flex-wrap hidden">
             <h2 class="block__title w-full">CURRENT POSITION OF THE TRUCK:</h2>
             <x-label class="flex-grow w-2/6 mr-3 mb-3">
                 <b>Country of location</b>
@@ -159,7 +159,7 @@
                 <x-input class="w-full" type="text" :value="$task_car_city" name="car_city" placeholder="City" disabled />
             </x-label>
         </x-container>
-        --}}
+
         <x-container class="--form flex flex-wrap">
             <h2 class="block__title w-full">TRUCK PRICE:</h2>
 
@@ -254,24 +254,19 @@
         <x-container class="--form flex flex-wrap">
             <h2 class="block__title w-full">EMAIL TEMPLATE:</h2>
             <div class="w-9/12">
-                <textarea  class="input textarea w-full text-sm" id="email_template" type="text" name="email_template">
-                    {{ $task_email_template }}
-                </textarea>
-                {{--
+                <textarea  class="hidden" id="email_template" type="text" name="email_template"></textarea>
                 <div id="email_template_new" class="resizable" style="height: 400px; color:#000; font-size: 14px;">
-                    {{ $task_email_template }}
+                    {!! $task_email_template !!}
                 </div>
-                --}}
             </div>
-            {{--
-            <div class="w-3/12">
+            <div class="w-3/12 pl-2">
                 <div><a href="#" class="add_data" data-insert="{name}">{name}</a></div>
                 <div><a href="#" class="add_data" data-insert="{full_name}">{full_name}</a></div>
                 <div><a href="#" class="add_data" data-insert="{date_collection}">{date_collection}</a></div>
                 <div><a href="#" class="add_data" data-insert="{price}">{price}</a></div>
-                <div><a href="#" class="add_data" data-insert="{HTML_signature}">{HTML signature}</a></div>
+                {{--<div><a href="#" class="add_data" data-insert="{HTML_signature}">{HTML signature}</a></div>--}}
             </div>
-            --}}
+
         </x-container>
     </section>
 
