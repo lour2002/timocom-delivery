@@ -148,15 +148,15 @@
             <h2 class="block__title w-full">CURRENT POSITION OF THE TRUCK:</h2>
             <x-label class="flex-grow w-2/6 mr-3 mb-3">
                 <b>Country of location</b>
-                <x-search-task.country-select class="w-full" name="car_country" id="task_from_country"  :value="$task_car_country" disabled />
+                <x-search-task.country-select class="w-full" name="car_country" id="task_from_country"  :value="$task_car_country" />
             </x-label>
             <x-label class="flex-grow mr-3 mb-3">
                 <b>ZIP code</b>
-                <x-input class="w-full" type="number" :value="$task_car_zip" name="car_zip" placeholder="ZIP code" disabled />
+                <x-input class="w-full" type="number" :value="$task_car_zip" name="car_zip" placeholder="ZIP code" />
             </x-label>
             <x-label class="flex-grow w-2/6 mb-3">
                 <b>City</b>
-                <x-input class="w-full" type="text" :value="$task_car_city" name="car_city" placeholder="City" disabled />
+                <x-input class="w-full" type="text" :value="$task_car_city" name="car_city" placeholder="City" />
             </x-label>
         </x-container>
 

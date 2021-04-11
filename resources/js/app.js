@@ -105,7 +105,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     quill.on('text-change', function(delta, oldDelta, source) {
       if (source === 'user') {
-        document.getElementById('email_template').value = quill.getText();
+        document.getElementById('email_template').value = quill.root.innerHTML;
       }
     });
 
