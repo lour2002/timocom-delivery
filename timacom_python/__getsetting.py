@@ -6,7 +6,7 @@ from selenium.common.exceptions import TimeoutException
 
 def get_setting(number_tab, domain_key, user_key):
     try:
-        check_url = str(domain_key)+'/api/get_task/?user_key='+user_key+'&num='+str(number_tab)
+        check_url = str(domain_key)+'/api/get_task/?user_key='+user_key+'&num='+str(number_tab+1)
         print('get data:', check_url)
         check_json_data = requests.get(check_url, verify=False)
         check_json_data.encoding = check_json_data.apparent_encoding # исправляем кодировку

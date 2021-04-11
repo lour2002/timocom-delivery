@@ -27,12 +27,7 @@ class SearchSettingsController extends Controller
         ])->first();
 
         if (null !== $task) {
-//             $max = Task::max('num');
-//             if (5 < $max+1) {
-//                 return response()->json(['success' => false, 'error' => 'Only five active jobs allow']);
-//             }
             $task->status_job = '3';
-//             $task->num = $max+1;
             $task->save();
             return response()->json(['success' => true]);
         }
@@ -48,12 +43,7 @@ class SearchSettingsController extends Controller
         ])->first();
 
         if (null !== $task) {
-//             $max = Task::max('num');
-//             if (5 < $max + 1) {
-//                 return response()->json(['success' => false, 'error' => 'Only five active jobs allow']);
-//             }
             $task->status_job = '2';
-//             $task->num = $max + 1;
             $task->save();
             return response()->json(['success' => true]);
         }
@@ -70,7 +60,6 @@ class SearchSettingsController extends Controller
 
         if (null !== $task) {
             $task->status_job = '1';
-//             $task->num = 0;
             $task->save();
             return response()->json(['success' => true]);
         }
@@ -137,6 +126,11 @@ class SearchSettingsController extends Controller
         $input['cross_border'] = json_encode(array_values($crossBorder));
 
         if (!array_key_exists('id', $input)) {
+            $max = Task::max('num');
+            if (5 < $max + 1) {
+                return response()->json(['success' => false, 'error' => 'Only five active jobs allow']);
+            }
+            $input['num'] = $max + 1;
             $task = Task::create($input);
         } else {
             $task = Task::find($input['id']);
