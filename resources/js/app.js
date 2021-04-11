@@ -156,14 +156,8 @@ window.switchTask = function (taskId) {
         id: taskId,
       }
     }).then(({data}) => {
-      if (!data.success) new Error(data.message);
-      return
+      if (!data.success) throw new Error(data.message);
     })
-
-    // return fetch(url, {
-    //   method: "POST",
-    //   body: formData
-    // })
   };
   return {
     stop: {
