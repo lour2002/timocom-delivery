@@ -31,7 +31,7 @@
                 <x-input id="email" class="w-full block mt-1" type="email" name="email" :value="$settings['email'] ?? ''" :placeholder="__('Email')" required />
             </div>
             <div class="text-right">
-                <input type="submit" value="Save Company setting" class="btn mt-2">
+                <x-button value="Save Company setting" class="mt-2" color="--primary" />
             </div>
         </form>
     </x-container>
