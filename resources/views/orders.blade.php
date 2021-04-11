@@ -1,7 +1,7 @@
 <x-app-layout>
     <x-container class="--container">
         <h1 class="page-title">ORDERS LIST: TASK #{{ $id }}</h1>
-        <div>
+        <div class="overflow-auto" style="overflow: auto">
             <table class="border w-full">
                 <tr>
                     <th class="px-2 border text-left"></th>
