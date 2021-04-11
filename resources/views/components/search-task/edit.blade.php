@@ -256,7 +256,9 @@
         <x-container class="--form flex flex-wrap">
             <h2 class="block__title w-full">EMAIL TEMPLATE:</h2>
             <div class="w-9/12">
-                <textarea  class="hidden" id="email_template" type="text" name="email_template"></textarea>
+                <textarea  class="hidden" id="email_template" type="text" name="email_template">
+                    {{ $task_email_template }}
+                </textarea>
                 <div id="email_template_new" class="resizable" style="height: 400px; color:#000; font-size: 14px;">
                     {!! $task_email_template !!}
                 </div>
