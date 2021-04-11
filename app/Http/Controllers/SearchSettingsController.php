@@ -27,12 +27,12 @@ class SearchSettingsController extends Controller
         ])->first();
 
         if (null !== $task) {
-            $max = Task::max('num');
-            if (5 < $max+1) {
-                return response()->json(['success' => false, 'error' => 'Only five active jobs allow']);
-            }
+//             $max = Task::max('num');
+//             if (5 < $max+1) {
+//                 return response()->json(['success' => false, 'error' => 'Only five active jobs allow']);
+//             }
             $task->status_job = '3';
-            $task->num = $max+1;
+//             $task->num = $max+1;
             $task->save();
             return response()->json(['success' => true]);
         }
@@ -48,12 +48,12 @@ class SearchSettingsController extends Controller
         ])->first();
 
         if (null !== $task) {
-            $max = Task::max('num');
-            if (5 < $max + 1) {
-                return response()->json(['success' => false, 'error' => 'Only five active jobs allow']);
-            }
+//             $max = Task::max('num');
+//             if (5 < $max + 1) {
+//                 return response()->json(['success' => false, 'error' => 'Only five active jobs allow']);
+//             }
             $task->status_job = '2';
-            $task->num = $max + 1;
+//             $task->num = $max + 1;
             $task->save();
             return response()->json(['success' => true]);
         }
@@ -70,7 +70,7 @@ class SearchSettingsController extends Controller
 
         if (null !== $task) {
             $task->status_job = '1';
-            $task->num = 0;
+//             $task->num = 0;
             $task->save();
             return response()->json(['success' => true]);
         }
@@ -150,6 +150,6 @@ class SearchSettingsController extends Controller
             $task->save();
         }
 
-        return redirect()->route('task', ['id' => $task->id]);
+        return redirect()->route('dashboard');
     }
 }

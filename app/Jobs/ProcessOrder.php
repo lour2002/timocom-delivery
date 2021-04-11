@@ -125,8 +125,8 @@ class ProcessOrder implements ShouldQueue
                     'from_country' => $row->child(1)->text(),
                     'from_zip' => $row->child(2)->text(),
                     'from_city' => $row->child(3)->text(),
-                    'from_date1' => new \DateTime($row->child(4)->text())->format('d-m-Y'),
-                    'from_date2' => new \DateTime($row->child(6)->text())->format('d-m-Y'),
+                    'from_date1' => new \DateTime($row->child(4)->text()),
+                    'from_date2' => new \DateTime($row->child(6)->text()),
                     'from_time1' => $row->child(7)->text(),
                     'from_time2' => $row->child(9)->text(),
                 ];
@@ -136,8 +136,8 @@ class ProcessOrder implements ShouldQueue
                     'to_country' => $row->child(1)->text(),
                     'to_zip' => $row->child(2)->text(),
                     'to_city' => $row->child(3)->text(),
-                    'to_date1' => new \DateTime($row->child(4)->text())->format('d-m-Y'),
-                    'to_date2' => new \DateTime($row->child(6)->text())->format('d-m-Y'),
+                    'to_date1' => new \DateTime($row->child(4)->text()),
+                    'to_date2' => new \DateTime($row->child(6)->text()),
                     'to_time1' => $row->child(7)->text(),
                     'to_time2' => $row->child(9)->text(),
                 ];
