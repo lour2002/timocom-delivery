@@ -27,18 +27,25 @@
                 <x-radio class="align-middle" name="fromSelectOpt" :value="$task_from_type" checked />
                 <span class="align-middle text-base">{{ $FROM_TYPES[$task_from_type] }}</span>
             </x-label>
-            <x-label class="flex-shrink mr-3">
-                <b>Country</b>
-                <x-search-task.country-select name="as_country" id="task_from_country" :value="$task_from_country" />
-            </x-label>
-            <x-label class="flex-shrink mr-3">
-                <b>ZIP code</b>
-                <x-input class="block " type="number" :value="$task_from_zip" name="as_zip" placeholder="ZIP code" />
-            </x-label>
-            <x-label class="flex-shrink">
-                <b>{{ __('Radius') }}</b>
-                <x-input class="block " type="number" :value="$task_from_radius" name="as_radius" min="0" step="1" :placeholder="__('Radius')" />
-            </x-label>
+            <div class="w-3/4 flex-shrink flex flex-wrap">
+                <x-label class="flex-grow mr-3 mb-2">
+                    <b>Country</b>
+                    <x-search-task.country-select class="w-full" name="as_country" id="task_from_country" :value="$task_from_country" />
+                </x-label>
+                <x-label class="flex-grow mr-3 mb-2">
+                    <b>ZIP code</b>
+                    <x-input class="block w-full" type="number" :value="$task_from_zip" name="as_zip" placeholder="ZIP code" />
+                </x-label>
+                <x-label class="flex-grow mb-2">
+                    <b>{{ __('Radius') }}</b>
+                    <x-input class="block w-full" type="number" :value="$task_from_radius" name="as_radius" min="0" step="1" :placeholder="__('Radius')" />
+                </x-label>
+                <x-label class="flex-grow w-full">
+                    <b>City</b>
+                    <x-input class="w-full" type="text" :value="$task_car_city" name="car_city" placeholder="City" />
+                </x-label>
+            </div>
+
         </x-container>
         <x-container class="--form flex flex-wrap">
             <h2 class="block__title w-full">TO:</h2>
@@ -136,20 +143,28 @@
     </section>
 
     <section x-show="tab === 2"  class="tab-content">
-        <x-container class="--form flex flex-wrap">
+
+        <x-container class="--form flex flex-wrap hidden">
             <h2 class="block__title w-full">CURRENT POSITION OF THE TRUCK:</h2>
             <x-label class="flex-grow w-2/6 mr-3 mb-3">
                 <b>Country of location</b>
-                <x-search-task.country-select class="w-full" name="car_country" id="task_from_country" :value="$task_car_country" />
+                <x-search-task.country-select class="w-full" name="car_country" id="task_from_country"  :value="$task_car_country" disabled />
             </x-label>
             <x-label class="flex-grow mr-3 mb-3">
                 <b>ZIP code</b>
-                <x-input class="w-full" type="number" :value="$task_car_zip" name="car_zip" placeholder="ZIP code" />
+                <x-input class="w-full" type="number" :value="$task_car_zip" name="car_zip" placeholder="ZIP code" disabled />
             </x-label>
             <x-label class="flex-grow w-2/6 mb-3">
                 <b>City</b>
-                <x-input class="w-full" type="text" :value="$task_car_city" name="car_city" placeholder="City" />
+                <x-input class="w-full" type="text" :value="$task_car_city" name="car_city" placeholder="City" disabled />
             </x-label>
+        </x-container>
+
+        <x-container class="--form flex flex-wrap">
+            <h2 class="block__title w-full">TRUCK PRICE:</h2>
+
+
+
             <x-label class="flex-grow w-2/6 mr-3">
                 <b>Cost per kilometer of an empty car (of 1 km / €)</b>
                 <x-input class="w-full " step="0.01" min="0" max="10" type="number" :value="$task_price_empty" name="car_price_empty" placeholder="0.00" />
@@ -239,24 +254,19 @@
         <x-container class="--form flex flex-wrap">
             <h2 class="block__title w-full">EMAIL TEMPLATE:</h2>
             <div class="w-9/12">
-                <textarea  class="input textarea w-full text-sm" id="email_template" type="text" name="email_template">
-                    {{ $task_email_template }}
-                </textarea>
-                {{--
+                <textarea  class="hidden" id="email_template" type="text" name="email_template"></textarea>
                 <div id="email_template_new" class="resizable" style="height: 400px; color:#000; font-size: 14px;">
-                    {{ $task_email_template }}
+                    {!! $task_email_template !!}
                 </div>
-                --}}
             </div>
-            {{--
-            <div class="w-3/12">
+            <div class="w-3/12 pl-2">
                 <div><a href="#" class="add_data" data-insert="{name}">{name}</a></div>
                 <div><a href="#" class="add_data" data-insert="{full_name}">{full_name}</a></div>
                 <div><a href="#" class="add_data" data-insert="{date_collection}">{date_collection}</a></div>
                 <div><a href="#" class="add_data" data-insert="{price}">{price}</a></div>
-                <div><a href="#" class="add_data" data-insert="{HTML_signature}">{HTML signature}</a></div>
+                {{--<div><a href="#" class="add_data" data-insert="{HTML_signature}">{HTML signature}</a></div>--}}
             </div>
-            --}}
+
         </x-container>
     </section>
 
