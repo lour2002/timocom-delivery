@@ -40,6 +40,7 @@
                     <b>{{ __('Radius') }}</b>
                     <x-input class="block w-full" type="number" :value="$task_from_radius" name="as_radius" min="0" step="1" :placeholder="__('Radius')" />
                 </x-label>
+                {{-- TODO: maybe delete --}}
                 <x-label class="flex-grow w-full">
                     <b>City</b>
                     <x-input class="w-full" type="text" :value="$task_car_city" name="car_city" placeholder="City" />
@@ -156,7 +157,8 @@
             </x-label>
             <x-label class="flex-grow w-2/6 mb-3">
                 <b>City</b>
-                <x-input class="w-full" type="text" :value="$task_car_city" name="car_city" placeholder="City" />
+                {{-- TODO: maybe return --}}
+                <x-input class="w-full" type="text" :value="$task_car_city" placeholder="City" />
             </x-label>
         </x-container>
 
