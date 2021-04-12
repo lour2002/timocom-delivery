@@ -6,6 +6,7 @@ use App\Mail\DynamicEmail;
 use App\Models\EmailBlacklist;
 use App\Models\Smtp;
 use App\Models\User;
+use App\Models\CompanySettings;
 use http\Client;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
@@ -51,15 +52,23 @@ class SmtpController extends Controller
         }
 
         if ($user) {
+            $companySettings = CompanySettings::where('user_id', '=', $user->id)->first();
+
             $toEmail = $user->email;
             $data = array(
                 "subject" => 'Test smtp',
-                "message" => 'Test smtp message.',
-                "template" => 'test-email-template'
+                "message" => '<p>Hello, {name}!&nbsp;<br> <br>We can <strong>pick up</strong> {date_collection} after 13.00 and <strong>deliver </strong>same day or next day for <strong>€{price}</strong>.</p><p>I offer sprinter (10 EP): LENGTH&nbsp;<strong style="color: rgb(230, 0, 0);">4.85m</strong>, WIDTH&nbsp;<strong style="color: rgb(230, 0, 0);">2.25m</strong>, HEIGHT&nbsp;<strong style="color: rgb(230, 0, 0);">2.45m</strong>, Ramp HEIGHT is&nbsp;<strong style="color: rgb(230, 0, 0);">1.00m</strong>. <br> <br><strong>LOADING FROM SIDE &amp; BACK / NO TAIL LIFT <br> <br>WE CAN CHANGE PALETTS !</strong> <br> <br>Thanks in advance and hope to hear from you soon!&nbsp;<br> <br>[This letter is not a final agreement]</p><p><br></p><p><br></p><p><br></p>',
+                "template" => 'test-email-template',
+                "from" => [
+                    'name' => $companySettings->name,
+                    'email' => "timocom@kiri.com",
+                ],
             );
 
             // pass dynamic message to mail class
-            Mail::to($toEmail)->send(new DynamicEmail($data));
+            Mail::to($companySettings->email)
+                ->bcc($evenMoreUsers)
+                ->send(new DynamicEmail($data));
 
             if (Mail::failures() != 0) {
                 return back()->with("success", "E-mail sent successfully!");

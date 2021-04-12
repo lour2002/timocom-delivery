@@ -3,6 +3,7 @@
 use App\Http\Controllers\BlacklistController;
 use App\Http\Controllers\CompanySettingsController;
 use App\Http\Controllers\OrderController;
+use App\Http\Controllers\SmtpController;
 use App\Http\Controllers\SearchSettingsController;
 use Illuminate\Support\Facades\Route;
 
