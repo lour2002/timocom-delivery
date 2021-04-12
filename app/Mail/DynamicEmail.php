@@ -33,8 +33,8 @@ class DynamicEmail extends Mailable
         $res = $this->view($this->data['template'])
             ->subject($this->data['subject'])
             ->with([
-                "message"=> $this->data["message"],
-                "order"=> $this->data["order"],
+                "message_text" => $this->data["message"],
+                "order" => $this->data["order"],
                 "from" => json_decode($this->data["order"]->from, true),
                 "to" => json_decode($this->data["order"]->to, true),
                 "company" => $this->data["company"]

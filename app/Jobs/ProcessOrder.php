@@ -50,8 +50,8 @@ class ProcessOrder implements ShouldQueue
         $content = base64_decode($this->searchResult->content_order_64);
         $doc = new Document($content);
 
-        $entry = $doc->xpath('//*[@id="app:cnt:searchDetail:navBar:creationDate"]');
-        $result['date_collection'] = new \DateTime($entry[0]->text());
+
+
         //$result['date_collection'] = \DateTime::createFromFormat('Y-m-d H:i:s', $entry[0]->text());
 
         $entry = $doc->xpath('//*[@id="app:cnt:searchDetail:contactPersonName"]');
@@ -136,7 +136,6 @@ class ProcessOrder implements ShouldQueue
                     'from_time1' => $row->child(7)->text(),
                     'from_time2' => $row->child(9)->text(),
                 ];
-
             } elseif ($row->child(0)->has('.tc-unload')) {
                 $to[] = [
                     'to_country' => $row->child(1)->text(),
@@ -153,6 +152,10 @@ class ProcessOrder implements ShouldQueue
         $result['to'] = json_encode($to);
         $result['offer_id'] = $this->searchResult->offer_id;
         $result['task_id'] = $this->searchResult->id_task;
+
+        // TODO: need refactor for period
+        $task = Task::find($this->searchResult->id_task);
+        $result['date_collection'] = new \DateTime($task->individual_days);
 
         $order = Order::create($result);
 

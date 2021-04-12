@@ -1,4 +1,4 @@
-{!! $message !!}
+{!! $message_text !!}
 
 <b>TIMOCOM ID:</b> {{ $company->timocom_id }} <br>
 <b>Company:</b> {{ $company->name }} <br>
@@ -13,7 +13,7 @@
 @endforeach
 <br>
 @foreach ($to as $point)
-<b>On:</b> {{$point['to_date1']}} - {{$point['to_date2']}} ({{$point['to_time1']}} - {{$point['to_time1']}})<br>
+<b>Deliver:</b> {{$point['to_date1']}} - {{$point['to_date2']}} ({{$point['to_time1']}} - {{$point['to_time1']}})<br>
 <b>Town:</b> {{$point['to_country']}}, {{$point['to_zip']}} {{$point['to_city']}}<br>
 @endforeach
 <br>
@@ -32,3 +32,4 @@
 <b>Required type of vehicle:</b> {{ $order->vehicle_type }}<br>
 <br>
 <b>Remarks:</b> {{ $order->remarks }}<br>
+
