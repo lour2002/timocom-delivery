@@ -118,7 +118,9 @@ class SearchSettingsController extends Controller
         });
 
         $user = User::find(auth()->user()->id);
-        $input['car_country'] = $input['car_country'] == self::EMPTY_COUNTRY ? '' : $input['car_country'];
+        $input['car_country'] = $input['as_country'];
+        $input['car_zip'] = $input['as_zip'];
+        $input['car_price_empty'] = $input['car_price'];
         $input['car_price_extra_points'] = 1 + $input['car_price_extra_points']/100;
         $input['user_id'] = $user->id;
         $input['user_key'] = $user->key;

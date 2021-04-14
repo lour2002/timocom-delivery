@@ -30,11 +30,11 @@
             <div class="w-3/4 flex-shrink flex flex-wrap">
                 <x-label class="flex-grow mr-3 mb-2">
                     <b>Country</b>
-                    <x-search-task.country-select class="w-full" name="as_country" id="task_from_country" :value="$task_from_country" />
+                    <x-search-task.country-select required class="w-full" name="as_country" id="task_from_country" :value="$task_from_country" />
                 </x-label>
                 <x-label class="flex-grow mr-3 mb-2">
                     <b>ZIP code</b>
-                    <x-input class="block w-full" type="number" :value="$task_from_zip" name="as_zip" placeholder="ZIP code" />
+                    <x-input class="block w-full" required type="number" :value="$task_from_zip" name="as_zip" placeholder="ZIP code" />
                 </x-label>
                 <x-label class="flex-grow mb-2">
                     <b>{{ __('Radius') }}</b>
@@ -43,7 +43,7 @@
                 {{-- TODO: maybe delete --}}
                 <x-label class="flex-grow w-full">
                     <b>City</b>
-                    <x-input class="w-full" type="text" :value="$task_car_city" name="car_city" placeholder="City" />
+                    <x-input class="w-full" required type="text" :value="$task_car_city" name="car_city" placeholder="City" />
                 </x-label>
             </div>
 
@@ -137,39 +137,38 @@
             </x-label>
             <x-label class="flex-shrink">
                 <b>{{__('Period:')}}</b>
-                <x-input id="task_period_start" class="block mb-2" type="text" :value="$task_period_start" name="period_start" />
-                <x-input id="task_period_stop" class="block " type="text" :value="$task_period_stop" name="period_stop" />
+                <div id="task_period">
+                    <x-input class="block mb-2" type="text" :value="$task_period_start" name="period_start" />
+                    <x-input class="block " type="text" :value="$task_period_stop" name="period_stop" />
+                </div>
             </x-label>
         </x-container>
     </section>
 
     <section x-show="tab === 2"  class="tab-content">
 
-        <x-container class="--form flex flex-wrap hidden">
+        <x-container class="--form flex flex-wrap">
             <h2 class="block__title w-full">CURRENT POSITION OF THE TRUCK:</h2>
             <x-label class="flex-grow w-2/6 mr-3 mb-3">
                 <b>Country of location</b>
-                <x-search-task.country-select class="w-full" name="car_country" id="task_from_country"  :value="$task_car_country" />
+                <x-search-task.country-select class="w-full" id="task_from_country"  :value="$task_car_country" disabled/>
             </x-label>
             <x-label class="flex-grow mr-3 mb-3">
                 <b>ZIP code</b>
-                <x-input class="w-full" type="number" :value="$task_car_zip" name="car_zip" placeholder="ZIP code" />
+                <x-input class="w-full" type="number" :value="$task_car_zip" placeholder="ZIP code" disabled/>
             </x-label>
             <x-label class="flex-grow w-2/6 mb-3">
                 <b>City</b>
-                {{-- TODO: maybe return --}}
-                <x-input class="w-full" type="text" :value="$task_car_city" placeholder="City" />
+                <x-input class="w-full" type="text" :value="$task_car_city" placeholder="City" disabled/>
             </x-label>
         </x-container>
 
         <x-container class="--form flex flex-wrap">
             <h2 class="block__title w-full">TRUCK PRICE:</h2>
 
-
-
             <x-label class="flex-grow w-2/6 mr-3">
                 <b>Cost per kilometer of an empty car (of 1 km / €)</b>
-                <x-input class="w-full " step="0.01" min="0" max="10" type="number" :value="$task_price_empty" name="car_price_empty" placeholder="0.00" />
+                <x-input class="w-full " step="0.01" min="0" max="10" type="number" :value="$task_price_empty" name="car_price_empty" placeholder="0.00" disabled />
             </x-label>
             <x-label class="flex-grow w-2/6 mr-3">
                 <b>Cost per kilometer of loaded car (of 1 km / €)</b>

@@ -7,6 +7,10 @@ use Illuminate\Http\Request;
 
 class Task extends Model
 {
+    public const STATUS_START = '3';
+    public const STATUS_TEST = '2';
+    public const STATUS_STOP = '1';
+
     protected $fillable = [
         'user_id','user_key', 'name', 'status_job', 'num', 'version_task', 'fromSelectOpt', 'as_country', 'as_zip',
         'as_radius', 'toSelectOpt', 'toSelectOptArray', 'freightSelectOpt', 'length_min', 'length_max',

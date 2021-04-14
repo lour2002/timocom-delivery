@@ -78,8 +78,14 @@ class PythonController extends Controller
     public function order(Request $request)
     {
         $input = $request->all();
-        $result = SearchResult::create($input);
-        ProcessOrder::dispatch($result);
+        $task = Task::find($input['id_task']);
+        if ($task['status_job'] == Task::STATUS_START ||
+            $task['status_job'] == Task::STATUS_TEST)
+        {
+            $result = SearchResult::create($input);
+            ProcessOrder::dispatch($result);
+        }
+
         return response()->json(['success' => true]);
     }
 

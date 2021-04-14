@@ -19,15 +19,15 @@
 
         @foreach ($from as $point)
         <div class="mb-1">
-            <i class="text-green-600 far fa-arrow-alt-circle-down mr-1"></i><b>{{ $point['from_country'] ?? '' }} {{ $point['from_zip'] ?? '' }}</b> -><br>
-            {{ $point['from_date1']['date'] ?? '' }}
+            <i class="text-green-600 far fa-arrow-alt-circle-down mr-1"></i><b>{{ explode(' - ', $point['from_country'] ?? '')[0] }}, {{$point['from_city'] ?? ''}} {{ $point['from_zip'] ?? '' }}</b> -><br>
+            {{ $point['from_date1'] ?? '' }} - {{ $point['from_date2'] ?? '' }}<br>
         </div>
         @endforeach
 
         @foreach ($to as $point)
             <div class="mb-1">
-                <i class="text-yellow-600 far fa-arrow-alt-circle-up mr-1"></i><b>{{ $point['to_country'] ?? '' }} {{ $point['to_zip'] ?? '' }}</b> -><br>
-                {{ $point['to_date1']['date'] ?? '' }}
+                <i class="text-yellow-600 far fa-arrow-alt-circle-up mr-1"></i><b>{{ explode(' - ', $point['to_country'] ?? '')[0] }}, {{$point['to_city'] ?? ''}} {{ $point['to_zip'] ?? '' }}</b> -><br>
+                {{ $point['to_date1'] ?? '' }} - {{ $point['to_date2'] ?? '' }}<br>
             </div>
         @endforeach
     </td>

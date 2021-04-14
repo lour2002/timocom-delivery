@@ -212,9 +212,19 @@ class ProcessOrder implements ShouldQueue
             }
         }
 
+        //check loading equipment
+        if ($result) {
+            if ($task->exchange_equipment && $order->equipment_exchange) {
+                $result = false;
+                $status = OrderResult::STATUS_EQUIPMENT;
+                $reason[$status] = 'Need exchange equipment';
+            }
+        }
+
         //check duplicate
         if ($result) {
             $fromCurrent = '';
+
             foreach (json_decode($order->from, true) as $key => $val) {
                 $fromCurrent .= $val['from_country'].$val['from_zip'].$val['from_city'];
             }
@@ -252,15 +262,6 @@ class ProcessOrder implements ShouldQueue
                     $status = OrderResult::STATUS_DUPLICATE;
                     $reason[$status] = 'Duplicate: id '.$item->id;
                 }
-            }
-        }
-
-        //check loading equipment
-        if ($result) {
-            if ($task->exchange_equipment && $order->equipment_exchange) {
-                $result = false;
-                $status = OrderResult::STATUS_EQUIPMENT;
-                $reason[$status] = 'Need exchange equipment';
             }
         }
 
@@ -339,8 +340,9 @@ class ProcessOrder implements ShouldQueue
             $price = ($task->car_price * $order->distance + $task->car_price_empty * $car_location) * $k;
             Log::debug('calc price = ' . $price);
         }
-        $price = round($price);
+        $price = round($price, -1);
 
+        // Check overprice
         if ($result) {
             if (!empty($order->price) && $order->price < $price) {
                 $percent = round($price * 100 / $order->price, 2);
@@ -382,9 +384,25 @@ class ProcessOrder implements ShouldQueue
                 $toEmail = $companySettings->email;
             }
 
+            $subject = 'TIMOCOM-OFFER: (' . $task->individual_days . ')';
+            $orderFrom = json_decode($order->from);
+            if (count($orderFrom)) {
+                $subject .= ' '.current($orderFrom)->from_country;
+                $subject .= ' '.current($orderFrom)->from_zip;
+                $subject .= ' '.current($orderFrom)->from_city;
+            }
+            $orderTo = json_decode($order->to);
+            if (count($orderTo)) {
+                $subject .= '--->';
+                end($orderTo);
+                $subject .= ' '.current($orderTo)->to_country;
+                $subject .= ' '.current($orderTo)->to_zip;
+                $subject .= ' '.current($orderTo)->to_city;
+            }
+
             if (!empty($toEmail)) {
                 $data = array(
-                    "subject" => 'Proposal',
+                    "subject" => $subject,
                     "template" => 'email-template',
                     "from" => [
                         'name' => $companySettings->name,
