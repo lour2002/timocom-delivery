@@ -25,8 +25,13 @@
   color: #fb6340;
 }
 
+.close {
+  font-family: Dejavu Sans;
+  cursor: pointer;
+}
+
 .page-nav {
-    @apply z-10 relative flex justify-between items-center;
+  @apply z-10 relative flex justify-between items-center;
 }
 
 .tab__title {
@@ -43,7 +48,3 @@
   @apply bg-indigo-400 rounded text-white text-sm inline-block px-2 py-1 m-1;
 }
 
-.close {
-  font-family: Dejavu Sans;
-  cursor: pointer;
-}

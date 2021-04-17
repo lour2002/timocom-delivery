@@ -56,7 +56,7 @@ class PythonController extends Controller
                 ['num', '=', $request->get('num')],
             ])->first();
 
-        Log::debug($request->get('user_key'));
+        // Log::debug($request->get('user_key'));
 
         if (null !== $task) {
             $task['id_task'] = $task['id'];

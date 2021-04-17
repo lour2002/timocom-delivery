@@ -23,6 +23,7 @@
         "vanillajs-datepicker": "^1.1.4"
     },
     "dependencies": {
-        "@fortawesome/fontawesome-free": "^5.15.3"
+        "@fortawesome/fontawesome-free": "^5.15.3",
+        "vue": "^3.0.11"
     }
 }

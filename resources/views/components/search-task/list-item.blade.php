@@ -26,16 +26,16 @@
             </a>
         </div>
         <div class="w-5/12">
-            <div class="col-lg-12 mt-3 text-center" x-data="switchTask({{ $task_id }})">
-                <x-button x-ref="start" type="button" color="--success" x-spread="start"
+            <div class="col-lg-12 mt-3 text-center" x-data="switchTaskStatus({{ $task_id }})">
+                <x-button x-ref="start:{{ $task_id }}" type="button" color="--success" x-on:click="start"
                     :disabled="$task_status_job == '3' || $task_status_job == '2'">
                     <i class="fas fa-play-circle"></i> START
                 </x-button>
-                <x-button x-ref="test" type="button" x-spread="test"
+                <x-button x-ref="test:{{ $task_id }}" type="button" x-on:click="test"
                     :disabled="$task_status_job == '3' || $task_status_job == '2'">
                     <i class="fab fa-stumbleupon-circle"></i> TEST
                 </x-button>
-                <x-button x-ref="stop" type="button" color="--red" x-spread="stop"
+                <x-button x-ref="stop:{{ $task_id }}" type="button" color="--red" x-on:click="stop"
                     :disabled="$task_status_job == '0' || $task_status_job == '1'" >
                     <i class="fas fa-stop-circle"></i> STOP
                 </x-button>

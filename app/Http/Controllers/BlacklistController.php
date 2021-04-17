@@ -11,8 +11,8 @@ class BlacklistController extends Controller
 {
     public function get(Request $request)
     {
-        return view('blacklist', [
-            'list' => Blacklist::where('user_id', '=', auth()->user()->id)->get()
+        return view('email-blacklist', [
+            'list' => Blacklist::where('user_id', '=', auth()->user()->id)->orderBy('ttl', 'asc')->get()
         ]);
     }
 
@@ -20,28 +20,40 @@ class BlacklistController extends Controller
     {
         $input = $request->all();
 
-        if (!array_key_exists('id', $input)) {
+        try {
             $input['user_id'] = auth()->user()->id;
-            $date = new \DateTime();
-            $input['ttl'] = $date->setTimestamp($input['ttl'])->format('Y-m-d');
-            $blacklist = Blacklist::create($input);
-        } else {
-            $blacklist = Blacklist::find($input['id']);
-            foreach ($input as $k => $v) {
-                if ('id' === $k) {
-                    continue;
-                }
-                $blacklist->$k = $v;
+
+            $count = Blacklist::where([
+                                    ["email","=", $input['email']],
+                                    ['user_id', '=', $input['user_id']]
+                                ])->count();
+
+
+
+            if ($count) {
+                throw new \Exception();
             }
-            $blacklist->save();
+
+            $date = new \DateTime();
+
+            $input['ttl'] = $date->add(new \DateInterval('PT'.$input['ttl'].'S'))->format('Y-m-d');
+            $email = Blacklist::create($input);
+
+        } catch (\Exception $e) {
+            return response()->json(['success' => false]);
         }
 
-        return redirect()->route('blacklist');
+        return response()->json(['success' => true, 'item' => $email]);
     }
 
     public function delete(Request $request)
     {
-        Blacklist::find($request->post('id'))->delete();
-        return redirect()->route('blacklist');
+        try {
+            Blacklist::find($request->post('id'))->delete();
+        } catch (\Exception $e) {
+            return response()->json(['success' => false]);
+        }
+
+        return response()->json(['success' => true]);
     }
 }

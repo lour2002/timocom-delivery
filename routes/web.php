@@ -35,7 +35,7 @@ Route::post('/task/stop', [SearchSettingsController::class, 'stop'])->middleware
 Route::get('/orders/{taskId}', [OrderController::class, 'get'])->middleware(['auth'])->name('orders');
 Route::get('/clean', [OrderController::class, 'clean'])->middleware(['auth'])->name('clean');
 
-Route::get('/blacklist', [BlacklistController::class, 'get'])->middleware(['auth'])->name('blacklist.get');
+Route::get('/blacklist', [BlacklistController::class, 'get'])->middleware(['auth'])->name('blacklist');
 Route::post('/blacklist/store', [BlacklistController::class, 'store'])->middleware(['auth'])->name('blacklist.store');
 Route::post('/blacklist/delete', [BlacklistController::class, 'delete'])->middleware(['auth'])->name('blacklist.delete');
 

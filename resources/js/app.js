@@ -137,12 +137,9 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 })
 
-window.switchTask = function (taskId) {
+window.switchTaskStatus = function (taskId) {
   const changeTaskStatus = function (status) {
     const url = `/task/${status}`;
-    const formData = new FormData();
-    formData.append('_token', document.querySelector('meta[name="csrf-token"]').getAttribute('content'));
-    formData.append('id', taskId);
 
     return axios({
       method: 'post',
@@ -154,39 +151,38 @@ window.switchTask = function (taskId) {
       if (!data.success) throw new Error(data.message);
     })
   };
+
+  const START = `start:${taskId}`,
+        STOP  = `stop:${taskId}`,
+        TEST  = `test:${taskId}`;
+
   return {
-    stop: {
-      ['@click']($event) {
+    stop($event) {
         $event.target.disabled = true;
         changeTaskStatus('stop').then(() => {
-          this.$refs.start.disabled = false;
-          this.$refs.test.disabled = false;
+          this.$refs[START].disabled = false;
+          this.$refs[TEST].disabled = false;
         }).catch((e) => {
           console.log(e);
         })
-      }
     },
-    test: {
-      ['@click']($event) {
-        this.$refs.start.disabled = true;
+    test($event) {
+        this.$refs[START].disabled = true;
         $event.target.disabled = true;
         changeTaskStatus('test').then(() => {
-          this.$refs.stop.disabled = false;
+          this.$refs[STOP].disabled = false;
         }).catch((e) => {
           console.log(e);
         })
-      }
     },
-    start: {
-      ['@click']($event) {
+    start($event) {
         $event.target.disabled = true;
-        this.$refs.test.disabled = true;
+        this.$refs[TEST].disabled = true;
         changeTaskStatus('start').then(() => {
-          this.$refs.stop.disabled = false;
+          this.$refs[STOP].disabled = false;
         }).catch((e) => {
           console.log(e);
         })
-      }
     },
   }
 }

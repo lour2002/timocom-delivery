@@ -63,6 +63,10 @@ class ProcessOrder implements ShouldQueue
         $entry = $doc->xpath('//*[@id="app:cnt:searchDetail:contactPersonEmail"]');
         $result['email'] = $entry[0]->text();
 
+        if (empty($result['email'])) {
+            exit;
+        }
+
         $entry = $doc->xpath('//*[@id="app:cnt:searchDetail:contactPhone"]');
         $result['phone'] = $entry[0]->text();
 
@@ -177,19 +181,19 @@ class ProcessOrder implements ShouldQueue
         $result = true;
         if (!empty($task->tags)) {
             foreach(explode(';', $task->tags) as $tag) {
-                if (preg_match('/\b'.$tag.'\b/', $order->freight_description)) {
+                if (preg_match('/\b'.$tag.'\b/i', $order->freight_description)) {
                     $result = false;
                     $status = OrderResult::STATUS_STOP;
                     $reason[$status] = 'Stop word: ' . $tag;
                     break;
                 }
-                if (preg_match('/\b' . $tag . '\b/', $order->vehicle_description)) {
+                if (preg_match('/\b' . $tag . '\b/i', $order->vehicle_description)) {
                     $result = false;
                     $status = OrderResult::STATUS_STOP;
                     $reason[$status] = 'Stop word: ' . $tag;
                     break;
                 }
-                if (preg_match('/\b' . $tag . '\b/', $order->remarks)) {
+                if (preg_match('/\b' . $tag . '\b/i', $order->remarks)) {
                     $result = false;
                     $status = OrderResult::STATUS_STOP;
                     $reason[$status] = 'Stop word: ' . $tag;
@@ -264,10 +268,10 @@ class ProcessOrder implements ShouldQueue
                 }
             }
         }
-
         //calculate price
         $price = 0;
         if ($result) {
+            Log::debug("=============================".$order->id."=============================");
             $car_location = 0;
             if (!empty($task->car_country) && (!empty($task->car_zip) || !empty($task->car_city))) {
                 $address = '';
@@ -285,7 +289,7 @@ class ProcessOrder implements ShouldQueue
                     'https://nominatim.openstreetmap.org/?format=json&addressdetails=1&q='.$address.'&format=json&limit=1'
                 );
                 $coordFrom = json_decode($coordFrom->getBody()->getContents(), true);
-                Log::debug($address);
+                Log::debug("Car position : ".$address);
                 Log::debug($coordFrom);
 
                 $address = '';
@@ -305,7 +309,7 @@ class ProcessOrder implements ShouldQueue
                     'https://nominatim.openstreetmap.org/?format=json&addressdetails=1&q=' . $address . '&format=json&limit=1'
                 );
                 $coordTo = json_decode($coordTo->getBody()->getContents(), true);
-                Log::debug($address);
+                Log::debug("Loading position : ".$address);
                 Log::debug($coordTo);
 
                 if (!empty($coordFrom) && !empty($coordTo)) {
@@ -330,7 +334,7 @@ class ProcessOrder implements ShouldQueue
                         $car_location = round($oOR->getDistance() / 1000);
                     }
                 }
-                Log::debug('car_location = ' . $car_location);
+                Log::debug('Empty car distance : ' . $car_location);
             }
 
             $k = 1;
@@ -338,7 +342,9 @@ class ProcessOrder implements ShouldQueue
                 $k = $task->car_price_extra_points;
             }
             $price = ($task->car_price * $order->distance + $task->car_price_empty * $car_location) * $k;
-            Log::debug('calc price = ' . $price);
+            Log::debug('Full car distance : ' . $order->distance);
+
+            Log::debug('Calc price : ' . $price);
         }
         $price = round($price, -1);
 
