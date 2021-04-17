@@ -3,6 +3,7 @@
 namespace App\Jobs;
 
 use App\Mail\DynamicEmail;
+use App\Models\Blacklist;
 use App\Models\CompanySettings;
 use App\Models\Order;
 use App\Models\OrderResult;
@@ -165,6 +166,7 @@ class ProcessOrder implements ShouldQueue
     private function checkOrder(Order $order)
     {
         $task = Task::find($order->task_id);
+        $user = User::find($task->user_id);
 
         $status = OrderResult::STATUS_SENT;
         $reason = [
@@ -358,6 +360,19 @@ class ProcessOrder implements ShouldQueue
             $price = $task->minimal_price_order;
         }
 
+        //check blacklist email
+        if ($result) {
+            $blackEmail = Blacklist::where([
+                ['user_id', '=', $user->id],
+                ['email', '=', $order->email],
+            ])->first();
+            if (null !== $blackEmail) {
+                $result = false;
+                $status = OrderResult::STATUS_BLACKLIST;
+                $reason[$status] = 'Email ' . $order->email . ' in black list';
+            }
+        }
+
         $res = new OrderResult();
         $res->task_id = $task->id;
         $res->order_id = $order->id;
@@ -367,7 +382,6 @@ class ProcessOrder implements ShouldQueue
         $res->save();
 
         if ($result) {
-            $user = User::find($task->user_id);
             $companySettings = CompanySettings::where('user_id', '=', $user->id)->first();
             $message = $task->email_template;
 

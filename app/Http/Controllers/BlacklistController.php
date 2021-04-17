@@ -3,8 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Models\Blacklist;
-use App\Models\EmailBlacklist;
-use App\Models\User;
 use Illuminate\Http\Request;
 
 class BlacklistController extends Controller

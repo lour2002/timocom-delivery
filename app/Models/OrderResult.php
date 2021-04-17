@@ -14,6 +14,7 @@ class OrderResult extends Model
     public const STATUS_LOW_PRICE = 'LOW_PRICE';
     public const STATUS_EQUIPMENT = 'EQUIPMENT';
     public const STATUS_OVERPRICE = 'OVERPRICE';
+    public const STATUS_BLACKLIST = 'BLACKLIST';
 
     protected $fillable = [
         'task_id', 'order_id', 'price', 'status'
