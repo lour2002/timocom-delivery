@@ -45,6 +45,7 @@ class ListItem extends Component
             case OrderResult::STATUS_BORDER:
             case OrderResult::STATUS_DUPLICATE:
             case OrderResult::STATUS_EQUIPMENT:
+            case OrderResult::STATUS_BLACKLIST:
             $this->status_class = 'fa-2x text-red-500 fa-minus-square';
             break;
             case OrderResult::STATUS_STOP:
