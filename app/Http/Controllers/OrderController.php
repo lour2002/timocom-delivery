@@ -27,15 +27,15 @@ class OrderController extends Controller
     public function clean(Request $request)
     {
         $date = new \DateTime();
-        $dateEnd = $date->sub(new \DateInterval('P2D'));
+        $dateEnd = $date->sub(new \DateInterval('P1D'));
         try {
             SearchResult::where('created_at', '<', $dateEnd)->delete();
             OrderResult::where('created_at', '<', $dateEnd)->delete();
             Order::where('created_at', '<', $dateEnd)->delete();
-            return response()->json(['success' => true]);
+            return back();
         } catch (\Throwable $e) {
             Log::debug('ERROR DELETE OLD DATA: '.$e->getMessage());
-            return response()->json(['success' => false]);
+            return back();
         }
     }
 }

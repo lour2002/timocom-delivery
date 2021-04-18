@@ -1,6 +1,9 @@
 <x-app-layout>
     <x-container class="--container">
-        <h1 class="page-title">ORDERS LIST: TASK #{{ $id }}</h1>
+        <div class="flex items-center mb-3">
+            <h1 class="page-title mb-0 flex-grow">ORDERS LIST: TASK #{{ $id }}</h1>
+            <a href="/clean" class="btn --success flex-shrink" >Clear history</a>
+        </div>
         <div class="overflow-auto" style="overflow: auto">
             <table class="border w-full">
                 <tr>
