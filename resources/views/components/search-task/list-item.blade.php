@@ -27,15 +27,17 @@
         </div>
         <div class="w-5/12">
             <div class="col-lg-12 mt-3 text-center" x-data="SWITCH_TASK_STATUS({{ $task_id }})">
-                <x-button type="button" color="--success" data-action="start" x-on:click="start"
+                <x-button type="button" x-ref="start" x-on:click="start"
+                    color="--success"
                     :disabled="$task_action_disabled['START']">
                     <i class="fas fa-play-circle"></i> START
                 </x-button>
-                <x-button type="button" x-on:click="test" data-action="test"
+                <x-button type="button" x-ref="test" x-on:click="test"
                     :disabled="$task_action_disabled['TEST']">
                     <i class="fab fa-stumbleupon-circle"></i> TEST
                 </x-button>
-                <x-button type="button" color="--red" data-action="stop" x-on:click="stop"
+                <x-button type="button" x-ref="stop" x-on:click="stop"
+                    color="--red"
                     :disabled="$task_action_disabled['STOP']" >
                     <i class="fas fa-stop-circle"></i> STOP
                 </x-button>

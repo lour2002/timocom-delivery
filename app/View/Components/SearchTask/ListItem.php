@@ -23,8 +23,8 @@ class ListItem extends View
         parent::__construct($task);
         $this->task_title_status = 'Stopped';
         $this->task_action_disabled = [
-            "START" => $task['status_job'] == '3' || $task['status_job'] == '2',
-            "TEST" => $task['status_job'] == '3' || $task['status_job'] == '2',
+            "START" => $task['status_job'] == '3',
+            "TEST" => $task['status_job'] == '2',
             "STOP" => $task['status_job'] == '0' || $task['status_job'] == '1'
         ];
         // FROM
