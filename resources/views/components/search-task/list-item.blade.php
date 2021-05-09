@@ -26,17 +26,17 @@
             </a>
         </div>
         <div class="w-5/12">
-            <div class="col-lg-12 mt-3 text-center" x-data="switchTaskStatus({{ $task_id }})">
-                <x-button x-ref="start:{{ $task_id }}" type="button" color="--success" x-on:click="start"
-                    :disabled="$task_status_job == '3' || $task_status_job == '2'">
+            <div class="col-lg-12 mt-3 text-center" x-data="SWITCH_TASK_STATUS({{ $task_id }})">
+                <x-button type="button" color="--success" data-action="start" x-on:click="start"
+                    :disabled="$task_action_disabled['START']">
                     <i class="fas fa-play-circle"></i> START
                 </x-button>
-                <x-button x-ref="test:{{ $task_id }}" type="button" x-on:click="test"
-                    :disabled="$task_status_job == '3' || $task_status_job == '2'">
+                <x-button type="button" x-on:click="test" data-action="test"
+                    :disabled="$task_action_disabled['TEST']">
                     <i class="fab fa-stumbleupon-circle"></i> TEST
                 </x-button>
-                <x-button x-ref="stop:{{ $task_id }}" type="button" color="--red" x-on:click="stop"
-                    :disabled="$task_status_job == '0' || $task_status_job == '1'" >
+                <x-button type="button" color="--red" data-action="stop" x-on:click="stop"
+                    :disabled="$task_action_disabled['STOP']" >
                     <i class="fas fa-stop-circle"></i> STOP
                 </x-button>
                 <hr class="my-1">

@@ -11,6 +11,7 @@ class ListItem extends View
     public $task_title_status;
     public $task_dates_view;
     public $task_to_countries;
+    public $task_action_disabled;
 
     /**
      * Create a new component instance.
@@ -21,6 +22,11 @@ class ListItem extends View
     {
         parent::__construct($task);
         $this->task_title_status = 'Stopped';
+        $this->task_action_disabled = [
+            "START" => $task['status_job'] == '3' || $task['status_job'] == '2',
+            "TEST" => $task['status_job'] == '3' || $task['status_job'] == '2',
+            "STOP" => $task['status_job'] == '0' || $task['status_job'] == '1'
+        ];
         // FROM
         $this->task_from_type = $this->FROM_TYPES[$this->task_from_type];
         // TO
