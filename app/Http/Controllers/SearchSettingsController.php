@@ -128,7 +128,7 @@ class SearchSettingsController extends Controller
         $input['cross_border'] = json_encode(array_values($crossBorder));
 
         if (!array_key_exists('id', $input)) {
-            $max = Task::max('num');
+            $max = Task::where('user_id', '=', $user->id)->max('num');
             if (5 < $max + 1) {
                 return response()->json(['success' => false, 'error' => 'Only five active jobs allow']);
             }
