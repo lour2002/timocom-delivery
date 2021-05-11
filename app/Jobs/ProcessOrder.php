@@ -208,7 +208,7 @@ class ProcessOrder implements ShouldQueue
         if ($result) {
             foreach(json_decode($task->cross_border, true) as $k => $v) {
                 foreach (json_decode($order->to, true) as $key => $to) {
-                    if ($to['to_country'] === $v['border_country'] && $order->freight_weight > $v['border_val']) {
+                    if ($to['to_country'] === $v['border_country'] && (float) $order->freight_weight > (float) $v['border_val']) {
                         $result = false;
                         $status = OrderResult::STATUS_BORDER;
                         $reason[$status] = 'Crossing the border: ' . $v['border_country'] . ' -> ' . $order->freight_weight .'>'. $v['border_val'];

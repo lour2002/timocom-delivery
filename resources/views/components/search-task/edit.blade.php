@@ -218,7 +218,7 @@
                     <i class="fas fa-arrow-down"></i>
                 </x-label>
                 @for ($i = 0; $i < 5; $i++)
-                    <x-input class="block mt-1" type="number" :value="$task_cross_border[$i]['border_val'] ?? ''" name="border_val:{{$i}}" />
+                    <x-input class="block mt-1" type="number" step="0.01" :value="$task_cross_border[$i]['border_val'] ?? ''" name="border_val:{{$i}}" />
                 @endfor
             </div>
         </x-container>
