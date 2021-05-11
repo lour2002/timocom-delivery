@@ -1,17 +1,17 @@
-<form action="/task/store" method="POST" x-data="{ tab: 1, tags: [] }" x-init="tags = $refs.tagInput.value.split(';')">
+<form action="/task/store" method="POST" x-data="TASK_EDIT()" x-init="tags = $refs.tagsField.value.split(';')">
     @csrf
     @if ($task_id)
     <x-input type="hidden" name="id" :value="$task_id" />
     @endif
 
     <div class="flex flex-wrap justify-around mb-5">
-        <button type="button" @click="tab = 1" class="btn h-12 tab__title" :class="tab == 1 ? '--primary' : '--simple'">
+        <button type="button" @click="tab = 1" class="btn h-12 tab__title" x-bind:class="tab == 1 ? '--primary' : '--simple'">
             <i class="fas fa-search mr-2"></i> Search settings
         </button>
-        <button type="button" @click="tab = 2" class="btn h-12 tab__title" :class="tab == 2 ? '--primary' : '--simple'">
+        <button type="button" @click="tab = 2" class="btn h-12 tab__title" x-bind:class="tab == 2 ? '--primary' : '--simple'">
             <i class="fas fa-cogs mr-2"></i> Filters and exceptions
         </button>
-        <button type="button" @click="tab = 3" class="btn h-12 tab__title" :class="tab == 3 ? '--primary' : '--simple'">
+        <button type="button" @click="tab = 3" class="btn h-12 tab__title" x-bind:class="tab == 3 ? '--primary' : '--simple'">
             <i class="fas fa-paper-plane mr-2"></i> Email Template
         </button>
     </div>
@@ -224,8 +224,23 @@
         </x-container>
         <x-container class="--form">
             <h2 class="block__title">EXCEPTIONS:</h2>
-            <div class="mb-3">The words for the filter, under which the order is skipped. The letter will not be sent. You can import multiple values separated by commas. Values will be added to the current list.</div>
-            <input x-ref="tagInput" id="tags" type="hidden" size="1" value="{{$task_tags}}" name="tags" />
+            <div class="mb-3">
+                The words for the filter, under which the order is skipped. The letter will not be sent. You can import multiple values separated by commas. Values will be added to the current list.
+            </div>
+            <x-label class="pointer font-bold" for="enable-import-tags">Click here to open/close the import field</x-label>
+            <input id="enable-import-tags" type="checkbox" class="hidden import-tags" />
+            <div class="import-tags-textarea mb-4">
+                <x-input x-ref="impTagsField" class="flex-grow mr-4" placeholder="Enter several values separated by semicolon (;) and click import" />
+                <button class="btn --primary" type="button"
+                @click.prevent="{
+                    tags = tags.concat($refs.impTagsField.value.split(';'));
+                    $refs.impTagsField.value = '';
+                    $refs.tagsField.value = tags.join(';')}" >
+                    Import
+                </button>
+            </div>
+            <input x-ref="tagsField" id="tags" type="hidden" size="1" value="{{$task_tags}}" name="tags" />
+
             <label class="tags">
                 <template x-for="(item,index) in tags" :key="item">
                     <div class="tags__item" >
@@ -233,7 +248,7 @@
                         <i class="close" @click="{
                             $event.preventDefault();
                             tags.splice(index, 1);
-                            $refs.tagInput.value = $refs.tagInput.value.replace(new RegExp(`(^${item};)|(;${item})`, 'u'), '');
+                            $refs.tagsField.value = $refs.tagsField.value.replace(new RegExp(`(^${item};)|(;${item})`, 'u'), '');
                         }">✖</i>
                     </div>
                 </template>
@@ -242,11 +257,12 @@
                     @keydown.enter="{
                         $event.preventDefault();
                         tags.push($event.target.value);
-                        $refs.tagInput.value = tags.join(';');
+                        $refs.tagsField.value = tags.join(';');
                         $event.target.value = '';
                     }"
-                    @change="{tags.push($event.target.value); $refs.tagInput.value = tags.join(';')}">
+                    @change="{tags.push($event.target.value); $refs.tagsField.value = tags.join(';')}">
             </label>
+
         </x-container>
     </section>
 

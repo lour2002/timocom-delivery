@@ -48,3 +48,11 @@
   @apply bg-indigo-400 rounded text-white text-sm inline-block px-2 py-1 m-1;
 }
 
+.import-tags ~ .import-tags-textarea {
+  display: none;
+}
+
+.import-tags:checked ~ .import-tags-textarea {
+  display: flex;
+}
+
