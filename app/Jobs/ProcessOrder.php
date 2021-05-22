@@ -320,13 +320,11 @@ class ProcessOrder implements ShouldQueue
                     require_once __DIR__ . '/../../lib/OSMap/OSMapOpenRoute.php';
                     require_once __DIR__ . '/../../lib/OSMap/OSMapOpenRouteStep.php';
 
-                    $oOR = new OSMapOpenRoute('5b3ce3597851110001cf6248f156d08190e241fa80a09ac3f96d1132');
+                    $oOR = new OSMapOpenRoute(env('ORS_TOKEN'));
 
                     $oOR->setLanguage('EN');
-                    $oOR->setVehicleType(OSMapOpenRoute::VT_HGV);    // we're driving heavy goods ;-)
+                    $oOR->setVehicleType(OSMapOpenRoute::VT_CAR);    // we're driving heavy goods ;-)
                     $oOR->setFormat(OSMapOpenRoute::FMT_JSON);
-//                  $oOR->enableInstructions();
-//                  $oOR->setInstructionFormat(OSMapOpenRoute::IF_HTML);
 
                     $aRoute = [];
                     $aRoute[] = $coordFrom[0]['lat'] . ', ' . $coordFrom[0]['lon'];
@@ -334,7 +332,10 @@ class ProcessOrder implements ShouldQueue
 
                     if ($oOR->calcRoute($aRoute)) {
                         $car_location = round($oOR->getDistance() / 1000);
+                    } else {
+                        Log::debug('Error : ' . $oOR->getError());
                     }
+                    Log::debug('Responce : ' . print_r($oOR->getResponse(), true));
                 }
                 Log::debug('Empty car distance : ' . $car_location);
             }
@@ -347,6 +348,12 @@ class ProcessOrder implements ShouldQueue
             Log::debug('Full car distance : ' . $order->distance);
 
             Log::debug('Calc price : ' . $price);
+
+            if (!$car_location) {
+                $result = false;
+                $status = OrderResult::STATUS_STOP;
+                $reason[$status] = 'Empty car distance = 0';
+            }
         }
         $price = round($price, -1);
 
@@ -398,9 +405,9 @@ class ProcessOrder implements ShouldQueue
             );
 
             $toEmail = '';
-            if ($task->status_job == 3) { //active task
+            if ($task->status_job == Task::STATUS_START) {
                 $toEmail = $order->email;
-            } elseif ($task->status_job == 2) { //test task
+            } elseif ($task->status_job == Task::STATUS_TEST) {
                 $toEmail = $companySettings->email;
             }
 

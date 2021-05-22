@@ -4,7 +4,7 @@ namespace lib\OSMap;
 /**
  * class to determine route for given start/end geolocations
  * using openroute service REST API
- * 
+ *
  * @link https://openrouteservice.org
  *
  * @package lib\OSMap
@@ -14,7 +14,7 @@ class OSMapOpenRoute
 {
 	/** base url for all REST services of OpenRoute API		*/
 	const	REST_API_URL = 'https://api.openrouteservice.org/v2/';
-	
+
 	/** vehicle type: car	 */
 	const 	VT_CAR			= 'driving-car';
 	/** vehicle type: hgv (heavy goods vehicle ... > 3.5t)	 */
@@ -33,7 +33,7 @@ class OSMapOpenRoute
 	const	VT_HIKING		= 'foot-walking';
 	/** vehicle type: 	wheelchair				*/
 	const	VT_WHEELCHAIR 	= 'wheelchair';
-	
+
 	/** find shortest route	 */
 	const	FASTEST			= 'shortest';
 	/** find fastest route	 */
@@ -43,21 +43,21 @@ class OSMapOpenRoute
 	const	IF_TEXT			= 'text';
 	/** instructions as html	 */
 	const	IF_HTML			= 'html';
-	
+
 	/** distances in m (meter)	 */
 	const 	UNITS_M			= 'm';
 	/** distances in km (kilometer)	 */
 	const 	UNITS_KM		= 'km';
 	/** distances in miles	 */
 	const 	UNITS_MILES		= 'mi';
-	
+
 	/** format response as json	 */
 	const	FMT_JSON		= 'json';
 	/** format response as geojson	 */
 	const	FMT_GEOJSON		= 'geojson';
 	/** format response as gpx	 */
 	const	FMT_GPX			= 'gpx';
-	
+
 	/** @var string		API Key from https://openrouteservice.org/dev	*/
 	protected 	$strKey	 = '';
 	/** @var string		language (short ISO 3166-3; NOT all languages are supported!)		*/
@@ -76,37 +76,37 @@ class OSMapOpenRoute
 	protected 	$strUnits		= self::UNITS_M;
 	/** @var bool		include elevation informations (ascent/descent)		*/
 	protected	$bElevation		= false;
-	
+
 	/** @var string		last error		*/
 	protected	$strError;
 	/** @var string		raw response		*/
 	protected	$response;
 	/** @var array		JSON response as associative array		*/
 	protected	$aJson;
-	
+
 	/**
 	 * crate object and set API key
-	 * 
+	 *
 	 * to get a API key, you must register at (registration is free!)
 	 * 	https://openrouteservice.org/dev/#/home
 	 * and request new token. All further description ist found at the
-	 * openrouteservice.org - page. 
-	 * 
+	 * openrouteservice.org - page.
+	 *
 	 * @param string $strKey
 	 */
 	public function __construct($strKey) {
 		$this->strKey = $strKey;
 	}
-	
+
 	/**
 	 * calculate Route for requested points.
-	 * parameters can be either objects of class OSMapPoint or comma 
+	 * parameters can be either objects of class OSMapPoint or comma
 	 * separated geolocation string 'latitude, longitude
-	 * 
-	 * if the coordinates are passed as an array with more than 2 points, 
+	 *
+	 * if the coordinates are passed as an array with more than 2 points,
 	 * the response will result in several segments with the respective sections.
-	 * (number of segments = number of points less than one) 
-	 *  
+	 * (number of segments = number of points less than one)
+	 *
 	 * @param OSMapPoint/string $pt1
 	 * @param OSMapPoint/string $pt2
 	 */
@@ -129,9 +129,9 @@ class OSMapOpenRoute
 			$aData = array();
 			$aData['coordinates']	= $aCoordinates;
 			$aData['instructions']	= $this->bInstructions;
-			
+
 			if (strlen($this->strLanguage) > 0 && strtolower($this->strLanguage != 'en')) {
-				$aData['language'] = $this->strLanguage; 
+				$aData['language'] = $this->strLanguage;
 			}
 			if ($this->bElevation) {
 				$aData['elevation'] = true;
@@ -145,8 +145,14 @@ class OSMapOpenRoute
 			if (strlen($this->strUnits) > 0 && strtolower($this->strUnits != self::UNITS_M)) {
 				$aData['units'] = $this->strUnits;
 			}
+
+            // Allowed to find closes point
+			$aData['radiuses'] = array_reduce($aData['coordinates'], function ($acc, $v) {
+			   array_push($acc, -1);
+			}, []);
+
 			$jsonData = json_encode($aData);
-			
+
 			$strURL = self::REST_API_URL . 'directions/' . $this->strVehicleType . '/' . $this->strFormat;
 			$bOK = $this->postHttpRequest($strURL, $jsonData);
 		} else {
@@ -154,11 +160,11 @@ class OSMapOpenRoute
 		}
 		return $bOK;
 	}
-	
+
 	/**
 	 * build coordinate array .
 	 * API wants to have coordinates in lon, lat!
-	 * 
+	 *
 	 * @param unknown $pt
 	 * @return array or null, if no valid argument
 	 */
@@ -176,11 +182,11 @@ class OSMapOpenRoute
 		}
 		return $aCoordinate;
 	}
-	
+
 	/**
 	 * post HttpRequest with given data.
 	 * in case of error more information can be obtained with getError ()
-	 *  
+	 *
 	 * @param string $strURL
 	 * @param string $jsonData
 	 * @return boolean true if succeeded, false in case of error
@@ -188,19 +194,19 @@ class OSMapOpenRoute
 	protected function postHttpRequest($strURL, $jsonData) {
 		$bOK = true;
 		$curl = curl_init($strURL);
-	
+
 		$aHeader = array(
 			'Content-Type: application/json; charset=utf-8',
 			'Accept: application/json, application/geo+json, application/gpx+xml; charset=utf-8',
 			'Content-Length: ' . strlen($jsonData),
 			'Authorization: ' . $this->strKey
 		);
-	
+
 		curl_setopt($curl, CURLOPT_CUSTOMREQUEST, "POST");
 		curl_setopt($curl, CURLOPT_POSTFIELDS, $jsonData);
 		curl_setopt($curl, CURLOPT_HTTPHEADER, $aHeader);
 		curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
-	
+
 		$this->response = curl_exec($curl);
 		$this->aJson = null;
 		if (curl_errno($curl)) {
@@ -217,16 +223,16 @@ class OSMapOpenRoute
 			}
 		}
 		curl_close($curl);
-		
+
 		return $bOK;
 	}
-	
+
 	/**
 	 * get distance in defined units (m, km, mi).
 	 * returns only valid value, if format is self::FMT_JSON
-	 * 
+	 *
 	 * segment value only available, if OSMapOpenRoute::enableInstructions(true) is set.
-	 * 
+	 *
 	 * @param int $iSeg	index of requested segment; distance over all if null (default)
 	 * @return float
 	 */
@@ -237,9 +243,9 @@ class OSMapOpenRoute
 	/**
 	 * get duration in seconds.
 	 * returns only valid value, if format is self::FMT_JSON
-	 * 
+	 *
 	 * segment value only available, if OSMapOpenRoute::enableInstructions(true) is set.
-	 * 
+	 *
 	 * @param int $iSeg	index of requested segment; duration over all if null (default)
 	 * @return float
 	 */
@@ -249,11 +255,11 @@ class OSMapOpenRoute
 
 	/**
 	 * get ascent in defined units (m, km, mi).
-	 * returns only valid value, if format is self::FMT_JSON 
+	 * returns only valid value, if format is self::FMT_JSON
 	 * and OSMapOpenRoute::enableElevation(true) is set.
-	 * 
+	 *
 	 * segment value only available, if OSMapOpenRoute::enableInstructions(true) is set.
-	 * 
+	 *
 	 * @param int $iSeg	index of requested segment; duration over all if null (default)
 	 * @return float
 	 */
@@ -263,25 +269,25 @@ class OSMapOpenRoute
 
 	/**
 	 * get descent in defined units (m, km, mi).
-	 * returns only valid value, if format is self::FMT_JSON 
+	 * returns only valid value, if format is self::FMT_JSON
 	 * and OSMapOpenRoute::enableElevation(true) is set.
-	 * 
+	 *
 	 * segment value only available, if OSMapOpenRoute::enableInstructions(true) is set.
-	 * 
+	 *
 	 * @param int $iSeg	index of requested segment; duration over all if null (default)
 	 * @return float
 	 */
 	public function getDescent($iSeg=null) {
 		return $this->getValue('descent', $iSeg);
 	}
-	
+
 	/**
 	 * get requested value.
-	 * if iSeg specified, values are read from the instruction list, 
+	 * if iSeg specified, values are read from the instruction list,
 	 * otherwise over all values from the summary.
-	 * 
+	 *
 	 * segment value only available, if OSMapOpenRoute::enableInstructions(true) is set.
-	 *  
+	 *
 	 * @param unknown $strName
 	 * @param string $iSeg
 	 * @return NULL
@@ -310,7 +316,7 @@ class OSMapOpenRoute
 		}
 		return $iCount;
 	}
-	
+
 	/**
 	 * get count of instruction steps inside given segment.
 	 * value only available, if OSMapOpenRoute::enableInstructions(true) is set.
@@ -327,12 +333,12 @@ class OSMapOpenRoute
 
 	/**
 	 * get requested step from segment.
-	 * if $bArray set to true, result will be associative array, otherwise object from 
+	 * if $bArray set to true, result will be associative array, otherwise object from
 	 * class OSMapOpenRouteStep
-	 * 
+	 *
 	 * @param int $iSeg
 	 * @param int $iStep
-	 * @param bool $bArray	
+	 * @param bool $bArray
 	 * @return \OSMapOpenRouteStep or array, dependent of param $bArray or null, if step not available
 	 */
 	public function getStep($iSeg, $iStep, $bArray=false) {
@@ -348,7 +354,7 @@ class OSMapOpenRoute
 		}
 		return $step;
 	}
-	
+
 	/**
 	 * get the requisted segment
 	 * @return array or null, if no segments available
@@ -382,10 +388,10 @@ class OSMapOpenRoute
 		}
 		return $value;
 	}
-	
+
 	/**
 	 * read value from the sumary of the JSON response
-	 * 
+	 *
 	 * @param string $strName
 	 * @return value or null if ot exist
 	 */
@@ -410,7 +416,7 @@ class OSMapOpenRoute
 	public function getUnits() {
 		return $this->strUnits;
 	}
-	
+
 	/**
 	 * save response as json/gpx file dependent on format to file on server
 	 * @param string $strFilename
@@ -426,7 +432,7 @@ class OSMapOpenRoute
 	public function downloadRoute($strFilename='') {
 		$this->saveOrDownload(false, $strFilename);
 	}
-	
+
 	/**
 	 * save or download response as json/gpx file dependent on format
 	 * @param bool $bSave	true to save file on server, false to force download
@@ -475,7 +481,7 @@ class OSMapOpenRoute
 			}
 		}
 	}
-	
+
 	/**
 	 * raw response data for further processing
 	 * @return string (JSON, GeoJSO, or GPX-XML Data)
@@ -485,20 +491,20 @@ class OSMapOpenRoute
 	}
 
 	/**
-	 * last error 
+	 * last error
 	 * @return string
 	 */
 	public function getError() {
 		return $this->strError;
 	}
-	
+
 	/**
 	 * set language.
 	 * ISO 3166-3  -  NOT all languages are supported!
-	 * 
+	 *
 	 * supported languages:
 	 * 'en', 'de', 'cn', 'es', 'ru', 'dk', 'fr', 'it', 'nl', 'br', 'se', 'tr', 'gr'
-	 * 
+	 *
 	 * @param string $strLanguage
 	 */
 	public function setLanguage($strLanguage) {
@@ -517,9 +523,9 @@ class OSMapOpenRoute
 	 * - self::VT_WALKING		'normal' walking
 	 * - self::VT_HIKING		hiking
 	 * - self::VT_WHEELCHAIR	wheelchair
-	 * 
+	 *
 	 * if no type selected self::VT_CAR is assumed
-	 * 
+	 *
 	 * @param string $strVehicleType
 	 */
 	public function setVehicleType($strVehicleType) {
@@ -528,11 +534,11 @@ class OSMapOpenRoute
 
 	/**
 	 * self::FMT_JSON, self::FMT_GEOJSON or self::FMT_GPX
-	 * 
+	 *
 	 * access to details via properties/methods only available for format self::FMT_JSON
-	 * 
+	 *
 	 *   other formats usefull for display
-	 *   
+	 *
 	 * @param string $strFormat
 	 */
 	public function setFormat($strFormat) {
