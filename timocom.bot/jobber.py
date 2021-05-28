@@ -172,7 +172,7 @@ if  auth_data['status'] == '1':#авторизация прошла
 
                                     print(' ... работаем по вкладке')
 
-                                    get_order = orders.get_new_orders(browser, id_task, domain_key)
+                                    get_order = orders.get_new_orders(browser, id_task, domain_key, number_tab, version_task_array[number_tab], user_key)
 
                                     time.sleep(3)
                                 else:

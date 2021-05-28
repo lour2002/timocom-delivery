@@ -15,6 +15,7 @@ use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldBeUnique;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 use DiDom\Document;
@@ -240,13 +241,16 @@ class ProcessOrder implements ShouldQueue
                 $toCurrent .= $val['to_country'] . $val['to_zip'] . $val['to_city'];
             }
 
-            $orders = Order::where([
-                ['id', '!=', $order->id],
-                ['name', '=', $order->name],
-                ['email', '=', $order->email],
-                ['company_id', '=', $order->company_id],
-            ])->get();
-            //print_r($orders));
+            $orders = DB::table('orders')
+                        ->join('order_result', 'order_result.order_id', '=', 'orders.id')
+                        ->where([
+                            ['orders.id', '!=', $order->id],
+                            ['orders.name', '=', $order->name],
+                            ['orders.email', '=', $order->email],
+                            ['orders.company_id', '=', $order->company_id],
+                            ['order_result.status', '=', OrderResult::STATUS_SENT]
+                        ])->get();
+
             $d1 = $order->date_collection;
             foreach($orders as $item) {
                 $from = '';
@@ -368,9 +372,14 @@ class ProcessOrder implements ShouldQueue
                 }
             }
         }
-
+        // Set minimal price
         if ($task->minimal_price_order > $price) {
             $price = $task->minimal_price_order;
+        }
+
+        // Set order price
+        if (!empty($order->price) && $order->price > $price) {
+            $price = $order->price;
         }
 
         //check blacklist email

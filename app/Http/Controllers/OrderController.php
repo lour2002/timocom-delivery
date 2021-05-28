@@ -20,7 +20,9 @@ class OrderController extends Controller
                            ->select('orders.*', 'order_result.price AS price', 'order_result.status','order_result.reason',
                                     DB::raw('DATE_FORMAT(order_result.created_at, "%H:%i:%s") as time'),
                                     DB::raw('DATE_FORMAT(order_result.created_at, "%d.%m.%Y") as date'))
-                           ->where('order_result.task_id', '=', $taskId)->get()
+                           ->where('order_result.task_id', '=', $taskId)
+                           ->latest()
+                           ->get()
         ]);
     }
 

@@ -16,7 +16,9 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.support import expected_conditions as EC
 
-def get_new_orders(browser, id_task, domain_key):
+import __getsetting as getsetting
+
+def get_new_orders(browser, id_task, domain_key , number_tab, version_task, user_key):
     send_url = str(domain_key)+'/api/send_order'
     print('|==>> id_task:', id_task)
     report_data = '0'
@@ -36,6 +38,15 @@ def get_new_orders(browser, id_task, domain_key):
                         next_page = 'yes'
                         index = 0
                         while next_page!= 'no':
+                            # Проверяем изменились ли настройки
+                            setting_tab = getsetting.get_setting(number_tab, domain_key, user_key)
+
+                            if version_task != setting_tab['version_task']:
+                                print(' ---> Настройки изменились - Выход...')
+                                time.sleep(3)
+                                next_page = 'no'
+                                break
+
                             # получаем хитрый ИД
                             browser.find_element_by_xpath('//*[@id="app:cnt:searchDetail:navBar:shareOfferBtn"]').click()
                             time.sleep(5)

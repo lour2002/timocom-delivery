@@ -147,8 +147,9 @@ class OSMapOpenRoute
 			}
 
             // Allowed to find closes point
-			$aData['radiuses'] = array_reduce($aData['coordinates'], function ($acc, $v) {
+			$aData['radiuses'] = array_reduce($aCoordinates, function ($acc, $v) {
 			   array_push($acc, -1);
+			   return $acc;
 			}, []);
 
 			$jsonData = json_encode($aData);
