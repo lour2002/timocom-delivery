@@ -243,6 +243,7 @@ class ProcessOrder implements ShouldQueue
 
             $orders = DB::table('orders')
                         ->join('order_result', 'order_result.order_id', '=', 'orders.id')
+                        ->select('orders.*')
                         ->where([
                             ['orders.id', '!=', $order->id],
                             ['orders.name', '=', $order->name],
@@ -399,6 +400,7 @@ class ProcessOrder implements ShouldQueue
         $res->task_id = $task->id;
         $res->order_id = $order->id;
         $res->price = $price;
+        $res->distance = $car_location + $order->distance;
         $res->status = $status;
         $res->reason = $reason[$status];
         $res->save();

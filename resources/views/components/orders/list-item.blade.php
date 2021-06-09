@@ -32,8 +32,8 @@
         @endforeach
     </td>
     <td class="border px-2">
-        <span class="text-sm"><b>Price:</b> {{ $price }}</span> <br>
-        <span class="text-sm"><b>Distance:</b> {{ $distance }}</span> <br>
+        @if ($show_info) <span class="text-sm"><b>Price: </b> {{ $price }}</span> <br> @endif
+        @if ($show_info) <span class="text-sm"><b>Distance: </b>{{$car_distance}} + {{ $distance }}</span> <br> @endif
         <span class="text-sm"><b>Reason:</b> {{ $reason }}</span>
         <a class="block my-3 text-gray-500 underline text-sm" target="_blank" href="{{$offer_id}}">timocom link</a>
     </td>

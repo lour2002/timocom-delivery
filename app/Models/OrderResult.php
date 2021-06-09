@@ -17,7 +17,7 @@ class OrderResult extends Model
     public const STATUS_BLACKLIST = 'BLACKLIST';
 
     protected $fillable = [
-        'task_id', 'order_id', 'price', 'status'
+        'task_id', 'order_id', 'price', 'distance', 'status'
     ];
 
     protected $table = 'order_result';

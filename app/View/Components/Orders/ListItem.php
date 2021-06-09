@@ -20,7 +20,9 @@ class ListItem extends Component
     public $from;
     public $to;
     public $price;
+    public $show_info;
     public $distance;
+    public $car_distance;
     public $reason;
 
     /**
@@ -41,18 +43,22 @@ class ListItem extends Component
             break;
             case OrderResult::STATUS_SENT:
             $this->status_class = 'fa-2x text-green-500 fa-check-square';
+            $this->show_info = true;
             break;
             case OrderResult::STATUS_BORDER:
             case OrderResult::STATUS_DUPLICATE:
             case OrderResult::STATUS_EQUIPMENT:
             case OrderResult::STATUS_BLACKLIST:
             $this->status_class = 'fa-2x text-red-500 fa-minus-square';
+            $this->show_info = false;
             break;
             case OrderResult::STATUS_STOP:
             $this->status_class = 'fa-2x text-yellow-500 fa-pen-square';
+            $this->show_info = false;
             break;
             case OrderResult::STATUS_OVERPRICE:
             $this->status_class = 'fa-lg text-yellow-500 fa-money-check-alt';
+            $this->show_info = true;
             break;
         }
 
@@ -65,6 +71,7 @@ class ListItem extends Component
         $this->to = json_decode($order->to, true);
         $this->price = $order->price;
         $this->distance = $order->distance;
+        $this->car_distance = $order->full_distance - $order->distance;
         $this->reason = $order->reason;
 
     }
