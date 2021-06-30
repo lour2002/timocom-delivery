@@ -96,7 +96,7 @@ class SearchSettingsController extends Controller
                     case "post2":
                     case "post3":
                     case "as_country_to":
-                $toSelectOptArray[$keys[1]][$keys[0]] = $v;
+                        $toSelectOptArray[$keys[1]][$keys[0]] = $v;
                     break;
                     case "border_country":
                     case "border_val":
@@ -110,12 +110,17 @@ class SearchSettingsController extends Controller
 
         }
 
-        $toSelectOptArray=array_filter($toSelectOptArray, function ($val) {
-            return $val['as_country_to'] !== self::EMPTY_COUNTRY;
-        });
-        $crossBorder=array_filter($crossBorder, function ($val) {
-            return $val['border_country'] !== self::EMPTY_COUNTRY;
-        });
+        if (!empty($toSelectOptArray) {
+            $toSelectOptArray=array_filter($toSelectOptArray, function ($val) {
+                return $val['as_country_to'] !== self::EMPTY_COUNTRY;
+            });
+        }
+
+        if (!empty($crossBorder) {
+            $crossBorder=array_filter($crossBorder, function ($val) {
+                return $val['border_country'] !== self::EMPTY_COUNTRY;
+            });
+        }
 
         $user = User::find(auth()->user()->id);
         $input['car_country'] = $input['as_country'];

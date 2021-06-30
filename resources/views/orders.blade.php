@@ -1,8 +1,14 @@
 <x-app-layout>
     <x-container class="--container">
+        <form action="/clean/" method="GET" id="clean-orders"></form>
         <div class="flex items-center mb-3">
             <h1 class="page-title mb-0 flex-grow">ORDERS LIST: TASK #{{ $id }}</h1>
-            <a href="/clean/" class="btn --success flex-shrink" >Clear history for all tasks</a>
+            <x-button
+                form="clean-orders"
+                color="--success"
+                :disabled="$disabled">
+               Clear history for all tasks
+            </x-button>
         </div>
         <div class="overflow-auto" style="overflow: auto">
             <table class="border w-full">

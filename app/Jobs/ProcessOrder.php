@@ -277,9 +277,10 @@ class ProcessOrder implements ShouldQueue
         }
         //calculate price
         $price = 0;
+        $car_location = 0;
+
         if ($result) {
             Log::debug("=============================".$order->id."=============================");
-            $car_location = 0;
             if (!empty($task->car_country) && (!empty($task->car_zip) || !empty($task->car_city))) {
                 $address = '';
                 $country = explode(' ', $task->car_country)[1];

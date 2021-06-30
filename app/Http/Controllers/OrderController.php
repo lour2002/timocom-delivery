@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\Order;
 use App\Models\OrderResult;
 use App\Models\SearchResult;
+use App\Models\User;
+use App\Models\Task;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\DB;
@@ -13,8 +15,15 @@ class OrderController extends Controller
 {
     public function get(Request $request, $taskId)
     {
+        $user_id = auth()->user()->id;
+        $has_working_tasks = Task::where('user_id', '=', $user_id)
+                             ->where('status_job', '!=', Task::STATUS_STOP)
+                             ->get()
+                             ->count();
+
         return view('orders', [
             'id' => $taskId,
+            'disabled' => !!$has_working_tasks,
             'orders' => DB::table('order_result')
                            ->join('orders', 'order_result.order_id', '=', 'orders.id')
                            ->select('orders.*', 'order_result.price AS price', 'order_result.status','order_result.reason',
@@ -29,12 +38,23 @@ class OrderController extends Controller
 
     public function clean(Request $request)
     {
-        $date = new \DateTime();
-        $dateEnd = $date->sub(new \DateInterval('P1D'));
+        $user_id = auth()->user()->id;
         try {
-            SearchResult::where('created_at', '<', $dateEnd)->delete();
-            OrderResult::where('created_at', '<', $dateEnd)->delete();
-            Order::where('created_at', '<', $dateEnd)->delete();
+            DB::table('search_result')
+                ->leftJoin('tasks', 'search_result.id_task', '=', 'tasks.id')
+                ->where('tasks.user_id', '=', $user_id)
+                ->delete();
+
+            DB::table('order_result')
+                ->leftJoin('tasks', 'order_result.task_id', '=', 'tasks.id')
+                ->where('tasks.user_id', '=', $user_id)
+                ->delete();
+
+            DB::table('orders')
+                ->leftJoin('tasks', 'orders.task_id', '=', 'tasks.id')
+                ->where('tasks.user_id', '=', $user_id)
+                ->delete();
+
             return back();
         } catch (\Throwable $e) {
             Log::debug('ERROR DELETE OLD DATA: '.$e->getMessage());

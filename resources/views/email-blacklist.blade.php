@@ -14,6 +14,7 @@
                     <option value="259200">72 hour</option>
                     <option value="604800">week</option>
                     <option value="2592000">month</option>
+                    <option value="31536000">year</option>
                 </select>
             </x-label>
             <x-button class="flex-shrink" type="button" color="--success" value="ADD EMAIL" v-on:click="addEmailToBlackList"/>
