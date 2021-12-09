@@ -110,13 +110,13 @@ class SearchSettingsController extends Controller
 
         }
 
-        if (!empty($toSelectOptArray) {
+        if (!empty($toSelectOptArray)) {
             $toSelectOptArray=array_filter($toSelectOptArray, function ($val) {
                 return $val['as_country_to'] !== self::EMPTY_COUNTRY;
             });
         }
 
-        if (!empty($crossBorder) {
+        if (!empty($crossBorder)) {
             $crossBorder=array_filter($crossBorder, function ($val) {
                 return $val['border_country'] !== self::EMPTY_COUNTRY;
             });
