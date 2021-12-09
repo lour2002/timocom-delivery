@@ -423,7 +423,7 @@ class ProcessOrder implements ShouldQueue
                 $toEmail = $companySettings->email;
             }
 
-            $subject = 'TIMOCOM-OFFER: (' . $task->individual_days . ')';
+            $subject = '[' . $task->name . ']' . 'TIMOCOM-OFFER: (' . $task->individual_days . ')';
             $orderFrom = json_decode($order->from);
             if (count($orderFrom)) {
                 $subject .= ' '.current($orderFrom)->from_country;
