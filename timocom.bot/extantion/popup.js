@@ -12,6 +12,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
   if (current_verification_key) {
     textUserKey.innerText = current_verification_key;
+    textStatusUserKey.innerHTML = "<span class=\"text-success\">ok</span>";
     divUserKey.classList.add('d-none');
   }
 

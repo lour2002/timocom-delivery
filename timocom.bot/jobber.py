@@ -36,7 +36,7 @@ site_link = 'https://my.timocom.com/app/tco/freight/search/'
 sign_open_service = 'uit-aph-notification' #ID элемента, который есть на странице, чтобы подтвердить, что мы в нужном месте
 
 #счетчик ревизий окон для проверки необходимости обновления
-version_task_array = dict();
+version_task_array = dict()
 version_task_array[0] = 0
 version_task_array[1] = 0
 version_task_array[2] = 0
