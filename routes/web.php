@@ -17,26 +17,21 @@ use Illuminate\Support\Facades\Route;
 | contains the "web" middleware group. Now create something great!
 |
 */
-Route::get('/company', [CompanySettingsController::class, 'get'])->middleware(['auth'])->name('company');
-Route::post('/company', [CompanySettingsController::class, 'set'])->middleware(['auth'])->name('company');
+// Route::get('/company', [CompanySettingsController::class, 'get'])->middleware(['auth'])->name('company');
+// Route::post('/company', [CompanySettingsController::class, 'set'])->middleware(['auth'])->name('company');
 
-Route::get('/', [SearchSettingsController::class, 'all'])->middleware(['auth'])->name('dashboard');
-Route::get('/task/{id?}', [SearchSettingsController::class, 'get'])->middleware(['auth'])->name('task');
-Route::post('/task/store', [SearchSettingsController::class, 'store'])->middleware(['auth']);
-Route::post('/task/start', [SearchSettingsController::class, 'start'])->middleware(['auth'])->name('start');
-Route::post('/task/test', [SearchSettingsController::class, 'test'])->middleware(['auth'])->name('test');
-Route::post('/task/stop', [SearchSettingsController::class, 'stop'])->middleware(['auth'])->name('stop');
+// Route::get('/', [SearchSettingsController::class, 'all'])->middleware(['auth'])->name('dashboard');
+// Route::get('/task/{id?}', [SearchSettingsController::class, 'get'])->middleware(['auth'])->name('task');
+// Route::post('/task/store', [SearchSettingsController::class, 'store'])->middleware(['auth']);
+// Route::post('/task/start', [SearchSettingsController::class, 'start'])->middleware(['auth'])->name('start');
+// Route::post('/task/test', [SearchSettingsController::class, 'test'])->middleware(['auth'])->name('test');
+// Route::post('/task/stop', [SearchSettingsController::class, 'stop'])->middleware(['auth'])->name('stop');
 
-// TODO: Delete after release
-// Route::get('/smtp', [SmtpController::class, 'get'])->middleware(['auth'])->name('smtp');
-// Route::post('/smtp', [SmtpController::class, 'store'])->middleware(['auth'])->name('smtp');
-// Route::get('/test_email', [SmtpController::class, 'testEmail']);
+// Route::get('/orders/{taskId}', [OrderController::class, 'get'])->middleware(['auth'])->name('orders');
+// Route::get('/clean', [OrderController::class, 'clean'])->middleware(['auth'])->name('clean');
 
-Route::get('/orders/{taskId}', [OrderController::class, 'get'])->middleware(['auth'])->name('orders');
-Route::get('/clean', [OrderController::class, 'clean'])->middleware(['auth'])->name('clean');
+// Route::get('/blacklist', [BlacklistController::class, 'get'])->middleware(['auth'])->name('blacklist');
+// Route::post('/blacklist/store', [BlacklistController::class, 'store'])->middleware(['auth'])->name('blacklist.store');
+// Route::post('/blacklist/delete', [BlacklistController::class, 'delete'])->middleware(['auth'])->name('blacklist.delete');
 
-Route::get('/blacklist', [BlacklistController::class, 'get'])->middleware(['auth'])->name('blacklist');
-Route::post('/blacklist/store', [BlacklistController::class, 'store'])->middleware(['auth'])->name('blacklist.store');
-Route::post('/blacklist/delete', [BlacklistController::class, 'delete'])->middleware(['auth'])->name('blacklist.delete');
-
-require __DIR__.'/auth.php';
+// require __DIR__.'/auth.php';

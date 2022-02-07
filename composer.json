@@ -17,6 +17,7 @@
         "laravel/framework": "^8.12",
         "laravel/tinker": "^2.5",
         "league/geotools": "^0.8.2",
+        "orchid/platform": "^11.0",
         "php-http/guzzle7-adapter": "^1.0",
         "toin0u/geocoder-laravel": "^4.4",
         "toin0u/geotools-laravel": "^1.0"
