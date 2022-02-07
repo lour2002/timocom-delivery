@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\CompanySettings;
 use Orchid\Platform\Models\User as Authenticatable;
 
 class User extends Authenticatable
@@ -64,4 +65,9 @@ class User extends Authenticatable
         'updated_at',
         'created_at',
     ];
+
+    public function company_indo()
+    {
+        return $this->hasOne(CompanySettings::class);
+    }
 }
