@@ -33,5 +33,3 @@ use Illuminate\Support\Facades\Route;
 // Route::get('/blacklist', [BlacklistController::class, 'get'])->middleware(['auth'])->name('blacklist');
 // Route::post('/blacklist/store', [BlacklistController::class, 'store'])->middleware(['auth'])->name('blacklist.store');
 // Route::post('/blacklist/delete', [BlacklistController::class, 'delete'])->middleware(['auth'])->name('blacklist.delete');
-
-// require __DIR__.'/auth.php';
