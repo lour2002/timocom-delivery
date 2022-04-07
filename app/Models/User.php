@@ -66,7 +66,7 @@ class User extends Authenticatable
         'created_at',
     ];
 
-    public function company_indo()
+    public function company_info()
     {
         return $this->hasOne(CompanySettings::class);
     }

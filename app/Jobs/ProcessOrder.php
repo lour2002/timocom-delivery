@@ -56,18 +56,18 @@ class ProcessOrder implements ShouldQueue
 
         //$result['date_collection'] = \DateTime::createFromFormat('Y-m-d H:i:s', $entry[0]->text());
 
-        $entry = $doc->xpath('//*[@id="app:cnt:searchDetail:contactPersonName"]');
-        $result['name'] = $entry[0]->text();
-
-        $entry = $doc->xpath('//*[@id="app:cnt:searchDetail:company"]');
-        $result['company'] = $entry[0]->text();
-
         $entry = $doc->xpath('//*[@id="app:cnt:searchDetail:contactPersonEmail"]');
         $result['email'] = $entry[0]->text();
 
         if (empty($result['email'])) {
             exit;
         }
+
+        $entry = $doc->xpath('//*[@id="app:cnt:searchDetail:contactPersonName"]');
+        $result['name'] = $entry[0]->text();
+
+        $entry = $doc->xpath('//*[@id="app:cnt:searchDetail:company"]');
+        $result['company'] = $entry[0]->text();
 
         $entry = $doc->xpath('//*[@id="app:cnt:searchDetail:contactPhone"]');
         $result['phone'] = $entry[0]->text();
@@ -84,12 +84,12 @@ class ProcessOrder implements ShouldQueue
         $entry = $doc->xpath('//*[@id="app:cnt:searchDetail:paymentDueWithinDays"]');
         $result['payment_due'] = $entry[0]->text();
 
-        $descr = '';
+        $description = '';
         $entry = $doc->xpath('//*[@id="app:cnt:searchDetail:typeOfGoods"]');
-        $descr .= ('' !== $entry[0]->text()) ? ', ' . $entry[0]->text() : '';
+        $description .= ('' !== $entry[0]->text()) ? ', ' . $entry[0]->text() : '';
         $entry = $doc->xpath('//*[@id="app:cnt:searchDetail:additionalInfo"]');
-        $descr .= ('' !== $entry[0]->text()) ? ', ' . $entry[0]->text() : '';
-        $result['freight_description'] = $descr;
+        $description .= ('' !== $entry[0]->text()) ? ', ' . $entry[0]->text() : '';
+        $result['freight_description'] = $description;
 
         $entry = $doc->xpath('//*[@id="app:cnt:searchDetail:price"]');
         $result['price'] = !empty($entry[0]->text()) ? $entry[0]->text() : null;
@@ -105,14 +105,14 @@ class ProcessOrder implements ShouldQueue
         $entry = $doc->xpath('//*[@id="app:cnt:searchDetail:vehicleTypesList"]');
         $result['vehicle_type'] = $entry[0]->text();
 
-        $descr = '';
+        $description = '';
         $entry = $doc->xpath('//*[@id="app:cnt:searchDetail:vehicleTypesList"]');
-        $descr .= $entry[0]->text();
+        $description .= $entry[0]->text();
         $entry = $doc->xpath('//*[@id="app:cnt:searchDetail:vehicleBodies"]');
-        $descr .= (''!== $entry[0]->text()) ? ', '.$entry[0]->text() : '';
+        $description .= (''!== $entry[0]->text()) ? ', '.$entry[0]->text() : '';
         $entry = $doc->xpath('//*[@id="app:cnt:searchDetail:vehicleProperties"]');
-        $descr .= ('' !== $entry[0]->text()) ? ', ' . $entry[0]->text() : '';
-        $result['vehicle_description'] = $descr;
+        $description .= ('' !== $entry[0]->text()) ? ', ' . $entry[0]->text() : '';
+        $result['vehicle_description'] = $description;
 
         $entry = $doc->xpath('//*[@id="app:cnt:searchDetail:remarks"]');
         $result['remarks'] = $entry[0]->text();
@@ -182,6 +182,8 @@ class ProcessOrder implements ShouldQueue
             OrderResult::STATUS_SENT => 'Proposal sent',
         ];
         $result = true;
+
+        //check stop word
         if (!empty($task->tags)) {
             foreach(explode(';', $task->tags) as $tag) {
                 if (preg_match('/\b'.$tag.'\b/i', $order->freight_description)) {
@@ -205,7 +207,7 @@ class ProcessOrder implements ShouldQueue
             }
         }
 
-        //check cross boarding
+        //check cross boarding (unused by Victor)
         if ($result) {
             foreach(json_decode($task->cross_border, true) as $k => $v) {
                 foreach (json_decode($order->to, true) as $key => $to) {
@@ -360,8 +362,9 @@ class ProcessOrder implements ShouldQueue
                 $status = OrderResult::STATUS_STOP;
                 $reason[$status] = 'Empty car distance = 0';
             }
+
+            $price = round($price, -1);
         }
-        $price = round($price, -1);
 
         // Check overprice
         if ($result) {
@@ -397,6 +400,7 @@ class ProcessOrder implements ShouldQueue
             }
         }
 
+        // Save order result
         $res = new OrderResult();
         $res->task_id = $task->id;
         $res->order_id = $order->id;
@@ -406,6 +410,8 @@ class ProcessOrder implements ShouldQueue
         $res->reason = $reason[$status];
         $res->save();
 
+
+        // Send email
         if ($result) {
             $companySettings = CompanySettings::where('user_id', '=', $user->id)->first();
             $message = $task->email_template;
