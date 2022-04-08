@@ -28,6 +28,18 @@ class PlatformProvider extends OrchidServiceProvider
     public function registerMainMenu(): array
     {
         return [
+            Menu::make('Dashboard')
+                ->icon('browser')
+                ->route('platform.tasks'),
+
+            Menu::make('Company Settings')
+                ->icon('building')
+                ->route('platform.company_info'),
+
+            Menu::make('Black List')
+                ->icon('envelope')
+                ->route('platform.black_list'),
+
             Menu::make('Example screen')
                 ->icon('monitor')
                 ->route('platform.example')

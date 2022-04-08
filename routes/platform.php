@@ -15,6 +15,9 @@ use App\Orchid\Screens\Role\RoleListScreen;
 use App\Orchid\Screens\User\UserEditScreen;
 use App\Orchid\Screens\User\UserListScreen;
 use App\Orchid\Screens\User\UserProfileScreen;
+use App\Orchid\Screens\Dashboard;
+use App\Orchid\Screens\CompanySettings;
+use App\Orchid\Screens\EmailBlackList;
 use Illuminate\Support\Facades\Route;
 use Tabuna\Breadcrumbs\Trail;
 
@@ -32,6 +35,18 @@ use Tabuna\Breadcrumbs\Trail;
 // Main
 Route::screen('/main', PlatformScreen::class)
     ->name('platform.main');
+
+// Platform > Dashboard
+Route::screen('tasks', Dashboard::class)
+->name('platform.tasks');
+
+// Platform > Company Settings
+Route::screen('company_info', CompanySettings::class)
+    ->name('platform.company_info');
+
+// Platform > Black List
+Route::screen('black_list', EmailBlackList::class)
+    ->name('platform.black_list');
 
 // Platform > Profile
 Route::screen('profile', UserProfileScreen::class)
