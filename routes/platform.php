@@ -38,7 +38,7 @@ Route::screen('/main', PlatformScreen::class)
 
 // Platform > Dashboard
 Route::screen('tasks', Dashboard::class)
-->name('platform.tasks');
+    ->name('platform.tasks');
 
 // Platform > Company Settings
 Route::screen('company_info', CompanySettings::class)

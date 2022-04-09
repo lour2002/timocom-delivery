@@ -13,8 +13,24 @@ class CompanySettings extends Model
 {
     use AsSource, Filterable, Attachable;
 
-    public function user()
-    {
-        return $this->belongsTo(User::class);
-    }
+    /**
+     * The table associated with the model.
+     *
+     * @var string
+     */
+    protected $table = 'company_settings';
+
+    /**
+     * The attributes that are mass assignable.
+     *
+     * @var array
+     */
+    protected $fillable = [
+        'user_id',
+        'timocom_id',
+        'name',
+        'contact_person',
+        'phone',
+        'email'
+    ];
 }
