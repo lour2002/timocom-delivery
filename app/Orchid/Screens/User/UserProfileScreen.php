@@ -19,6 +19,8 @@ use Orchid\Support\Facades\Toast;
 
 class UserProfileScreen extends Screen
 {
+
+    public $key;
     /**
      * Query data.
      *
@@ -30,6 +32,7 @@ class UserProfileScreen extends Screen
     {
         return [
             'user' => $request->user(),
+            'key'  => $request->user()->key,
         ];
     }
 
@@ -50,7 +53,7 @@ class UserProfileScreen extends Screen
      */
     public function description(): ?string
     {
-        return 'Update your account details such as name, email address and password';
+        return '';
     }
 
     /**
@@ -60,7 +63,11 @@ class UserProfileScreen extends Screen
      */
     public function commandBar(): iterable
     {
-        return [];
+        return [
+            Button::make($this->key)
+                ->set('type', 'button')
+                ->rawClick(),
+        ];
     }
 
     /**
