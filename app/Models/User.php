@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Models\CompanySettings;
+use App\Models\BlackList;
 use Orchid\Platform\Models\User as Authenticatable;
 
 class User extends Authenticatable
@@ -69,5 +70,10 @@ class User extends Authenticatable
     public function company_info()
     {
         return $this->hasOne(CompanySettings::class);
+    }
+
+    public function black_list_emails()
+    {
+        return $this->hasMany(BlackList::class);
     }
 }

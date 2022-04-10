@@ -15,7 +15,7 @@ class CreateTimocomCompanySettingsTable extends Migration
     {
         Schema::create('company_settings', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('user_id')->constrained();
+            $table->foreignUuid('user_id')->constrained();
             $table->integer('timocom_id')->nullable();
             $table->string('name')->nullable();
             $table->string('contact_person')->nullable();

@@ -7,7 +7,7 @@ use Orchid\Attachment\Attachable;
 use Orchid\Filters\Filterable;
 use Orchid\Screen\AsSource;
 
-class CompanySettings extends Model
+class BlackList extends Model
 {
     use AsSource, Filterable, Attachable;
 
@@ -16,7 +16,7 @@ class CompanySettings extends Model
      *
      * @var string
      */
-    protected $table = 'company_settings';
+    protected $table = 'black_list';
 
     /**
      * The attributes that are mass assignable.
@@ -25,10 +25,7 @@ class CompanySettings extends Model
      */
     protected $fillable = [
         'user_id',
-        'timocom_id',
-        'name',
-        'contact_person',
-        'phone',
-        'email'
+        'email',
+        'ttl'
     ];
 }

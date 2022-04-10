@@ -87,6 +87,6 @@ class CompanySettings extends Screen
             ->fill($data)
             ->save();
 
-        Toast::info(__('Company settings saved.'));
+        Toast::success(__('Company settings saved.'));
     }
 }
