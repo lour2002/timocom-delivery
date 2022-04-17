@@ -7,6 +7,8 @@ use Orchid\Attachment\Attachable;
 use Orchid\Filters\Filterable;
 use Orchid\Screen\AsSource;
 
+use App\Orchid\Presenters\TaskPresenter;
+
 class Task extends Model
 {
     use AsSource, Filterable, Attachable;
@@ -35,4 +37,9 @@ class Task extends Model
         'car_price', 'car_price_extra_points', 'car_price_special_price', 'exchange_equipment', 'minimal_price_order',
         'percent_stop_value', 'cross_border', 'tags', 'email_template'
     ];
+
+    public function presenter(): TaskPresenter
+    {
+        return new TaskPresenter($this);
+    }
 }

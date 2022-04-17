@@ -30,7 +30,7 @@ class PlatformProvider extends OrchidServiceProvider
         return [
             Menu::make('Dashboard')
                 ->icon('browser')
-                ->route('platform.tasks'),
+                ->route('platform.task'),
 
             Menu::make('Company Settings')
                 ->icon('building')

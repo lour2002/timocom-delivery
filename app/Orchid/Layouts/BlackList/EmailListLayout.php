@@ -16,9 +16,16 @@ use Orchid\Support\Color;
 
 class EmailListLayout extends Table
 {
+    /**
+     * Used to create the title of a group of form elements.
+     *
+     * @var string|null
+     */
+    protected $title;
+
     public function __construct()
     {
-        $this->title('Email list');
+        $this->title = 'Email list';
     }
     /**
      * @var string

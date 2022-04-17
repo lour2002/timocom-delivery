@@ -15,10 +15,16 @@ use Orchid\Support\Color;
 
 class AddedEmailLayout extends Rows
 {
+    /**
+     * Used to create the title of a group of form elements.
+     *
+     * @var string|null
+     */
+    protected $title;
 
     public function __construct()
     {
-        $this->title('Added email to black list');
+        $this->title ='Added email to black list';
     }
 
     /**
