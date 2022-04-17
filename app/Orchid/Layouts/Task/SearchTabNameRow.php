@@ -29,7 +29,8 @@ class SearchTabNameRow extends Rows
             Input::make('task.name')
                     ->title('Task name')
                     ->help('Enter task or driver name')
-                    ->placeholder('Name'),
+                    ->placeholder('Name')
+                    ->required(),
         ];
     }
 }

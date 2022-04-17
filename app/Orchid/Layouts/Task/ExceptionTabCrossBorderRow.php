@@ -10,6 +10,7 @@ use Orchid\Screen\Fields\Select;
 
 use Orchid\Support\Facades\Layout;
 
+use App\Orchid\Presenters\TaskPresenter;
 
 class ExceptionTabCrossBorderRow extends Rows
 {
@@ -31,47 +32,47 @@ class ExceptionTabCrossBorderRow extends Rows
      */
     protected function fields(): iterable
     {
-        $options = $this->query->get('task')->countriesSelectOptions();
+        $options = TaskPresenter::countriesSelectOptions();
 
         return [
             Group::make([
-                Select::make('task.border_country.0')
+                Select::make('task.cross_border.0.border_country')
                         ->title('Country')
                         ->options($options),
-                Input::make('task.border_val.0')
+                Input::make('task.cross_border.0.border_val')
                         ->title('Weight')
                         ->type('number')
                         ->set('step', '0.01')
                         ->placeholder('0'),
             ]),
             Group::make([
-                Select::make('task.border_country.1')
+                Select::make('task.cross_border.1.border_country')
                         ->options($options),
-                Input::make('task.border_val.1')
+                Input::make('task.cross_border.1.border_val')
                         ->type('number')
                         ->set('step', '0.01')
                         ->placeholder('0'),
             ]),
             Group::make([
-                Select::make('task.border_country.2')
+                Select::make('task.cross_border.2.border_country')
                         ->options($options),
-                Input::make('task.border_val.2')
+                Input::make('task.cross_border.2.border_val')
                         ->type('number')
                         ->set('step', '0.01')
                         ->placeholder('0'),
             ]),
             Group::make([
-                Select::make('task.border_country.3')
+                Select::make('task.cross_border.3.border_country')
                         ->options($options),
-                Input::make('task.border_val.3')
+                Input::make('task.cross_border.3.border_val')
                         ->type('number')
                         ->set('step', '0.01')
                         ->placeholder('0'),
             ]),
             Group::make([
-                Select::make('task.border_country.4')
+                Select::make('task.cross_border.4.border_country')
                         ->options($options),
-                Input::make('task.border_val.4')
+                Input::make('task.cross_border.4.border_val')
                         ->type('number')
                         ->set('step', '0.01')
                         ->placeholder('0'),

@@ -12,12 +12,10 @@ use Orchid\Support\Facades\Layout;
 
 use App\Models\Task;
 
+use App\Orchid\Presenters\TaskPresenter;
 
 class SearchTabFromRow extends Rows
 {
-
-
-
     /**
      * Used to create the title of a group of form elements.
      *
@@ -36,7 +34,7 @@ class SearchTabFromRow extends Rows
      */
     protected function fields(): iterable
     {
-        $options = $this->query->get('task')->countriesSelectOptions();
+        $options = TaskPresenter::countriesSelectOptions();
 
         return [
             Group::make([

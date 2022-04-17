@@ -6,6 +6,8 @@ use Orchid\Support\Presenter;
 
 class TaskPresenter extends Presenter
 {
+    public const EMPTY_COUNTRY = "-- is empty --";
+
     public const COUNTRIES = ["AF Afghanistan", "AL Albania", "AM Armenia", "AT Austria",
         "AZ Azerbaijan", "BA Bosnia-Herzegovina", "BE Belgium", "BG Bulgaria", "BH Bahrain",
         "BY Belarus", "CH Switzerland", "CN China", "CY Cyprus", "CZ Czech Republic", "DE Germany",
@@ -21,7 +23,21 @@ class TaskPresenter extends Presenter
         "TN Tunisia", "TR Turkey", "UA Ukraine", "UZ Uzbekistan", "VA Vatican City", "YE Yemen"
     ];
 
-    public function countriesSelectOptions() {
-        return ['-- is empty --'] + self::COUNTRIES;
+    public static function countriesSelectOptions() {
+        $data = [self::EMPTY_COUNTRY] + self::COUNTRIES;
+
+        return array_combine($data,$data);
+    }
+
+    public function getCarPriceExtraPoints() {
+        return ($this->entity->car_price_extra_points - 1) * 100;
+    }
+
+    public function getDesctinations() {
+        return json_decode($this->entity->toSelectOptArray ?? "[]", true);
+    }
+
+    public function getCrossBorder() {
+        return json_decode($this->entity->cross_border ?? "[]", true);
     }
 }

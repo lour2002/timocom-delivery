@@ -162,8 +162,6 @@ class UserEditScreen extends Screen
      */
     public function save(User $user, Request $request)
     {
-
-        dd($user);
         $request->validate([
             'user.email' => [
                 'required',

@@ -12,6 +12,7 @@ use Orchid\Support\Facades\Layout;
 
 use App\Models\Task;
 
+use App\Orchid\Presenters\TaskPresenter;
 
 class SearchTabToRow extends Rows
 {
@@ -33,61 +34,61 @@ class SearchTabToRow extends Rows
      */
     protected function fields(): iterable
     {
-        $options = $this->query->get('task')->countriesSelectOptions();
+        $options = TaskPresenter::countriesSelectOptions();
 
         return [
             Group::make([
-                Select::make('task.as_country_to.0')
+                Select::make('task.to.0.as_country_to')
                         ->title('Country')
                         ->options($options),
-                Input::make('task.post1.0')
+                Input::make('task.to.0.post1')
                         ->title('post 1')
                         ->placeholder('zip code'),
-                Input::make('task.post2.0')
+                Input::make('task.to.0.post2')
                         ->title('post 2')
                         ->placeholder('zip code'),
-                Input::make('task.post3.0')
+                Input::make('task.to.0.post3')
                         ->title('post 3')
                         ->placeholder('zip code'),
             ]),
             Group::make([
-                Select::make('task.as_country_to.1')
+                Select::make('task.to.1.as_country_to')
                         ->options($options),
-                Input::make('task.post1.1')
+                Input::make('task.to.1.post1')
                         ->placeholder('zip code'),
-                Input::make('task.post2.1')
+                Input::make('task.to.1.post2')
                         ->placeholder('zip code'),
-                Input::make('task.post3.1')
+                Input::make('task.to.1.post3')
                         ->placeholder('zip code'),
             ]),
             Group::make([
-                Select::make('task.as_country_to.2')
+                Select::make('task.to.2.as_country_to')
                         ->options($options),
-                Input::make('task.post1.2')
+                Input::make('task.to.2.post1')
                         ->placeholder('zip code'),
-                Input::make('task.post2.2')
+                Input::make('task.to.2.post2')
                         ->placeholder('zip code'),
-                Input::make('task.post3.2')
+                Input::make('task.to.2.post3')
                         ->placeholder('zip code'),
             ]),
             Group::make([
-                Select::make('task.as_country_to.3')
+                Select::make('task.to.3.as_country_to')
                         ->options($options),
-                Input::make('task.post1.3')
+                Input::make('task.to.3.post1')
                         ->placeholder('zip code'),
-                Input::make('task.post2.3')
+                Input::make('task.to.3.post2')
                         ->placeholder('zip code'),
-                Input::make('task.post3.3')
+                Input::make('task.to.3.post3')
                         ->placeholder('zip code'),
             ]),
             Group::make([
-                Select::make('task.as_country_to.4')
+                Select::make('task.to.4.as_country_to')
                         ->options($options),
-                Input::make('task.post1.4')
+                Input::make('task.to.4.post1')
                         ->placeholder('zip code'),
-                Input::make('task.post2.4')
+                Input::make('task.to.4.post2')
                         ->placeholder('zip code'),
-                Input::make('task.post3.4')
+                Input::make('task.to.4.post3')
                         ->placeholder('zip code'),
             ]),
         ];

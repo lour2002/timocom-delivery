@@ -2,12 +2,18 @@
 
 namespace App\Orchid\Screens\Task;
 
+use Illuminate\Http\Request;
+
 use Orchid\Screen\Screen;
+use Orchid\Screen\Actions\Button;
 use Orchid\Screen\Fields\Input;
 use Orchid\Support\Facades\Layout;
+use Orchid\Support\Facades\Toast;
 
+use Orchid\Support\Color;
 
 use App\Models\Task;
+use App\Orchid\Presenters\TaskPresenter;
 
 use App\Orchid\Layouts\Task\SearchTabNameRow;
 use App\Orchid\Layouts\Task\SearchTabFromRow;
@@ -27,6 +33,7 @@ use App\Orchid\Layouts\Task\EmailTemplateTab;
 class TaskEditScreen extends Screen
 {
     public $task;
+    public $taskPresenter;
     /**
      * Query data.
      *
@@ -34,8 +41,12 @@ class TaskEditScreen extends Screen
      */
     public function query(Task $task): iterable
     {
+        $task->car_price_extra_points = $task->presenter()->getCarPriceExtraPoints();
+        $task->to = $task->presenter()->getDesctinations();
+        $task->cross_border = $task->presenter()->getCrossBorder();
+
         return [
-            'task' => $task->presenter(),
+            'task' => $task,
         ];
     }
 
@@ -46,7 +57,7 @@ class TaskEditScreen extends Screen
      */
     public function name(): ?string
     {
-        return $this->task->exists ? 'Edit Task' : 'Create Task';
+        return $this->task->exists ? 'Edit: '.$this->task->name : 'Create Task';
     }
 
     /**
@@ -56,7 +67,18 @@ class TaskEditScreen extends Screen
      */
     public function commandBar(): iterable
     {
-        return [];
+        return [
+            Button::make('Clear Orders')
+                    ->type(Color::WARNING())
+                    ->confirm(__('You want delete all precessed orders for this task'))
+                    ->icon('trash')
+                    ->canSee($this->task->exists)
+                    ->method('reset_orders'),
+            Button::make('Save')
+                    ->type(Color::PRIMARY())
+                    ->icon('check')
+                    ->method('save'),
+        ];
     }
 
     /**
@@ -92,5 +114,67 @@ class TaskEditScreen extends Screen
                                                        <b>{price}</b> - calculated price for offer<br>'),
             ]),
         ];
+    }
+
+    /**
+     * @param task    $task
+     * @param Request $request
+     *
+     * @return \Illuminate\Http\RedirectResponse
+     */
+
+    public function save(Task $task, Request $request)
+    {
+        $data = $request->get('task');
+
+        $error = false;
+        $toSelectOptArray = [];
+        $crossBorder = [];
+
+        $data['user_id'] = $request->user()->id;
+        $data['user_key'] = $request->user()->key;
+
+        $toSelectOptArray = array_filter($data['to'], function ($val) {
+            return $val['as_country_to'] !== TaskPresenter::EMPTY_COUNTRY;
+        });
+        $data['toSelectOptArray'] = json_encode(array_values($toSelectOptArray));
+
+        $data['car_price_empty'] = $data['car_price'];
+        $data['car_price_extra_points'] = 1 + $data['car_price_extra_points']/100;
+
+        $crossBorder = array_filter($data['cross_border'], function ($val) {
+            return $val['border_country'] !== TaskPresenter::EMPTY_COUNTRY;
+        });
+        $data['cross_border'] = json_encode(array_values($crossBorder));
+
+        if(!$task->exists) {
+            $max = Task::where('user_id', '=', $request->user()->id)->max('num');
+
+            if (5 < $max + 1) {
+                Toast::warning('Only five jobs allow');
+                $error = true;
+            }
+
+            $data['num'] = $max + 1;
+        } else {
+            $data['version_task'] = $task->version_task + 1;
+        }
+
+
+
+        if (!$error) {
+            $task
+                ->fill($data)
+                ->save();
+
+            Toast::success('Task was saved!');
+        }
+
+        return redirect()->route('platform.task');
+    }
+
+    public function reset_orders(): void
+    {
+        Toast::message('It worked!');
     }
 }
