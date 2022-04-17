@@ -36,7 +36,6 @@ class ExceptionTabPriceRow extends Rows
                 Input::make('task.car_price_extra_points')
                         ->type('number')
                         ->set('step','1')
-                        ->set('min','1')
                         ->set('max','999')
                         ->title('Extra stop extra charge (%)')
                         ->placeholder('0 %'),

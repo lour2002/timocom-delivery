@@ -7,9 +7,11 @@ use Illuminate\Http\Request;
 use Orchid\Screen\Screen;
 use Orchid\Screen\Action;
 use Orchid\Screen\Actions\Link;
+use Orchid\Support\Facades\Layout;
 use Orchid\Support\Color;
 
 use App\Models\Task;
+use App\Orchid\Layouts\Task\ViewItemRow;
 
 class TaskListScreen extends Screen
 {
@@ -34,7 +36,7 @@ class TaskListScreen extends Screen
      */
     public function name(): ?string
     {
-        return 'Dashboard';
+        return 'CONTROL PANEL: '.date('d-m-Y');
     }
 
     /**
@@ -60,8 +62,10 @@ class TaskListScreen extends Screen
      */
     public function layout(): iterable
     {
-        return [
+        $rows = $this->tasks->map(function($task) {
+            return new ViewItemRow($task);
+        });
 
-        ];
+        return $rows->all();
     }
 }

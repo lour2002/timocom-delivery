@@ -3,9 +3,31 @@
 namespace App\Orchid\Presenters;
 
 use Orchid\Support\Presenter;
+use App\Models\Task;
 
 class TaskPresenter extends Presenter
 {
+    private const INDIVIDUAL = 'app:cnt:searchForm:dateSelectOpt2';
+
+    private const FROM_AREA = "app:cnt:searchForm:fromSelectOpt3";
+
+    private const TO_COUNTRY = "app:cnt:searchForm:toSelectOpt2";
+
+    private const FREIGHT_LIMIT = "app:cnt:searchForm:freightSelectOpt2";
+
+    public const FROM_TYPES = [
+        self::FROM_AREA => "Area search"
+    ];
+    public const TO_TYPES = [
+        self::TO_COUNTRY => "Country selection"
+    ];
+    public const FREIGHT_TYPES = [
+        self::FREIGHT_LIMIT => "Limit the search"
+    ];
+    public const DATE_TYPES = [
+        self::INDIVIDUAL => "Individual days",
+    ];
+
     public const EMPTY_COUNTRY = "-- is empty --";
 
     public const COUNTRIES = ["AF Afghanistan", "AL Albania", "AM Armenia", "AT Austria",
@@ -39,5 +61,41 @@ class TaskPresenter extends Presenter
 
     public function getCrossBorder() {
         return json_decode($this->entity->cross_border ?? "[]", true);
+    }
+
+    public function getFromType() {
+        return self::FROM_TYPES[$this->entity->fromSelectOpt];
+    }
+
+    public function getToType() {
+        return self::TO_TYPES[$this->entity->toSelectOpt];
+    }
+
+    public function getCountriesList() {
+        $task_to_countries = array_reduce($this->getDesctinations(), function ($accumulator, $item) {
+            if ($item['as_country_to'] !== self::EMPTY_COUNTRY) {
+                $countries = explode(' ', $item['as_country_to']);
+                array_push($accumulator, array_shift($countries));
+            }
+            return $accumulator;
+        },[]);
+
+        return implode(", ", $task_to_countries);
+    }
+
+    public function getDateType() {
+        return self::DATE_TYPES[$this->entity->dateSelectOpt];
+    }
+
+    public function cantStart() {
+        return $this->entity->status_job == Task::STATUS_START;
+    }
+
+    public function cantTest() {
+        return $this->entity->status_job == Task::STATUS_TEST;
+    }
+
+    public function cantStop() {
+        return $this->entity->status_job == Task::STATUS_STOP;
     }
 }

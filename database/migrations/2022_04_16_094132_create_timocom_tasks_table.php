@@ -18,7 +18,7 @@ class CreateTimocomTasksTable extends Migration
             $table->foreignId('user_id')->constrained();
             $table->string('user_key');
             $table->string('name')->default('Task');
-            $table->char('status_job', 1)->default('0');
+            $table->char('status_job', 1)->default('1');
             $table->tinyInteger('num');
             $table->tinyInteger('version_task')->default(0);
             $table->string('fromSelectOpt',100)->default('app:cnt:searchForm:fromSelectOpt3')->nullable();
