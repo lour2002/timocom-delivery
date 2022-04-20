@@ -98,4 +98,16 @@ class TaskPresenter extends Presenter
     public function cantStop() {
         return $this->entity->status_job == Task::STATUS_STOP;
     }
+
+    public function getActionMessage() {
+        if($this->entity->status_job == TASK::STATUS_START) return 'Task was started!';
+        if($this->entity->status_job == TASK::STATUS_TEST) return 'Task was started in testing mode!';
+        return 'Task was stoped!';
+    }
+
+    public function getStatusTitle() {
+        if($this->entity->status_job == TASK::STATUS_START) return 'Started';
+        if($this->entity->status_job == TASK::STATUS_TEST) return 'In testing';
+        return 'Stoped';
+    }
 }

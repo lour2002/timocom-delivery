@@ -8,6 +8,7 @@ use Orchid\Screen\Screen;
 use Orchid\Screen\Action;
 use Orchid\Screen\Actions\Link;
 use Orchid\Support\Facades\Layout;
+use Orchid\Support\Facades\Toast;
 use Orchid\Support\Color;
 
 use App\Models\Task;
@@ -25,7 +26,11 @@ class TaskListScreen extends Screen
     public function query(Request $request): iterable
     {
         return [
-            'tasks' => Task::where('user_id', '=', $request->user()->id)->get()->map->presenter(),
+            'tasks' => Task::where('user_id', '=', $request->user()->id)
+                        ->orderBy('id')
+                        ->get()
+                        ->map
+                        ->presenter(),
         ];;
     }
 
@@ -67,5 +72,22 @@ class TaskListScreen extends Screen
         });
 
         return $rows->all();
+    }
+
+    public function action(Request $request)
+    {
+        $task = Task::where([
+            ['user_id', '=', $request->user()->id],
+            ['id', '=', $request->get('id')],
+        ])->first();
+
+        if (null !== $task) {
+            $task->status_job = $request->get('action');
+            $task->save();
+        }
+
+        $msg = $task->presenter()->getActionMessage($request->get('action'));
+
+        Toast::info($msg);
     }
 }
