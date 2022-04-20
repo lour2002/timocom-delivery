@@ -10,6 +10,8 @@ use Orchid\Platform\OrchidServiceProvider;
 use Orchid\Screen\Actions\Menu;
 use Orchid\Support\Color;
 
+use App\Models\Task;
+
 class PlatformProvider extends OrchidServiceProvider
 {
     /**
@@ -30,7 +32,16 @@ class PlatformProvider extends OrchidServiceProvider
         return [
             Menu::make('Dashboard')
                 ->icon('browser')
-                ->route('platform.task'),
+                ->route('platform.task')
+                ->badge(function () {
+                    return auth()->user()
+                            ->tasks()
+                            ->get()
+                            ->filter(function ($task) {
+                                return Task::STATUS_START === $task->status_job;
+                            })
+                            ->count();
+                }),
 
             Menu::make('Company Settings')
                 ->icon('building')
@@ -86,14 +97,6 @@ class PlatformProvider extends OrchidServiceProvider
                 ->title('Docs')
                 ->icon('docs')
                 ->url('https://orchid.software/en/docs'),
-
-            Menu::make('Changelog')
-                ->icon('shuffle')
-                ->url('https://github.com/orchidsoftware/platform/blob/master/CHANGELOG.md')
-                ->target('_blank')
-                ->badge(function () {
-                    return Dashboard::version();
-                }, Color::DARK()),
 
             Menu::make(__('Users'))
                 ->icon('user')

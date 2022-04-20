@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Models\CompanySettings;
 use App\Models\BlackList;
+use App\Models\Task;
 use Orchid\Platform\Models\User as Authenticatable;
 
 class User extends Authenticatable
@@ -75,5 +76,10 @@ class User extends Authenticatable
     public function black_list_emails()
     {
         return $this->hasMany(BlackList::class);
+    }
+
+    public function tasks()
+    {
+        return $this->hasMany(Task::class);
     }
 }
