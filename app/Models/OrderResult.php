@@ -16,11 +16,37 @@ class OrderResult extends Model
     public const STATUS_OVERPRICE = 'OVERPRICE';
     public const STATUS_BLACKLIST = 'BLACKLIST';
 
-    protected $fillable = [
-        'task_id', 'order_id', 'price', 'distance', 'status'
+    public const STATUSES = [
+        self::STATUS_NONE,
+        self::STATUS_SENT,
+        self::STATUS_BORDER,
+        self::STATUS_DUPLICATE,
+        self::STATUS_STOP,
+        self::STATUS_LOW_PRICE,
+        self::STATUS_EQUIPMENT,
+        self::STATUS_OVERPRICE,
+        self::STATUS_BLACKLIST,
     ];
 
-    protected $table = 'order_result';
+    /**
+     * The table associated with the model.
+     *
+     * @var string
+     */
+    protected $table = 'orders_result';
+
+    /**
+     * The attributes that are mass assignable.
+     *
+     * @var array
+     */
+    protected $fillable = [
+        'task_id',
+        'order_id',
+        'price',
+        'distance',
+        'status',
+    ];
 
     public function order(): \Illuminate\Database\Eloquent\Relations\HasOne
     {

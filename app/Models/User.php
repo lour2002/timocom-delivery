@@ -68,17 +68,17 @@ class User extends Authenticatable
         'created_at',
     ];
 
-    public function company_info()
+    public function company_info(): \Illuminate\Database\Eloquent\Relations\HasOne
     {
         return $this->hasOne(CompanySettings::class);
     }
 
-    public function black_list_emails()
+    public function black_list_emails(): \Illuminate\Database\Eloquent\Relations\HasMany
     {
         return $this->hasMany(BlackList::class);
     }
 
-    public function tasks()
+    public function tasks(): \Illuminate\Database\Eloquent\Relations\HasMany
     {
         return $this->hasMany(Task::class);
     }

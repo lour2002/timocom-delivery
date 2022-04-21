@@ -16,10 +16,10 @@ class CreateTimocomTasksTable extends Migration
         Schema::create('tasks', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')->constrained();
-            $table->string('user_key')->index('user_key');
+            $table->string('user_key')->index();
             $table->string('name')->default('Task');
-            $table->char('status_job', 1)->default('1')->index('status_job');
-            $table->tinyInteger('num')->index('num');
+            $table->char('status_job', 1)->default('1')->index();
+            $table->tinyInteger('num')->index();
             $table->tinyInteger('version_task')->default(0);
             $table->string('fromSelectOpt',100)->default('app:cnt:searchForm:fromSelectOpt3')->nullable();
             $table->string('as_country',100)->nullable();
