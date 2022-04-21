@@ -17,24 +17,16 @@ use App\Models\Task;
 
 class ViewItemRow extends Wrapper
 {
-    /**
-     * Used to create the title of a group of form elements.
-     *
-     * @var string|null
-     */
-    public $task;
-
     public function __construct($task)
     {
-        $this->task = $task;
         parent::__construct('components.orchid.task.view-item', [
-            'info' => Layout::view('components.orchid.task.item-info', ['task' => $this->task]),
+            'info' => Layout::view('components.orchid.task.item-info', ['task' => $task]),
             'status_controls' => Layout::rows([
                 Group::make([
                     Button::make('Start')
                         ->type(Color::SUCCESS())
                         ->icon('control-play')
-                        ->disabled($this->task->cantStart())
+                        ->disabled($task->cantStart())
                         ->method('action',[
                             'id' => $task->id,
                             'action' => Task::STATUS_START
@@ -42,7 +34,7 @@ class ViewItemRow extends Wrapper
                     Button::make('Test')
                         ->type(Color::INFO())
                         ->icon('circle_thin')
-                        ->disabled($this->task->cantTest())
+                        ->disabled($task->cantTest())
                         ->method('action',[
                             'id' => $task->id,
                             'action' => Task::STATUS_TEST
@@ -50,13 +42,14 @@ class ViewItemRow extends Wrapper
                     Button::make('Stop')
                         ->type(Color::DANGER())
                         ->icon('minus')
-                        ->disabled($this->task->cantStop())
+                        ->disabled($task->cantStop())
                         ->method('action',[
                             'id' => $task->id,
                             'action' => Task::STATUS_STOP
                         ]),
                 ])->alignCenter(),
                 Link::make('show processed tasks')
+                    ->route('platform.task.orders', $task->id)
             ]),
         ]);
     }

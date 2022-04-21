@@ -4,8 +4,14 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
+use Orchid\Attachment\Attachable;
+use Orchid\Filters\Filterable;
+use Orchid\Screen\AsSource;
+
 class OrderResult extends Model
 {
+    use AsSource, Filterable, Attachable;
+
     public const STATUS_NONE = 'NONE';
     public const STATUS_SENT = 'SENT';
     public const STATUS_BORDER = 'BORDER';
@@ -50,6 +56,6 @@ class OrderResult extends Model
 
     public function order(): \Illuminate\Database\Eloquent\Relations\HasOne
     {
-        return $this->hasOne(Order::class);
+        return $this->hasOne(Order::class, 'id', 'order_id');
     }
 }

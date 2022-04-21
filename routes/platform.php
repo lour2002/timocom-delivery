@@ -16,6 +16,7 @@ use App\Orchid\Screens\User\UserEditScreen;
 use App\Orchid\Screens\User\UserListScreen;
 use App\Orchid\Screens\User\UserProfileScreen;
 use App\Orchid\Screens\Task\TaskListScreen;
+use App\Orchid\Screens\Task\TaskOrdersListScreen;
 use App\Orchid\Screens\Task\TaskEditScreen;
 use App\Orchid\Screens\CompanySettings;
 use App\Orchid\Screens\EmailBlackList;
@@ -43,6 +44,15 @@ Route::screen('tasks', TaskListScreen::class)
     ->breadcrumbs(function (Trail $trail) {
         return $trail
             ->push(__('Dashboard'), route('platform.task'));
+    });
+
+// Platform > Tasks list
+Route::screen('tasks/{task}/orders', TaskOrdersListScreen::class)
+    ->name('platform.task.orders')
+    ->breadcrumbs(function (Trail $trail, $task) {
+        return $trail
+            ->parent('platform.task')
+            ->push(__('Orders'), route('platform.task.orders', $task));
     });
 
 // Platform > Tasks > Edit

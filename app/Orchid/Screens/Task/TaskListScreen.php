@@ -56,7 +56,7 @@ class TaskListScreen extends Screen
                 ->type(Color::SUCCESS())
                 ->icon('plus')
                 ->href(route('platform.task.create'))
-                ->canSee($this->tasks->count() <= 5),
+                ->canSee($this->tasks->count() < 5),
         ];
     }
 

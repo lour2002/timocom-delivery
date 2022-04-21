@@ -13,6 +13,7 @@ use Orchid\Support\Facades\Toast;
 use Orchid\Support\Color;
 
 use App\Models\Task;
+use App\Jobs\CleanTaskOrders;
 use App\Orchid\Presenters\TaskPresenter;
 
 use App\Orchid\Layouts\Task\SearchTabNameRow;
@@ -73,7 +74,7 @@ class TaskEditScreen extends Screen
                     ->confirm(__('You want delete all precessed orders for this task'))
                     ->icon('trash')
                     ->canSee($this->task->exists)
-                    ->method('reset_orders'),
+                    ->method('reset_orders',['id' => $this->task->id]),
             Button::make('Save')
                     ->type(Color::PRIMARY())
                     ->icon('check')
@@ -173,8 +174,19 @@ class TaskEditScreen extends Screen
         return redirect()->route('platform.task');
     }
 
-    public function reset_orders(): void
+    /**
+     * @param task    $task
+     * @param Request $request
+     *
+     * @return \Illuminate\Http\RedirectResponse
+     */
+
+    public function reset_orders(Task $task, Request $request)
     {
-        Toast::message('It worked!');
+        CleanTaskOrders::dispatch($task);
+
+        Toast::message('It working!');
+
+        return redirect()->route('platform.task');
     }
 }
