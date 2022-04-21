@@ -461,5 +461,7 @@ class ProcessOrder implements ShouldQueue
                 Mail::to($toEmail)->send(new DynamicEmail($data));
             }
         }
+
+        SearchResult::destroy($this->searchResult->id);
     }
 }
