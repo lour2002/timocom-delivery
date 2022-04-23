@@ -7,6 +7,10 @@ use App\Models\BlackList;
 use App\Models\Task;
 use Orchid\Platform\Models\User as Authenticatable;
 
+use \Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use \Illuminate\Database\Eloquent\Relations\HasMany;
+use \Illuminate\Database\Eloquent\Relations\HasOne;
+
 class User extends Authenticatable
 {
     /**
@@ -68,17 +72,22 @@ class User extends Authenticatable
         'created_at',
     ];
 
-    public function company_info(): \Illuminate\Database\Eloquent\Relations\HasOne
+    public function relation_users(): BelongsToMany
+    {
+        return $this->belongsToMany(User::class, 'users_relations', 'user_id', 'relation_user_id');
+    }
+
+    public function company_info(): HasOne
     {
         return $this->hasOne(CompanySettings::class);
     }
 
-    public function black_list_emails(): \Illuminate\Database\Eloquent\Relations\HasMany
+    public function black_list_emails(): HasMany
     {
         return $this->hasMany(BlackList::class);
     }
 
-    public function tasks(): \Illuminate\Database\Eloquent\Relations\HasMany
+    public function tasks(): HasMany
     {
         return $this->hasMany(Task::class);
     }

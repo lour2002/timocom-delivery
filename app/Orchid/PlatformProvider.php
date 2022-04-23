@@ -80,7 +80,7 @@ class PlatformProvider extends OrchidServiceProvider
                 ->icon('user'),
             Menu::make('Relation Users')
                 ->route('platform.profile.relations')
-                ->icon('people'),
+                ->icon('shuffle'),
         ];
     }
 
