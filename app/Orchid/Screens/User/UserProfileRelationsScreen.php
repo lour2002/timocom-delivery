@@ -102,6 +102,6 @@ class UserProfileRelationsScreen extends Screen
 
         Toast::info(__('You are now impersonating this user'));
 
-        return redirect()->route(config('platform.index'));
+        return redirect()->route(config('platform.task'));
     }
 }
