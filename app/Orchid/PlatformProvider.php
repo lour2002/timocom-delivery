@@ -73,6 +73,9 @@ class PlatformProvider extends OrchidServiceProvider
             Menu::make('Profile')
                 ->route('platform.profile')
                 ->icon('user'),
+            Menu::make('Relation Users')
+                ->route('platform.profile.relations')
+                ->icon('people'),
         ];
     }
 

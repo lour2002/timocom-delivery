@@ -8,6 +8,7 @@ use App\Orchid\Screens\Role\RoleListScreen;
 use App\Orchid\Screens\User\UserEditScreen;
 use App\Orchid\Screens\User\UserListScreen;
 use App\Orchid\Screens\User\UserProfileScreen;
+use App\Orchid\Screens\User\UserProfileRelationsScreen;
 use App\Orchid\Screens\Task\TaskListScreen;
 use App\Orchid\Screens\Task\TaskOrdersListScreen;
 use App\Orchid\Screens\Task\TaskEditScreen;
@@ -82,6 +83,15 @@ Route::screen('profile', UserProfileScreen::class)
             ->parent('platform.index')
             ->push(__('Profile'), route('platform.profile'));
     });
+
+// Platform > Profile > Relation Users
+Route::screen('profile/relations', UserProfileRelationsScreen::class)
+->name('platform.profile.relations')
+->breadcrumbs(function (Trail $trail) {
+    return $trail
+        ->parent('platform.index')
+        ->push(__('Profile'), route('platform.profile.relations'));
+});
 
 // Platform > System > Users
 Route::screen('users/{user}/edit', UserEditScreen::class)
