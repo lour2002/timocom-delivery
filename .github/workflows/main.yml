@@ -40,4 +40,4 @@ jobs:
 
       # Runs a set of commands using the runners shell
       - name: Adding Known Hosts
-        run: rsync -avz -e "ssh -p ${{secrets.SSH_PORT}}" . ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:/var/www/timo-delivery-2/
+        run: rsync -avz -e "ssh -p ${{secrets.SSH_PORT}}" . ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:/var/www/timo-delivery/
