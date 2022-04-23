@@ -159,7 +159,6 @@ class ProcessOrder implements ShouldQueue
         $result['offer_id'] = $this->searchResult->offer_id;
         $result['task_id'] = $this->searchResult->id_task;
 
-        // TODO: need refactor for period
         $task = Task::find($this->searchResult->id_task);
         $result['date_collection'] = new \DateTime($task->individual_days);
 
@@ -207,7 +206,7 @@ class ProcessOrder implements ShouldQueue
             }
         }
 
-        //check cross boarding (unused by Victor)
+        //check cross boarding  (unused by Victor)
         if ($result) {
             foreach(json_decode($task->cross_border, true) as $k => $v) {
                 foreach (json_decode($order->to, true) as $key => $to) {
@@ -254,7 +253,7 @@ class ProcessOrder implements ShouldQueue
                             ['order_result.status', '=', OrderResult::STATUS_SENT]
                         ])->get();
 
-            $d1 = $order->date_collection;
+            $d1 = $order->created_at;
             foreach($orders as $item) {
                 $from = '';
                 foreach (json_decode($item->from, true) as $key => $val) {
@@ -267,7 +266,7 @@ class ProcessOrder implements ShouldQueue
                 }
 
                 $d11 = clone($d1);
-                $d2 = new \DateTime($item->date_collection);
+                $d2 = new \DateTime($item->created_at);
                 $interval = $d11->diff($d2);
                 $h = ($interval->days * 24) + $interval->h;
                 if ($fromCurrent.$toCurrent === $from.$to && 18 > $h) {
@@ -282,25 +281,21 @@ class ProcessOrder implements ShouldQueue
         $car_location = 0;
 
         if ($result) {
-            Log::debug("=============================".$order->id."=============================");
-            if (!empty($task->car_country) && (!empty($task->car_zip) || !empty($task->car_city))) {
+            Log::debug("=============================".$task->id.'|'.$order->id."=============================");
+            if (!empty($task->as_country) && (!empty($task->as_zip) || !empty($task->car_city))) {
                 $address = '';
-                $country = explode(' ', $task->car_country)[1];
+                $country = substr($task->as_country, 3);
                 $address .= $country;
-                if (!empty($task->car_zip)) {
-                    $address .= !empty($address) ? ','.$task->car_zip : $task->car_zip;
+
+                if (!empty($task->as_zip)) {
+                    $address .= !empty($address) ? ','.$task->as_zip : $task->as_zip;
                 }
                 if (!empty($task->car_city)) {
                     $address .= !empty($address) ? ',' . $task->car_city : $task->car_city;
                 }
-                $client = new \GuzzleHttp\Client();
-                $coordFrom = $client->request(
-                    'GET',
-                    'https://nominatim.openstreetmap.org/?format=json&addressdetails=1&q='.$address.'&format=json&limit=1'
-                );
-                $coordFrom = json_decode($coordFrom->getBody()->getContents(), true);
+
                 Log::debug("Car position : ".$address);
-                Log::debug($coordFrom);
+                Log::debug($task->car_position_coordinates);
 
                 $address = '';
                 $from = json_decode($order->from, true)[0];
@@ -322,7 +317,7 @@ class ProcessOrder implements ShouldQueue
                 Log::debug("Loading position : ".$address);
                 Log::debug($coordTo);
 
-                if (!empty($coordFrom) && !empty($coordTo)) {
+                if (!empty($task->car_position_coordinates) && !empty($coordTo)) {
 
                     require_once __DIR__ . '/../../lib/OSMap/OSMapPoint.php';
                     require_once __DIR__ . '/../../lib/OSMap/OSMapOpenRoute.php';

@@ -148,6 +148,27 @@ class TaskEditScreen extends Screen
         });
         $data['cross_border'] = json_encode(array_values($crossBorder));
 
+        $address = '';
+        $country = substr($data['as_country'], 3);
+        $address .= $country;
+        if (!empty($data['as_zip'])) {
+            $address .= !empty($address) ? ','.$data['as_zip'] : $data['as_zip'];
+        }
+        if (!empty($task->car_city)) {
+            $address .= !empty($address) ? ',' . $data['car_city'] : $data['car_city'];
+        }
+        $client = new \GuzzleHttp\Client();
+        $car_position = $client->request(
+            'GET',
+            'https://nominatim.openstreetmap.org/?format=json&addressdetails=1&q='.$address.'&format=json&limit=1'
+        );
+        $car_position = json_decode($car_position->getBody()->getContents(), true);
+
+        if (!empty($car_position)) {
+            $data['car_position_coordinates'] = $car_position[0]['lat'] . ', ' . $car_position[0]['lon'];
+        }
+
+
         if(!$task->exists) {
             $max = Task::where('user_id', '=', $request->user()->id)->max('num');
 

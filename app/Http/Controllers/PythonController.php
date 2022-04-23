@@ -103,7 +103,9 @@ class PythonController extends Controller
 
         $cookie = Cookies::where('auth_key', '=', $request->post('check_key'))->first();
         $cookie_data = $request->post('cookies');
+        $cookie_data = str_replace('lax', 'Lax', $cookie_data);
         $md5 = md5($cookie_data);
+
         if (null === $cookie) {
             $c = new Cookies();
             $c->auth_key = $request->post('check_key');
