@@ -55,12 +55,17 @@ class PlatformProvider extends OrchidServiceProvider
                 ->icon('user')
                 ->route('platform.systems.users')
                 ->permission('platform.systems.users')
-                ->title(__('Access rights')),
+                ->title(__('System')),
 
             Menu::make(__('Roles'))
                 ->icon('lock')
                 ->route('platform.systems.roles')
                 ->permission('platform.systems.roles'),
+
+            Menu::make(__('Script'))
+                ->icon('text-left')
+                ->route('platform.systems.script')
+                ->permission('platform.systems.script'),
         ];
     }
 
@@ -87,7 +92,8 @@ class PlatformProvider extends OrchidServiceProvider
         return [
             ItemPermission::group(__('System'))
                 ->addPermission('platform.systems.roles', __('Roles'))
-                ->addPermission('platform.systems.users', __('Users')),
+                ->addPermission('platform.systems.users', __('Users'))
+                ->addPermission('platform.systems.script', __('Script')),
         ];
     }
 }
