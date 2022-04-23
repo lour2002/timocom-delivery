@@ -25,7 +25,7 @@ class PythonController extends Controller
         $user = User::where('key', '=', $request->get('user_key'))->first();
         if ($user) {
 
-            $cookies = Cookies::where('auth_key', '=', $request->get('user_key'))->first();
+            $cookies = Cookies::where('user_key', '=', $request->get('user_key'))->first();
 
             return response()->json([
                 'status' => '1',
@@ -101,14 +101,14 @@ class PythonController extends Controller
             return response()->json(['success' => false, 'errors' => $validator->errors()]);
         }
 
-        $cookie = Cookies::where('auth_key', '=', $request->post('check_key'))->first();
+        $cookie = Cookies::where('user_key', '=', $request->post('check_key'))->first();
         $cookie_data = $request->post('cookies');
         $cookie_data = str_replace('lax', 'Lax', $cookie_data);
         $md5 = md5($cookie_data);
 
         if (null === $cookie) {
             $c = new Cookies();
-            $c->auth_key = $request->post('check_key');
+            $c->user_key = $request->post('check_key');
             $c->cookie = base64_encode($cookie_data);
             $c->hash = $md5;
             $c->save();
