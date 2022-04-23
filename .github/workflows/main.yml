@@ -32,12 +32,6 @@ jobs:
       - name: Adding Known Hosts
         run: ssh-keyscan -p ${{ secrets.SSH_PORT }} -H ${{ secrets.SSH_HOST }} >> ~/.ssh/known_hosts
 
-      - name: Run a PWD
-        run: pwd
-
-      - name: Run a LS
-        run: ls -la
-
       # Runs a set of commands using the runners shell
       - name: Adding Known Hosts
         run: rsync -avz -e "ssh -p ${{secrets.SSH_PORT}}" . ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:/var/www/timo-delivery/
