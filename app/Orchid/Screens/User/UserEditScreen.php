@@ -227,6 +227,6 @@ class UserEditScreen extends Screen
 
         Toast::info(__('You are now impersonating this user'));
 
-        return redirect()->route(config('platform.task'));
+        return redirect()->route('platform.task');
     }
 }
