@@ -138,6 +138,15 @@ class TaskEditScreen extends Screen
         $toSelectOptArray = array_filter($data['to'], function ($val) {
             return $val['as_country_to'] !== TaskPresenter::EMPTY_COUNTRY;
         });
+
+        $toSelectOptArray = array_map(function ($val) {
+            $val['post1'] = $val['post1'] ?? '';
+            $val['post2'] = $val['post2'] ?? '';
+            $val['post3'] = $val['post3'] ?? '';
+
+            return $val;
+        }, $toSelectOptArray);
+
         $data['toSelectOptArray'] = json_encode(array_values($toSelectOptArray));
 
         $data['car_price_empty'] = $data['car_price'];
