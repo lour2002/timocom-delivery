@@ -20,7 +20,7 @@ class CreateTimocomTasksTable extends Migration
             $table->string('name')->default('Task');
             $table->char('status_job', 1)->default('1')->index();
             $table->tinyInteger('num')->index();
-            $table->tinyInteger('version_task')->default(0);
+            $table->integer('version_task')->default(0);
             $table->string('fromSelectOpt',100)->default('app:cnt:searchForm:fromSelectOpt3')->nullable();
             $table->string('as_country',100)->nullable();
             $table->string('as_zip', 10)->nullable();

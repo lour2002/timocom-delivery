@@ -3,7 +3,7 @@
 namespace App\Jobs;
 
 use App\Mail\DynamicEmail;
-use App\Models\Blacklist;
+use App\Models\BlackList;
 use App\Models\CompanySettings;
 use App\Models\Order;
 use App\Models\OrderResult;
@@ -384,7 +384,7 @@ class ProcessOrder implements ShouldQueue
 
         //check blacklist email
         if ($result) {
-            $blackEmail = Blacklist::where([
+            $blackEmail = BlackList::where([
                 ['user_id', '=', $user->id],
                 ['email', '=', $order->email],
             ])->first();
