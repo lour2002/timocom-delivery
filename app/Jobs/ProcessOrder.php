@@ -330,7 +330,7 @@ class ProcessOrder implements ShouldQueue
                     $oOR->setFormat(OSMapOpenRoute::FMT_JSON);
 
                     $aRoute = [];
-                    $aRoute[] = $coordFrom[0]['lat'] . ', ' . $coordFrom[0]['lon'];
+                    $aRoute[] = $task->car_position_coordinates;
                     $aRoute[] = $coordTo[0]['lat'] . ', ' . $coordTo[0]['lon'];
 
                     if ($oOR->calcRoute($aRoute)) {
