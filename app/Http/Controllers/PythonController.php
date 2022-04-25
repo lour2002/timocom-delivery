@@ -17,8 +17,7 @@ class PythonController extends Controller
 
     const TASK_KEYS = ['id','status_job', "version_task", "fromSelectOpt", "as_country", "as_country",
                        "as_zip","as_radius","toSelectOpt","toSelectOptArray","freightSelectOpt","length_min",
-                       "length_max","weight_min","weight_max","dateSelectOpt","individual_days","period_start",
-                       "period_stop"];
+                       "length_max","weight_min","weight_max","dateSelectOpt","individual_days"];
 
     public function checkAuth(Request $request)
     {
@@ -48,8 +47,7 @@ class PythonController extends Controller
 
         $task = Task::select('id', 'status_job', "version_task", "fromSelectOpt", "as_country", "as_country",
             "as_zip", "as_radius", "toSelectOpt", "toSelectOptArray", "freightSelectOpt", "length_min",
-            "length_max", "weight_min", "weight_max", "dateSelectOpt", "individual_days", "period_start",
-            "period_stop")
+            "length_max", "weight_min", "weight_max", "dateSelectOpt", "individual_days")
             ->where([
                 ['user_key', "=", $request->get('user_key')],
                 ['status_job', '>', 1],

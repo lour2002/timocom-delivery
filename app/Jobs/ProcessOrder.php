@@ -243,14 +243,14 @@ class ProcessOrder implements ShouldQueue
             }
 
             $orders = DB::table('orders')
-                        ->join('order_result', 'order_result.order_id', '=', 'orders.id')
+                        ->join('orders_result', 'orders_result.order_id', '=', 'orders.id')
                         ->select('orders.*')
                         ->where([
                             ['orders.id', '!=', $order->id],
                             ['orders.name', '=', $order->name],
                             ['orders.email', '=', $order->email],
                             ['orders.company_id', '=', $order->company_id],
-                            ['order_result.status', '=', OrderResult::STATUS_SENT]
+                            ['orders_result.status', '=', OrderResult::STATUS_SENT]
                         ])->get();
 
             $d1 = $order->created_at;
