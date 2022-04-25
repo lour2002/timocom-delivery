@@ -2,7 +2,7 @@
 
 namespace App\Console\Commands;
 
-use App\Models\Blacklist;
+use App\Models\BlackList;
 use App\Models\User;
 use Illuminate\Console\Command;
 
@@ -42,7 +42,7 @@ class CheckBlacklist extends Command
         /** @var User[] $users */
         $users = User::select('id')->get();
         foreach($users as $user) {
-            $list = Blacklist::where('user_id', '=', $user->id)->get();
+            $list = BlackList::where('user_id', '=', $user->id)->get();
             foreach($list as $item) {
                 if (new \DateTime($item->ttl) < $date) {
                     $item->delete();
