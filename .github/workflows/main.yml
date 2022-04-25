@@ -38,4 +38,4 @@ jobs:
 
       # Runs a set of commands using the runners shell
       - name: Chown www-data
-        run: ssh -p ${{secrets.SSH_PORT}} ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} 'chown -R www-data:www-data /var/www/timo-delivery'
+        run: ssh -p ${{secrets.SSH_PORT}} ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} 'chown -R www-data:www-data /var/www/timo-delivery && chmod -R 775 /var/www/timo-delivery/storage'
