@@ -26,7 +26,7 @@ class TaskOrdersListScreen extends Screen
     public function query(Task $task): iterable
     {
 
-        $pagination = OrderResult::where('task_id', '=', $task->id)->paginate();
+        $pagination = OrderResult::where('task_id', '=', $task->id)->latest()->paginate();
         return [
             'orders' => $pagination,
             'task_id' => $task->id
