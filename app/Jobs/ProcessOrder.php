@@ -45,7 +45,7 @@ class ProcessOrder implements ShouldQueue
      *
      * @return void
      */
-    public function handle()
+    public function handle(): void
     {
         $result = [];
 
@@ -60,6 +60,7 @@ class ProcessOrder implements ShouldQueue
         $result['email'] = $entry[0]->text();
 
         if (empty($result['email'])) {
+            SearchResult::destroy($this->searchResult->id);
             exit;
         }
 
@@ -125,7 +126,9 @@ class ProcessOrder implements ShouldQueue
 
         $entry = $doc->xpath('//*[@id="app:cnt:searchDetail:estimatedDistance"]');
         $result['distance'] = $entry[0]->text();
+
         if (empty($result['distance'])) {
+            SearchResult::destroy($this->searchResult->id);
             exit;
         }
 

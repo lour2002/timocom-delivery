@@ -30,10 +30,10 @@ class CreateTimocomTasksTable extends Migration
             $table->string('toSelectOpt',100)->default('app:cnt:searchForm:toSelectOpt2')->nullable();
             $table->text('toSelectOptArray')->nullable();
             $table->string('freightSelectOpt',100)->default('app:cnt:searchForm:freightSelectOpt2')->nullable();
-            $table->string('length_min',50)->nullable();
-            $table->string('length_max',50)->nullable();
-            $table->string('weight_min',50)->nullable();
-            $table->string('weight_max',50)->nullable();
+            $table->string('length_min',50)->default('');
+            $table->string('length_max',50)->default('');
+            $table->string('weight_min',50)->default('');
+            $table->string('weight_max',50)->default('');
             $table->string('dateSelectOpt',100)->default('app:cnt:searchForm:dateSelectOpt2')->nullable();
             $table->string('individual_days',50)->nullable();
             $table->double('car_price_empty', 8, 2)->default(0)->nullable();
