@@ -102,13 +102,21 @@ class PythonController extends Controller
         $cookie = Cookies::where('user_key', '=', $request->post('check_key'))->first();
         $cookie_data = $request->post('cookies');
 
-        $cookie_data = json_decode($cookie_data);
+        $cookie_data = json_decode($cookie_data, true);
 
         $cookie_data = array_filter($cookie_data, function ($val) {
             return in_array($val["sameSite"], ['lax', 'Lax', 'strict', 'Strict', 'none', 'None']);
         });
 
-        $md5 = md5(json_encode($cookie_data));
+        $cookie_data = array_map(function ($val) {
+            $val['domain'] = ltrim($val['domain'], '.');
+            $val['sameSite'] = ucfirst($val['sameSite']);
+            return $val;
+        },$cookie_data);
+
+        $cookie_data=json_encode(array_values($cookie_data));
+
+        $md5 = md5($cookie_data);
 
         if (null === $cookie) {
             $c = new Cookies();

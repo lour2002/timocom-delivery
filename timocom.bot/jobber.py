@@ -77,6 +77,7 @@ if  auth_data['status'] == '1':#авторизация прошла
     options.add_argument("--disable-session-crashed-bubble")
     options.add_argument("--disable-popup-blocking")
     options.add_argument("--disable-setuid-sandbox")
+    options.add_argument("--disable-gpu")
     options.add_argument("--remote-debugging-port=9222")
 
     try:
