@@ -163,7 +163,7 @@ class TaskEditScreen extends Screen
         if (!empty($data['as_zip'])) {
             $address .= !empty($address) ? ','.$data['as_zip'] : $data['as_zip'];
         }
-        if (!empty($task->car_city)) {
+        if (!empty($data['car_city'])) {
             $address .= !empty($address) ? ',' . $data['car_city'] : $data['car_city'];
         }
         $client = new \GuzzleHttp\Client();
