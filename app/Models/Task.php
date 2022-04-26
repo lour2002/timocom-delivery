@@ -33,7 +33,7 @@ class Task extends Model
 
     protected $fillable = [
         'user_id','user_key', 'name', 'status_job', 'num', 'version_task', 'fromSelectOpt', 'as_country', 'as_zip',
-        'as_radius', 'toSelectOpt', 'toSelectOptArray', 'freightSelectOpt', 'length_min', 'length_max',
+        'as_radius', 'car_city', 'toSelectOpt', 'toSelectOptArray', 'freightSelectOpt', 'length_min', 'length_max',
         'weight_min', 'weight_max', 'dateSelectOpt', 'individual_days', 'car_position_coordinates','car_price_empty',
         'car_price', 'car_price_extra_points', 'car_price_special_price', 'exchange_equipment', 'minimal_price_order',
         'percent_stop_value', 'cross_border', 'tags', 'email_template'
