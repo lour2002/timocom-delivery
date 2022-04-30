@@ -110,4 +110,8 @@ class TaskPresenter extends Presenter
         if($this->entity->status_job == TASK::STATUS_TEST) return 'In testing';
         return 'Stoped';
     }
+
+    public function getSpecialPrice() {
+        return json_decode($this->entity->status_job, true);
+    }
 }

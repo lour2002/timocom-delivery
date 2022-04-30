@@ -209,9 +209,18 @@ class ProcessOrder implements ShouldQueue
             }
         }
 
+        //check loading equipment
+        if ($result) {
+            if ($task->exchange_equipment && $order->equipment_exchange) {
+                $result = false;
+                $status = OrderResult::STATUS_EQUIPMENT;
+                $reason[$status] = 'Need exchange equipment';
+            }
+        }
+
         //check cross boarding  (unused by Victor)
         if ($result) {
-            foreach(json_decode($task->cross_border, true) as $k => $v) {
+            foreach($task->presenter()->getCrossBorder() as $k => $v) {
                 foreach (json_decode($order->to, true) as $key => $to) {
                     if ($to['to_country'] === $v['border_country'] && (float) $order->freight_weight > (float) $v['border_val']) {
                         $result = false;
@@ -220,15 +229,6 @@ class ProcessOrder implements ShouldQueue
                         break;
                     }
                 }
-            }
-        }
-
-        //check loading equipment
-        if ($result) {
-            if ($task->exchange_equipment && $order->equipment_exchange) {
-                $result = false;
-                $status = OrderResult::STATUS_EQUIPMENT;
-                $reason[$status] = 'Need exchange equipment';
             }
         }
 
@@ -279,9 +279,10 @@ class ProcessOrder implements ShouldQueue
                 }
             }
         }
+
         //calculate price
         $price = 0;
-        $car_location = 0;
+        $empaty_car_distance = 0;
 
         if ($result) {
             Log::debug("=============================".$task->id.'|'.$order->id."=============================");
@@ -337,25 +338,42 @@ class ProcessOrder implements ShouldQueue
                     $aRoute[] = $coordTo[0]['lat'] . ', ' . $coordTo[0]['lon'];
 
                     if ($oOR->calcRoute($aRoute)) {
-                        $car_location = round($oOR->getDistance() / 1000);
+                        $empaty_car_distance = round($oOR->getDistance() / 1000);
                     } else {
                         Log::debug('Error : ' . $oOR->getError());
                     }
                     Log::debug('Responce : ' . print_r($oOR->getResponse(), true));
                 }
-                Log::debug('Empty car distance : ' . $car_location);
+                Log::debug('Empty car distance : ' . $empaty_car_distance);
             }
 
             $k = 1;
             if ($order->loading_places + $order->unloading_places > 2) {
                 $k = $task->car_price_extra_points;
             }
-            $price = ($task->car_price * $order->distance + $task->car_price_empty * $car_location) * $k;
+
+            $car_price = $task->car_price;
+            $car_price_empty = $task->car_price_empty;
+            $distance = $order->distance + $empaty_car_distance;
+
+            $special_prices = $task->presenter()->getSpecialPrice();
+
+            uasort($special_prices, function($a, $b) {
+                return ($a['distance'] < $b['distance']) ? -1 : 1;
+            });
+
+            foreach ($special_prices as $value) {
+                if($value['distance'] <= $distance)
+                    $car_price = $value['price'];
+            }
+
+            $price = $k * $car_price * $distance;
+
             Log::debug('Full car distance : ' . $order->distance);
 
             Log::debug('Calc price : ' . $price);
 
-            if (!$car_location) {
+            if (!$empaty_car_distance) {
                 $result = false;
                 $status = OrderResult::STATUS_STOP;
                 $reason[$status] = 'Empty car distance = 0';

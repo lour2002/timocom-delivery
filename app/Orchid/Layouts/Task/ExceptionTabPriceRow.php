@@ -5,6 +5,7 @@ namespace App\Orchid\Layouts\Task;
 use Orchid\Screen\Field;
 use Orchid\Screen\Layouts\Rows;
 use Orchid\Screen\Fields\Input;
+use Orchid\Screen\Fields\Matrix;
 use Orchid\Screen\Fields\Select;
 use Orchid\Screen\Fields\Group;
 
@@ -40,6 +41,22 @@ class ExceptionTabPriceRow extends Rows
                         ->title('Extra stop extra charge (%)')
                         ->placeholder('0 %'),
             ]),
+            Matrix::make('task.car_price_special_price')
+                ->columns([
+                    'distance',
+                    'price',
+                ])
+                ->fields([
+                    'distance' => Input::make()
+                                    ->type('number')
+                                    ->set('step','1')
+                                    ->placeholder('0'),
+                    'price'    => Input::make()
+                                    ->type('number')
+                                    ->set('step','0.01')
+                                    ->placeholder('0.00'),
+                ])
+                ->title('The special cost per kilometer of a loaded car if the route is longer than indicated (min. kilometer / price of 1 km/€)'),
         ];
     }
 }

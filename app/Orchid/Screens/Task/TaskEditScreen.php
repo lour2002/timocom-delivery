@@ -42,9 +42,10 @@ class TaskEditScreen extends Screen
      */
     public function query(Task $task): iterable
     {
-        $task->car_price_extra_points = $task->presenter()->getCarPriceExtraPoints();
         $task->to = $task->presenter()->getDesctinations();
         $task->cross_border = $task->presenter()->getCrossBorder();
+        $task->car_price_extra_points = $task->presenter()->getCarPriceExtraPoints();
+        $task->car_price_special_price = $task->presenter()->getSpecialPrice();
 
         return [
             'task' => $task,
@@ -126,11 +127,11 @@ class TaskEditScreen extends Screen
 
     public function save(Task $task, Request $request)
     {
-        $data = $request->get('task');
-
         $error = false;
         $toSelectOptArray = [];
         $crossBorder = [];
+
+        $data = $request->get('task');
 
         $data['user_id'] = $request->user()->id;
         $data['user_key'] = $request->user()->key;
@@ -150,7 +151,9 @@ class TaskEditScreen extends Screen
         $data['toSelectOptArray'] = json_encode(array_values($toSelectOptArray));
 
         $data['car_price_empty'] = $data['car_price'];
-        $data['car_price_extra_points'] = 1 + $data['car_price_extra_points']/100;
+        $data['car_price_extra_points'] = 1 + $data['car_price_extra_points'] / 100;
+
+        $data['car_price_special_price'] = json_encode(array_values($data['car_price_special_price']));
 
         $crossBorder = array_filter($data['cross_border'], function ($val) {
             return $val['border_country'] !== TaskPresenter::EMPTY_COUNTRY;
