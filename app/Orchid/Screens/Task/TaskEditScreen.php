@@ -153,7 +153,9 @@ class TaskEditScreen extends Screen
         $data['car_price_empty'] = $data['car_price'];
         $data['car_price_extra_points'] = 1 + $data['car_price_extra_points'] / 100;
 
-        $data['car_price_special_price'] = json_encode(array_values($data['car_price_special_price']));
+        if($data['car_price_special_price']) {
+            $data['car_price_special_price'] = json_encode(array_values($data['car_price_special_price']));
+        }
 
         $crossBorder = array_filter($data['cross_border'], function ($val) {
             return $val['border_country'] !== TaskPresenter::EMPTY_COUNTRY;
