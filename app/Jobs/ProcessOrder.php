@@ -421,7 +421,7 @@ class ProcessOrder implements ShouldQueue
         $res->task_id = $task->id;
         $res->order_id = $order->id;
         $res->price = $price;
-        $res->distance = $car_location + $order->distance;
+        $res->distance = $order->distance + $empaty_car_distance;
         $res->status = $status;
         $res->reason = $reason[$status];
         $res->save();

@@ -112,6 +112,6 @@ class TaskPresenter extends Presenter
     }
 
     public function getSpecialPrice() {
-        return json_decode($this->entity->status_job, true);
+        return json_decode($this->entity->car_price_special_price ?? '[]', true);
     }
 }
