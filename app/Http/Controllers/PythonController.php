@@ -78,7 +78,8 @@ class PythonController extends Controller
         $input = $request->all();
         $task = Task::find($input['id_task']);
         if ($task['status_job'] == Task::STATUS_START ||
-            $task['status_job'] == Task::STATUS_TEST)
+            $task['status_job'] == Task::STATUS_TEST &&
+            $input['offer_id'])
         {
             $result = SearchResult::create($input);
             ProcessOrder::dispatch($result);
