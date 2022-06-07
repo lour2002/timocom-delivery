@@ -180,6 +180,8 @@ class TaskEditScreen extends Screen
 
         if (!empty($car_position)) {
             $data['car_position_coordinates'] = $car_position[0]['lat'] . ', ' . $car_position[0]['lon'];
+        } else {
+            $data['car_position_coordinates'] = null;
         }
 
 

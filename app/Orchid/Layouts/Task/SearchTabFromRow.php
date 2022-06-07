@@ -7,6 +7,7 @@ use Orchid\Screen\Layouts\Rows;
 use Orchid\Screen\Fields\Input;
 use Orchid\Screen\Fields\Select;
 use Orchid\Screen\Fields\Group;
+use Orchid\Screen\Fields\Label;
 
 use Orchid\Support\Facades\Layout;
 
@@ -36,7 +37,9 @@ class SearchTabFromRow extends Rows
     {
         $options = TaskPresenter::countriesSelectOptions();
 
-        return [
+        $task = $this->query->get('task');
+
+        $result = [
             Group::make([
                 Select::make('task.as_country')
                         ->title('Country')
@@ -52,7 +55,16 @@ class SearchTabFromRow extends Rows
                         ->title('City')
                         ->placeholder('City'),
             ]),
-
         ];
+
+        if (!$task['car_position_coordinates']) {
+            $result = array_merge($result, [
+                Label::make('static')
+                    ->value('Truck position not defined')
+                    ->set('class', 'text-danger'),
+            ]);
+        }
+
+        return $result;
     }
 }
