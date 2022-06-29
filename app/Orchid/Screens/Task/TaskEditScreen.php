@@ -137,6 +137,7 @@ class TaskEditScreen extends Screen
         $data['user_key'] = $request->user()->key;
 
         $toSelectOptArray = array_filter($data['to'], function ($val) {
+            $val['as_country_to'] = $val['as_country_to'] ?? TaskPresenter::EMPTY_COUNTRY;
             return $val['as_country_to'] !== TaskPresenter::EMPTY_COUNTRY;
         });
 
