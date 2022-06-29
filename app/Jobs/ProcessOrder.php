@@ -327,7 +327,11 @@ class ProcessOrder implements ShouldQueue
                     require_once __DIR__ . '/../../lib/OSMap/OSMapOpenRoute.php';
                     require_once __DIR__ . '/../../lib/OSMap/OSMapOpenRouteStep.php';
 
-                    $oOR = new OSMapOpenRoute(env('ORS_TOKEN'));
+                    $num = time();
+
+                    $ORS_token = ($num % 2 == 0) ? env('ORS_TOKEN_1') : env('ORS_TOKEN_2');
+
+                    $oOR = new OSMapOpenRoute($ORS_token);
 
                     $oOR->setLanguage('EN');
                     $oOR->setVehicleType(OSMapOpenRoute::VT_CAR);    // we're driving heavy goods ;-)
