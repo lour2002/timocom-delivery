@@ -1,0 +1,82 @@
+<!doctype html>
+<html>
+
+<head>
+  <title>KIRI.COMPANY</title>
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet" type="text/css">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+  <style>
+    /* Modal Structure */
+
+    html,
+    body {
+      font-family: 'Open Sans', sans-serif;
+      font-size: 14px;
+      margin: 0;
+      min-height: 180px;
+      padding: 0;
+      width: 384px;
+    }
+
+    h1 {
+      font-family: 'Menlo', monospace;
+      font-size: 22px;
+      font-weight: 400;
+      margin: 0;
+      color: #2f5876;
+    }
+
+    a:link,
+    a:visited {
+      color: #000000;
+      outline: 0;
+      text-decoration: none;
+    }
+
+    img {
+      width: 30px;
+    }
+
+    .modal-header {
+      align-items: center;
+      border-bottom: 0.5px solid #dadada;
+    }
+
+    .modal-content {
+      padding: 0 22px;
+      border: 0px solid rgba(0, 0, 0, .0);
+    }
+
+    .logo {
+      padding: 16px;
+    }
+
+    .logo-icon {
+      vertical-align: text-bottom;
+      margin-right: 12px;
+    }
+  </style>
+  <script src="popup.js"></script>
+</head>
+
+<body>
+  <div class="modal-header">
+    <h1 class="logo">
+      <img class="logo-icon" src="images/traversy-logo.png">Kiri Exchanger
+    </h1>
+  </div>
+  <div class="modal-content mt-3">
+    <div class="cval"><small><span id="current_verification_key"></span> - <span id="status_verification_key">Checking...</span></small></div>
+    <div class="row mt-3 mb-3" id="verification_key">
+      <div class="col-9">
+        <input type="text" class="form-control" id="verification_key_input" placeholder="Verification key">
+      </div>
+      <div class="col-3">
+        <button class="btn btn-primary btn-block mb-2" id="set_verification_key">Set</button>
+      </div>
+    </div>
+  </div>
+
+</body>
+
+</html>

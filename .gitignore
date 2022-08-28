@@ -31,5 +31,5 @@ Homestead.json
 .env.backup
 docker-compose.override.yml
 /idea
-/timocom.bot/GoogleChromePortable
+*/GoogleChromePortable
 
