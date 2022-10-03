@@ -1,3 +1,3 @@
 @push('head')
-    <link rel="manifest" href="/webmanifest.json?v=1">
+    <link rel="manifest" href="/manifest.json?v=1">
 @endpush
