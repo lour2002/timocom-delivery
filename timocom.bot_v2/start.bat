@@ -1,5 +1,3 @@
-@echo off 
-START C:\TCCARGO\tccargo.exe
-timeout/t 60
+@echo off
 python index.py %*
 pause

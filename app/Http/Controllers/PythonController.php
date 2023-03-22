@@ -45,7 +45,7 @@ class PythonController extends Controller
     public function getTask(Request $request)
     {
 
-        $task = Task::select('id', 'status_job', "version_task", "fromSelectOpt", "as_country", "as_country",
+        $task = Task::select('id', 'status_job', "version_task", "fromSelectOpt", "as_country", "car_city",
             "as_zip", "as_radius", "toSelectOpt", "toSelectOptArray", "freightSelectOpt", "length_min",
             "length_max", "weight_min", "weight_max", "dateSelectOpt", "individual_days")
             ->where([
@@ -60,6 +60,7 @@ class PythonController extends Controller
             $task['id_task'] = $task['id'];
             unset($task['id']);
             $task["status_all_task"] = '1';
+            $task["as_city"] = $task['car_city'];
             $task["toSelectOptArray"] = json_decode($task["toSelectOptArray"]);
 
             return response()->json($task);
