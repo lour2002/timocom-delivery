@@ -1,5 +1,0 @@
-
-#add module to file
-pip freeze > requirements.txt
-#install module in file
-pip install -r requirements.txt
