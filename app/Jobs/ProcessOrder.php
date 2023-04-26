@@ -56,7 +56,7 @@ class ProcessOrder implements ShouldQueue
 
         //$result['date_collection'] = \DateTime::createFromFormat('Y-m-d H:i:s', $entry[0]->text());
 
-        $entry = $doc->xpath('//*[@id="app:cnt:searchDetail:contactPersonEmail"]');
+        $entry = $doc->xpath('//*[@data-testid="EV_contactperson-email"]');
         $result['email'] = $entry[0]->text();
 
         if (empty($result['email'])) {
@@ -64,78 +64,79 @@ class ProcessOrder implements ShouldQueue
             exit;
         }
 
-        $entry = $doc->xpath('//*[@id="app:cnt:searchDetail:contactPersonName"]');
+        $entry = $doc->xpath('//*[@data-testid="ContactView/name"]');
         $result['name'] = $entry[0]->text();
 
-        $entry = $doc->xpath('//*[@id="app:cnt:searchDetail:company"]');
+        $entry = $doc->xpath('//*[@data-testid="HeaderTitle/companyLink"]');
         $result['company'] = $entry[0]->text();
 
-        $entry = $doc->xpath('//*[@id="app:cnt:searchDetail:contactPhone"]');
+        $entry = $doc->xpath('//*[@data-testid="EV_contactperson-phone"]');
         $result['phone'] = $entry[0]->text();
 
-        $entry = $doc->xpath('//*[@id="app:cnt:searchDetail:timocomID"]');
-        $result['company_id'] = $entry[0]->text();
+        $entry = $doc->xpath('//*[contains(@class,"HeaderTitle_timocomID")]');
+        $result['company_id'] = str_replace("TC ID: ", "", $entry[0]->text());
 
-        $entry = $doc->xpath('//*[@id="app:cnt:searchDetail:freightLength"]');
-        $result['freight_length'] = $entry[0]->text();
+        $entry = $doc->xpath('//*[@data-testid="FreightDescriptionView/freightLength"]');
+        $result['freight_length'] = str_replace(" m", "", $entry[0]->text());
 
-        $entry = $doc->xpath('//*[@id="app:cnt:searchDetail:freightWeight"]');
-        $result['freight_weight'] = $entry[0]->text();
+        $entry = $doc->xpath('//*[@data-testid="FreightDescriptionView/freightWeight"]');
+        $result['freight_weight'] = str_replace(" t", "", $entry[0]->text());
 
-        $entry = $doc->xpath('//*[@id="app:cnt:searchDetail:paymentDueWithinDays"]');
+        $entry = $doc->xpath('//*[@data-testid="FreightPriceView/paymentDue"]');
         $result['payment_due'] = $entry[0]->text();
 
         $description = '';
-        $entry = $doc->xpath('//*[@id="app:cnt:searchDetail:typeOfGoods"]');
+        $entry = $doc->xpath('//*[@data-testid="FreightDescriptionView/typeOfGoods"]');
         $description .= ('' !== $entry[0]->text()) ? ', ' . $entry[0]->text() : '';
-        $entry = $doc->xpath('//*[@id="app:cnt:searchDetail:additionalInfo"]');
+        $entry = $doc->xpath('//*[@data-testid="FreightDescriptionView/additionalInformation"]');
         $description .= ('' !== $entry[0]->text()) ? ', ' . $entry[0]->text() : '';
         $result['freight_description'] = $description;
 
-        $entry = $doc->xpath('//*[@id="app:cnt:searchDetail:price"]');
-        $result['price'] = !empty($entry[0]->text()) ? $entry[0]->text() : null;
+        $entry = $doc->xpath('//*[@data-testid="FreightPriceView/price"]');
+        $price = str_replace("Price: ", "", $entry[0]->text());
+        $result['price'] = $price !== '-' ? $price : null;
 
-        $entry = $doc->xpath('//*[@id="app:cnt:searchDetail:loadingEquipmentExchange"]');
+        $entry = $doc->xpath('//*[@data-testid="FreightDescriptionView/loadingEquipment"]');
         $res = $entry[0]->text();
-        if ('Yes' === $res) {
-            $result['equipment_exchange'] = 1;
-        } else {
+        if ('No loading equipment exchange' === $res) {
             $result['equipment_exchange'] = 0;
+        } else {
+            $result['equipment_exchange'] = 1;
         }
 
-        $entry = $doc->xpath('//*[@id="app:cnt:searchDetail:vehicleTypesList"]');
+        $entry = $doc->xpath('//*[@data-testid="VehicleRequirementsView/vehicleType"]');
         $result['vehicle_type'] = $entry[0]->text();
 
         $description = '';
-        $entry = $doc->xpath('//*[@id="app:cnt:searchDetail:vehicleTypesList"]');
+        $entry = $doc->xpath('//*[@data-testid="VehicleRequirementsView/vehicleType"]');
         $description .= $entry[0]->text();
-        $entry = $doc->xpath('//*[@id="app:cnt:searchDetail:vehicleBodies"]');
+        $entry = $doc->xpath('//*[@data-testid="VehicleRequirementsView/vehicleBody"]');
         $description .= (''!== $entry[0]->text()) ? ', '.$entry[0]->text() : '';
-        $entry = $doc->xpath('//*[@id="app:cnt:searchDetail:vehicleProperties"]');
+        $entry = $doc->xpath('//*[@data-testid="VehicleRequirementsView/vehicleCharacteristicsCertificate"]');
         $description .= ('' !== $entry[0]->text()) ? ', ' . $entry[0]->text() : '';
         $result['vehicle_description'] = $description;
 
-        $entry = $doc->xpath('//*[@id="app:cnt:searchDetail:remarks"]');
-        $result['remarks'] = $entry[0]->text();
+        // $entry = $doc->xpath('//*[@data-testid="app:cnt:searchDetail:remarks"]');
+        $result['remarks'] = '';
 
-        $entry = $doc->xpath('//*[@id="app:cnt:searchDetail:loadingPlacesAmount"]');
-        $result['loading_places'] = $entry[0]->text();
+        $entry = $doc->xpath('//*[contains(@class,"LoadingPlaceView_iconGreen")]');
+        $result['loading_places'] = size_off($entry);
 
-        $entry = $doc->xpath('//*[@id="app:cnt:searchDetail:unloadingPlacesAmount"]');
-        $result['unloading_places'] = $entry[0]->text();
+        $entry = $doc->xpath('//*[contains(@class,"LoadingPlaceView_arrowIconBlue")]');
+        $result['unloading_places'] = size_off($entry);
 
-        $entry = $doc->xpath('//*[@id="app:cnt:searchDetail:estimatedDistance"]');
-        $result['distance'] = $entry[0]->text();
+        $entry = $doc->xpath('//*[@id="distance"]');
+        $result['distance'] = str_replace(" km", "", $entry[0]->text());
 
         if (empty($result['distance'])) {
             SearchResult::destroy($this->searchResult->id);
             exit;
         }
 
-        $entry = $doc->find('.tco-loadingplace');
+        $entry = $doc->xpath('//*[contains(@class,"LoadingPlaceView_loadingPlacesRow")]');
         $from = $to = [];
         foreach ($entry as $row) {
-            if ($row->child(0)->has('.tc-load')) {
+            if ($row->child(0)->child(0)->has('.tc-load')) {
                 $from[] = [
                     'from_country' => $row->child(1)->text(),
                     'from_zip' => $row->child(2)->text(),
