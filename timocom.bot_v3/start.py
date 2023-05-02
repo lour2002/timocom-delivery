@@ -8,7 +8,7 @@ from selenium.webdriver.chrome.options import Options
 
 
 from structure import TestAuth
-cur_dir = os.path.abspath(os.curdir + '\\timocom.bot_v3')
+cur_dir = os.path.abspath(os.curdir)
 
 user_key = open(cur_dir + '\\key.txt').read().split('=')[0]
 url = 'http://92.118.150.87'
@@ -61,7 +61,7 @@ if auth_data['status'] == '1':  # авторизация прошла
             elif data['status_job'] == '3':
                 print(f'... задача {i} в режиме IS RUNNING'
                       f'... Начать выполнение теста')
-                test_auth.test_run(data)
+                test_auth.test_run(data, url)
             else:
                 print(f'... задача {i} в неопределенном состоянии')
 
