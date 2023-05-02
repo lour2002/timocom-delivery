@@ -128,33 +128,43 @@ class ProcessOrder implements ShouldQueue
         $entry = $doc->xpath('//*[@id="distance"]');
         $result['distance'] = str_replace(" km", "", $entry[0]->text());
 
-        if (empty($result['distance'])) {
+        if (empty($result['distance']) || $result['distance'] === '-') {
             SearchResult::destroy($this->searchResult->id);
             exit;
         }
 
         $entry = $doc->xpath('//*[contains(@class,"LoadingPlaceView_loadingPlacesRow")]');
         $from = $to = [];
+
         foreach ($entry as $row) {
-            if ($row->child(0)->child(0)->has('.tc-load')) {
+            $addressEl = $row->child(1)->child(0);
+            $city = explode($addressEl->child(1)->text(), ' ', 3);
+            $timeEl = $row->child(1)->child(1);
+            $date = $timeEl->child(0);
+            $time = $timeEl->child(2)->child(0);
+            $date1 = $date->child(1)->text();
+            $date2 = $from_date1 === '-' ? '-' : $date->child(3)->text();
+            $time1 = $time->child(1)->text();
+            $time2 = $from_time1 === '-' ? '-' : $time->child(3)->text();
+            if ($row->child(0)->has('[class*=LoadingPlaceView_iconGreen]')) {
                 $from[] = [
-                    'from_country' => $row->child(1)->text(),
-                    'from_zip' => $row->child(2)->text(),
-                    'from_city' => $row->child(3)->text(),
-                    'from_date1' => $row->child(4)->text(),
-                    'from_date2' => $row->child(6)->text(),
-                    'from_time1' => $row->child(7)->text(),
-                    'from_time2' => $row->child(9)->text(),
+                    'from_country' => $addressEl->child(0)->text(),
+                    'from_zip' => $city[1] ?? null,
+                    'from_city' => $city[2] ?? null,
+                    'from_date1' => $from_date1,
+                    'from_date2' => $from_date2,
+                    'from_time1' => $from_time1,
+                    'from_time2' => $from_time2,
                 ];
-            } elseif ($row->child(0)->has('.tc-unload')) {
+            } elseif ($row->child(0)->has('[class*=LoadingPlaceView_arrowIconBlue]')) {
                 $to[] = [
-                    'to_country' => $row->child(1)->text(),
-                    'to_zip' => $row->child(2)->text(),
-                    'to_city' => $row->child(3)->text(),
-                    'to_date1' => $row->child(4)->text(),
-                    'to_date2' => $row->child(6)->text(),
-                    'to_time1' => $row->child(7)->text(),
-                    'to_time2' => $row->child(9)->text(),
+                    'from_country' => $addressEl->child(0)->text(),
+                    'from_zip' => $city[1] ?? null,
+                    'from_city' => $city[2] ?? null,
+                    'from_date1' => $from_date1,
+                    'from_date2' => $from_date2,
+                    'from_time1' => $from_time1,
+                    'from_time2' => $from_time2,
                 ];
             }
         }
