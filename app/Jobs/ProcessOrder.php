@@ -67,7 +67,7 @@ class ProcessOrder implements ShouldQueue
         $entry = $doc->xpath('//*[@data-testid="ContactView/name"]');
         $result['name'] = $entry[0]->text();
 
-        $entry = $doc->xpath('//*[@data-testid="HeaderTitle/companyLink"]');
+        $entry = $doc->xpath('//*[@data-testid="HeaderTitle/companyName"]');
         $result['company'] = $entry[0]->text();
 
         $entry = $doc->xpath('//*[@data-testid="EV_contactperson-phone"]');

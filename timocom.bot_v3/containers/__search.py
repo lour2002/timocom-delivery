@@ -21,10 +21,9 @@ def search(self, data, url):
         time.sleep(2)
         while True:
             # Получаем текущий url страницы (идентичный тому, что и при нажатии кнопки share)
-            offer_id = self.driver.current_url.split(',')
+            offer_id = self.driver.current_url.split('?')
             # Содержимое заказа кодируем в base64
-            content_order = self.driver.find_element(By.CSS_SELECTOR,
-                                                        '[data-testid="FreightSearchView/container"] > div > div:nth-child(2) > div:nth-child(2)')
+            content_order = self.driver.find_element(By.CSS_SELECTOR, '[data-testid="FreightSearchView/container"]')
             content_order_html = content_order.get_attribute('innerHTML')
             content_order_64 = base64.b64encode(content_order_html.encode('utf-8'))
             print('---> Отправка данных на управляющий сервер...')
