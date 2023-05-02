@@ -6,6 +6,7 @@ namespace App\Orchid\Screens\User;
 
 use App\Orchid\Layouts\User\ProfilePasswordLayout;
 use App\Orchid\Layouts\User\UserEditLayout;
+use App\Orchid\Layouts\User\AuthEditLayout;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rule;
@@ -94,6 +95,16 @@ class UserProfileScreen extends Screen
                         ->type(Color::DEFAULT())
                         ->icon('check')
                         ->method('changePassword')
+                ),
+
+            Layout::block(AuthEditLayout::class)
+                ->title(__('New authitification method'))
+                ->description(__("Check if user shoudbe authificated by new login/password"))
+                ->commands(
+                    Button::make(__('Save'))
+                        ->type(Color::DEFAULT())
+                        ->icon('check')
+                        ->method('save')
                 ),
         ];
     }
