@@ -19,6 +19,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 use DiDom\Document;
+use DiDom\Query;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
@@ -56,7 +57,7 @@ class ProcessOrder implements ShouldQueue
 
         //$result['date_collection'] = \DateTime::createFromFormat('Y-m-d H:i:s', $entry[0]->text());
 
-        $entry = $doc->xpath('//*[@data-testid="EV_contactperson-email"]');
+        $entry = $doc->find('//*[@data-testid="EV_contactperson-email"]', Query::TYPE_XPATH);
         $result['email'] = $entry[0]->text();
 
         if (empty($result['email'])) {
@@ -64,39 +65,46 @@ class ProcessOrder implements ShouldQueue
             exit;
         }
 
-        $entry = $doc->xpath('//*[@data-testid="ContactView/name"]');
+        $entry = $doc->find('//*[@data-testid="ContactView/name"]', Query::TYPE_XPATH);
         $result['name'] = $entry[0]->text();
 
-        $entry = $doc->xpath('//*[@data-testid="HeaderTitle/companyName"]');
-        $result['company'] = $entry[0]->text();
+        $entry = $doc->find('//*[@data-testid="HeaderTitle/companyLink"]', Query::TYPE_XPATH);
+        if (sizeof($entry)) {
+            $result['company'] = $entry[0]->text();
+        }
+        else {
+            $entry = $doc->find('//*[@data-testid="HeaderTitle/companyName"]', Query::TYPE_XPATH);
+            $result['company'] = $entry[0]->text();
+        }
 
-        $entry = $doc->xpath('//*[@data-testid="EV_contactperson-phone"]');
+        $entry = $doc->find('//*[@data-testid="EV_contactperson-phone"]', Query::TYPE_XPATH);
         $result['phone'] = $entry[0]->text();
 
-        $entry = $doc->xpath('//*[contains(@class,"HeaderTitle_timocomID")]');
+        $entry = $doc->find('//*[contains(@class,"HeaderTitle_timocomID")]', Query::TYPE_XPATH);
         $result['company_id'] = str_replace("TC ID: ", "", $entry[0]->text());
 
-        $entry = $doc->xpath('//*[@data-testid="FreightDescriptionView/freightLength"]');
+        $entry = $doc->find('//*[@data-testid="FreightDescriptionView/freightLength"]', Query::TYPE_XPATH);
         $result['freight_length'] = str_replace(" m", "", $entry[0]->text());
 
-        $entry = $doc->xpath('//*[@data-testid="FreightDescriptionView/freightWeight"]');
+        $entry = $doc->find('//*[@data-testid="FreightDescriptionView/freightWeight"]', Query::TYPE_XPATH);
         $result['freight_weight'] = str_replace(" t", "", $entry[0]->text());
 
-        $entry = $doc->xpath('//*[@data-testid="FreightPriceView/paymentDue"]');
+        $entry = $doc->find('//*[@data-testid="FreightPriceView/paymentDue"]', Query::TYPE_XPATH);
         $result['payment_due'] = $entry[0]->text();
 
         $description = '';
-        $entry = $doc->xpath('//*[@data-testid="FreightDescriptionView/typeOfGoods"]');
+        $entry = $doc->find('//*[@data-testid="FreightDescriptionView/typeOfGoods"]', Query::TYPE_XPATH);
         $description .= ('' !== $entry[0]->text()) ? ', ' . $entry[0]->text() : '';
-        $entry = $doc->xpath('//*[@data-testid="FreightDescriptionView/additionalInformation"]');
+        $entry = $doc->find('//*[@data-testid="FreightDescriptionView/additionalInformation"]', Query::TYPE_XPATH);
         $description .= ('' !== $entry[0]->text()) ? ', ' . $entry[0]->text() : '';
         $result['freight_description'] = $description;
 
-        $entry = $doc->xpath('//*[@data-testid="FreightPriceView/price"]');
+        $entry = $doc->find('//*[@data-testid="FreightPriceView/price"]', Query::TYPE_XPATH);
         $price = str_replace("Price: ", "", $entry[0]->text());
-        $result['price'] = $price !== '-' ? $price : null;
 
-        $entry = $doc->xpath('//*[@data-testid="FreightDescriptionView/loadingEquipment"]');
+        $result['price'] = trim($price) !== '-' ? $price : null;
+
+        $entry = $doc->find('//*[@data-testid="FreightDescriptionView/loadingEquipment"]', Query::TYPE_XPATH);
         $res = $entry[0]->text();
         if ('No loading equipment exchange' === $res) {
             $result['equipment_exchange'] = 0;
@@ -104,36 +112,36 @@ class ProcessOrder implements ShouldQueue
             $result['equipment_exchange'] = 1;
         }
 
-        $entry = $doc->xpath('//*[@data-testid="VehicleRequirementsView/vehicleType"]');
+        $entry = $doc->find('//*[@data-testid="VehicleRequirementsView/vehicleType"]', Query::TYPE_XPATH);
         $result['vehicle_type'] = $entry[0]->text();
 
         $description = '';
-        $entry = $doc->xpath('//*[@data-testid="VehicleRequirementsView/vehicleType"]');
+        $entry = $doc->find('//*[@data-testid="VehicleRequirementsView/vehicleType"]', Query::TYPE_XPATH);
         $description .= $entry[0]->text();
-        $entry = $doc->xpath('//*[@data-testid="VehicleRequirementsView/vehicleBody"]');
+        $entry = $doc->find('//*[@data-testid="VehicleRequirementsView/vehicleBody"]', Query::TYPE_XPATH);
         $description .= (''!== $entry[0]->text()) ? ', '.$entry[0]->text() : '';
-        $entry = $doc->xpath('//*[@data-testid="VehicleRequirementsView/vehicleCharacteristicsCertificate"]');
+        $entry = $doc->find('//*[@data-testid="VehicleRequirementsView/vehicleCharacteristicsCertificate"]', Query::TYPE_XPATH);
         $description .= ('' !== $entry[0]->text()) ? ', ' . $entry[0]->text() : '';
         $result['vehicle_description'] = $description;
 
         // $entry = $doc->xpath('//*[@data-testid="app:cnt:searchDetail:remarks"]');
         $result['remarks'] = '';
 
-        $entry = $doc->xpath('//*[contains(@class,"LoadingPlaceView_iconGreen")]');
-        $result['loading_places'] = size_off($entry);
+        $entry = $doc->find('//*[contains(@class,"LoadingPlaceView_iconGreen")]', Query::TYPE_XPATH);
+        $result['loading_places'] = sizeof($entry);
 
-        $entry = $doc->xpath('//*[contains(@class,"LoadingPlaceView_arrowIconBlue")]');
-        $result['unloading_places'] = size_off($entry);
+        $entry = $doc->find('//*[contains(@class,"LoadingPlaceView_arrowIconBlue")]', Query::TYPE_XPATH);
+        $result['unloading_places'] = sizeof($entry);
 
-        $entry = $doc->xpath('//*[@id="distance"]');
+        $entry = $doc->find('//*[@id="distance"]', Query::TYPE_XPATH);
         $result['distance'] = str_replace(" km", "", $entry[0]->text());
 
-        if (empty($result['distance']) || $result['distance'] === '-') {
+        if (empty($result['distance']) || trim($result['distance']) === '-') {
             SearchResult::destroy($this->searchResult->id);
             exit;
         }
 
-        $entry = $doc->xpath('//*[contains(@class,"LoadingPlaceView_loadingPlacesRow")]');
+        $entry = $doc->find('//*[contains(@class,"LoadingPlaceView_loadingPlacesRow")]', Query::TYPE_XPATH);
         $from = $to = [];
 
         foreach ($entry as $row) {
@@ -142,29 +150,30 @@ class ProcessOrder implements ShouldQueue
             $timeEl = $row->child(1)->child(1);
             $date = $timeEl->child(0);
             $time = $timeEl->child(2)->child(0);
-            $date1 = $date->child(1)->text();
-            $date2 = $from_date1 === '-' ? '-' : $date->child(3)->text();
-            $time1 = $time->child(1)->text();
-            $time2 = $from_time1 === '-' ? '-' : $time->child(3)->text();
+
+            $date1 = trim($date->child(1)->text());
+            $date2 = $date1 === '-' ? '-' : $date->child(3)->text();
+            $time1 = trim($time->child(1)->text());
+            $time2 = $time1 === '-' ? '-' : $time->child(3)->text();
             if ($row->child(0)->has('[class*=LoadingPlaceView_iconGreen]')) {
                 $from[] = [
                     'from_country' => $addressEl->child(0)->text(),
                     'from_zip' => $city[1] ?? null,
                     'from_city' => $city[2] ?? null,
-                    'from_date1' => $from_date1,
-                    'from_date2' => $from_date2,
-                    'from_time1' => $from_time1,
-                    'from_time2' => $from_time2,
+                    'from_date1' => $date1,
+                    'from_date2' => $date2,
+                    'from_time1' => $time1,
+                    'from_time2' => $time2,
                 ];
             } elseif ($row->child(0)->has('[class*=LoadingPlaceView_arrowIconBlue]')) {
                 $to[] = [
-                    'from_country' => $addressEl->child(0)->text(),
-                    'from_zip' => $city[1] ?? null,
-                    'from_city' => $city[2] ?? null,
-                    'from_date1' => $from_date1,
-                    'from_date2' => $from_date2,
-                    'from_time1' => $from_time1,
-                    'from_time2' => $from_time2,
+                    'to_country' => $addressEl->child(0)->text(),
+                    'to_zip' => $city[1] ?? null,
+                    'to_city' => $city[2] ?? null,
+                    'to_date1' => $date1,
+                    'to_date2' => $date2,
+                    'to_time1' => $time1,
+                    'to_time2' => $time2,
                 ];
             }
         }
