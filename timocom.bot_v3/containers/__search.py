@@ -16,8 +16,17 @@ def search(self, data, url):
     print("Поиск выполнен")
 
     try:
+        self.driver.find_element(By.CSS_SELECTOR, "[class^='FilterArea_filterHeader']")
+        time.sleep(2)
+        print("Скрыть поиск")
+    except:
+        pass
+
+
+    try:
         # Нажимаем на первый найденный эллемент и ждем
-        self.driver.find_elements(By.CSS_SELECTOR, "[data-testid^='OfferTable/table_body_row_']")[0].click()
+        self.driver.find_element(By.CSS_SELECTOR, "[data-testid^='OfferTable/table_body_row_']").click()
+
         time.sleep(2)
         while True:
             # Получаем текущий url страницы (идентичный тому, что и при нажатии кнопки share)
@@ -36,6 +45,7 @@ def search(self, data, url):
             element = self.driver.find_element(By.CSS_SELECTOR,
                                                '[data-testid="TitleToolbarControls/arrowDownIcon"]')
             disabled = element.get_attribute('disabled')
+            time.sleep(2)
             # Если у заказа имеется атрибут disabled, это последний заказ, отправляем данные и завершаем выполнение
             if disabled:
                 print("Финиш!")
@@ -50,4 +60,4 @@ def search(self, data, url):
     except NoSuchElementException:
         print("Поиск ничего не нашел. Финиш!")
 
-    time.sleep(100)
+    time.sleep(5)

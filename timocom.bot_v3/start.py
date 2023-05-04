@@ -35,6 +35,8 @@ options.add_argument("--disable-setuid-sandbox")
 options.add_argument("--disable-gpu")
 options.add_argument("--remote-debugging-port=9222")
 
+os.system("taskkill /F /IM chrome.exe")
+
 service = Service(chrome_driver_path)
 driver = webdriver.Chrome(service=service, options=options)
 test_auth = TestAuth(driver)  # Создание объекта тестов для авторизации пользователя
