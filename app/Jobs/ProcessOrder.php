@@ -100,7 +100,7 @@ class ProcessOrder implements ShouldQueue
         $result['freight_description'] = $description;
 
         $entry = $doc->find('//*[@data-testid="FreightPriceView/price"]', Query::TYPE_XPATH);
-        $price = str_replace("Price: ", "", $entry[0]->text());
+        $price = str_replace(array("Price: ", "EUR"), "", $entry[0]->text());
 
         $result['price'] = trim($price) !== '-' ? $price : null;
 
@@ -323,7 +323,7 @@ class ProcessOrder implements ShouldQueue
 
                 $address = '';
                 $from = json_decode($order->from, true)[0];
-                $country = explode(' - ', $from['from_country'])[1];
+                $country = $from['from_country'];
                 $address .= $country;
                 if (!empty($from['from_zip'])) {
                     $address .= !empty($address) ? ',' . $from['from_zip'] : $from['from_zip'];
@@ -366,7 +366,6 @@ class ProcessOrder implements ShouldQueue
                     } else {
                         Log::debug('Error : ' . $oOR->getError());
                     }
-                    Log::debug('Responce : ' . print_r($oOR->getResponse(), true));
                 }
                 Log::debug('Empty car distance : ' . $empaty_car_distance);
             }
@@ -409,7 +408,7 @@ class ProcessOrder implements ShouldQueue
         // Check overprice
         if ($result) {
             if (!empty($order->price) && $order->price < $price) {
-                $percent = round($price * 100 / $order->price, 2);
+                $percent = round($price * 100 / intval($order->price), 2);
                 if ($task->percent_stop_value && $percent > $task->percent_stop_value) {
                     $result = false;
                     $status = OrderResult::STATUS_OVERPRICE;
