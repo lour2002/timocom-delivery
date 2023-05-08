@@ -146,15 +146,23 @@ class ProcessOrder implements ShouldQueue
 
         foreach ($entry as $row) {
             $addressEl = $row->child(1)->child(0);
-            $city = explode($addressEl->child(1)->text(), ' ', 3);
+            $city = explode(' ', $addressEl->child(1)->text(), 3);
             $timeEl = $row->child(1)->child(1);
             $date = $timeEl->child(0);
             $time = $timeEl->child(2)->child(0);
 
             $date1 = trim($date->child(1)->text());
-            $date2 = $date1 === '-' ? '-' : $date->child(3)->text();
+
+            $date2 = '-';
+            if (count($date->child(3)) > 0) {
+                $date2 = $date->child(3)->text();
+            }
+
             $time1 = trim($time->child(1)->text());
-            $time2 = $time1 === '-' ? '-' : $time->child(3)->text();
+            if (count($time->child(3)) > 0) {
+                $time2 = $time->child(3)->text();
+            }
+
             if ($row->child(0)->has('[class*=LoadingPlaceView_iconGreen]')) {
                 $from[] = [
                     'from_country' => $addressEl->child(0)->text(),
