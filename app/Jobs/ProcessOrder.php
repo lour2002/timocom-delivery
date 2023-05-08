@@ -152,14 +152,14 @@ class ProcessOrder implements ShouldQueue
             $time = $timeEl->child(2)->child(0);
 
             $date1 = trim($date->child(1)->text());
-
             $date2 = '-';
-            if (count($date->child(3)) > 0) {
+            if ($date->child(3)) {
                 $date2 = $date->child(3)->text();
             }
 
             $time1 = trim($time->child(1)->text());
-            if (count($time->child(3)) > 0) {
+            $time2 = '-';
+            if ($time->child(3)) {
                 $time2 = $time->child(3)->text();
             }
 
