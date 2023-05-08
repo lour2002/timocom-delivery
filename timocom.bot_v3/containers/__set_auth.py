@@ -6,7 +6,7 @@ from selenium.webdriver.support.wait import WebDriverWait
 
 def set_auth(self):
     #Переходим на указанный url
-    self.driver.get("https://my.timocom.com/app/tco/freight/search/")
+    self.driver.get("https://my.timocom.com/app/weblogin/")
     #жидаем до 3 сек появления эллемента и атрибутом name=email
     self.driver.maximize_window()
     WebDriverWait(self.driver, 3).until(
@@ -16,5 +16,3 @@ def set_auth(self):
     self.driver.find_element(By.ID, "submit-login-button").click()
     print("Авторизация выполнена")
     time.sleep(5)
-
-

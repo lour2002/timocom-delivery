@@ -22,7 +22,8 @@ class TestAuth():
     # Основная часть теста
     def test_run(self, data, url):
         print(data)
-        self.driver.get("https://my.timocom.com/app/tco/freight/search/")
+        print("Перехід на сторінку пошуку")
+        self.driver.get("https://my.timocom.com/app/tccargo/freights/search/")
         time.sleep(5)
         setting_from(self, data)  # Функция заполнения поля "Откуда"
         time.sleep(5)

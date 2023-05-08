@@ -10,7 +10,7 @@ def setting_from(self, data):
     radius = data['as_radius']
 
     # Перезагрузить страницу (после поиска не смог найти нормальный селектор на закрытие окна перевозки)
-    # self.driver.get("https://my.timocom.com/app/tco/freight/search/")
+    # self.driver.get("https://my.timocom.com/app/tccargo/freights/search/")
     # time.sleep(5)
     # Сбрасываем настройки фильтра
     self.driver.find_element(By.XPATH, "//button[@data-testid='SearchFiler/reset']").click()

@@ -16,6 +16,7 @@ def search(self, data, url):
     print("Поиск выполнен")
 
     try:
+        self.driver.find_element(By.CSS_SELECTOR, "[data-testid='SearchFilter/deltaFilterActive-input']").click()
         self.driver.find_element(By.CSS_SELECTOR, "[class^='FilterArea_filterHeader']")
         time.sleep(2)
         print("Скрыть поиск")
