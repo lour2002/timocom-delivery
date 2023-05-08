@@ -1,6 +1,7 @@
 import requests
 import __auth as auth
 import os
+import time
 
 from selenium import webdriver
 from selenium.webdriver.chrome.service import Service
@@ -66,6 +67,9 @@ if auth_data['status'] == '1':  # авторизация прошла
                 test_auth.test_run(data, url)
             else:
                 print(f'... задача {i} в неопределенном состоянии')
+
+        print('!!! ОСТАНОВКА: Рабочий скрипты был остановлен! Пауза 30 секунд до следующего запуска...')
+        time.sleep(30)
 
 
 else:
