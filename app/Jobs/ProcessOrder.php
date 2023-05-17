@@ -53,12 +53,15 @@ class ProcessOrder implements ShouldQueue
         $content = base64_decode($this->searchResult->content_order_64);
         $doc = new Document($content);
 
-
+        Log::debug("=============================".$this->searchResult->id."=============================");
 
         //$result['date_collection'] = \DateTime::createFromFormat('Y-m-d H:i:s', $entry[0]->text());
 
         $entry = $doc->find('//*[@data-testid="EV_contactperson-email"]', Query::TYPE_XPATH);
-        $result['email'] = $entry[0]->text();
+        $result['email'] = '';
+        if (sizeof($entry)) {
+            $result['email'] = $entry[0]->text();
+        }
 
         if (empty($result['email'])) {
             SearchResult::destroy($this->searchResult->id);
@@ -66,7 +69,11 @@ class ProcessOrder implements ShouldQueue
         }
 
         $entry = $doc->find('//*[@data-testid="ContactView/name"]', Query::TYPE_XPATH);
-        $result['name'] = $entry[0]->text();
+        $result['name'] = '';
+        if (sizeof($entry)) {
+            $result['name'] = $entry[0]->text();
+        }
+
 
         $entry = $doc->find('//*[@data-testid="HeaderTitle/companyLink"]', Query::TYPE_XPATH);
         if (sizeof($entry)) {
@@ -90,7 +97,7 @@ class ProcessOrder implements ShouldQueue
         $result['freight_weight'] = str_replace(" t", "", $entry[0]->text());
 
         $entry = $doc->find('//*[@data-testid="FreightPriceView/paymentDue"]', Query::TYPE_XPATH);
-        $result['payment_due'] = $entry[0]->text();
+        $result['payment_due'] = str_replace("Payment due: ", "", $entry[0]->text());
 
         $description = '';
         $entry = $doc->find('//*[@data-testid="FreightDescriptionView/typeOfGoods"]', Query::TYPE_XPATH);
