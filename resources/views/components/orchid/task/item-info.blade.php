@@ -1,7 +1,7 @@
 <div class="mb-3 px-3">
     <a class="row cursor-pointer" href="{{ route('platform.task.edit', ['task' => $task->id]) }}">
     <div class="col-lg-12">
-        #{{ $task->id }} | <span class="">{{ $task->getStatusTitle() }}</span> | <b>{{$task->name}}</b>
+    #{{ $task->id }} | <span class="">{{ $task->getStatusTitle() }}</span> | <b>{{$task->name}}</b> @if(!$task->car_position_coordinates) | <span class="text-danger">Truck position not defined</span> @endif
     </div>
     <div class="col-lg-12">
         <div class="fs085">
