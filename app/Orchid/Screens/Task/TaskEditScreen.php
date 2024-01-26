@@ -151,7 +151,6 @@ class TaskEditScreen extends Screen
 
         $data['toSelectOptArray'] = json_encode(array_values($toSelectOptArray));
 
-        $data['car_price_empty'] = $data['car_price'];
         $data['car_price_extra_points'] = 1 + $data['car_price_extra_points'] / 100;
 
         if(array_key_exists('car_price_special_price', $data)) {

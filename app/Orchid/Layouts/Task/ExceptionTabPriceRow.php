@@ -27,8 +27,7 @@ class ExceptionTabPriceRow extends Rows
                         ->type('number')
                         ->set('step','0.01')
                         ->title('Cost per kilometer of an empty car (of 1 km / €)')
-                        ->placeholder('0.00')
-                        ->disabled(),
+                        ->placeholder('0.00'),
                 Input::make('task.car_price')
                         ->type('number')
                         ->set('step','0.01')
